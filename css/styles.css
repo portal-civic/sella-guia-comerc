@@ -72,7 +72,7 @@
   /* La franja de categories és més compacta: ara poden cabre en una sola
      fila a partir de cert ample, així que no necessita l'alçada d'una
      franja de contingut normal. */
-  --sg-band-catnav-pad-y: 2.25rem;   /* 36px desktop (32-40 objectiu) */
+  --sg-band-catnav-pad-y: 2.5rem;    /* 40px desktop (38-42 objectiu) */
   --sg-band-catnav-pad-y-sm: 1.75rem; /* 28px mòbil (24-32 objectiu) */
 
   /* Amplada i coixí horitzontal del contenidor intern de cada franja */
@@ -95,7 +95,7 @@
   --sg-fs-section-text: 0.9375rem; /* 15px */
   --sg-fs-eyebrow: 0.8125rem;   /* 13px */
   --sg-fs-control: 0.875rem;    /* 14px — accions, cercador */
-  --sg-fs-catnav-label: 0.9375rem; /* 15px */
+  --sg-fs-catnav-label: 1.0625rem; /* 17px */
 
   font-family: inherit;
   color: var(--sg-text);
@@ -269,12 +269,12 @@
    resum de resultats, en columna. */
 
 .sg-guia__search-tools {
-  margin-bottom: var(--sg-space-map-directory);
+  margin-bottom: 4rem; /* 64px — una mica més d'aire abans del directori */
 }
 
 .sg-guia__search-heading {
   margin: 0 0 var(--sg-space-md);
-  font-size: 1.3125rem; /* 21px (20-22 objectiu) */
+  font-size: 1.375rem; /* 22px */
   font-weight: 600;
   line-height: 1.25;
   color: var(--sg-dark-green);
@@ -302,10 +302,10 @@
 
 .sg-guia__search-input {
   width: 100%;
-  min-height: 44px;
+  min-height: 47px;
   padding: 0.5rem 1rem 0.5rem 2.625rem;
   font: inherit;
-  font-size: var(--sg-fs-control);
+  font-size: 0.9375rem; /* 15px */
   color: var(--sg-text);
   background: var(--sg-white);
   border: 1px solid var(--sg-border);
@@ -347,7 +347,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  gap: 0.5rem;
+  gap: 0.5625rem;
   padding: 0.625rem 0.5rem 0.625rem;
   font: inherit;
   color: var(--sg-catnav-accent);
@@ -365,16 +365,16 @@
   align-items: center;
   justify-content: center;
   flex: 0 0 auto;
-  width: 40px;
-  height: 40px;
+  width: 45px;
+  height: 45px;
   border-radius: 50%;
   background: var(--sg-catnav-accent);
   color: var(--sg-white);
 }
 
 .sg-catnav__icon svg {
-  width: 21px;
-  height: 21px;
+  width: 24px;
+  height: 24px;
 }
 
 .sg-catnav__label {
@@ -403,11 +403,13 @@
   }
 }
 
-/* A partir d'ample gran: les 8 categories caben en una sola fila. */
+/* A partir d'ample gran: les 8 categories caben en una sola fila. Menys
+   espai horitzontal entre elements perquè es llija com un sol grup
+   compacte de navegació, no disperses per tota la pantalla. */
 @media (min-width: 1200px) {
   .sg-catnav {
     grid-template-columns: repeat(8, 1fr);
-    gap: 0.5rem;
+    gap: 0.25rem;
   }
 }
 
@@ -638,7 +640,7 @@
 
 .sg-card {
   --sg-card-accent: var(--sg-blue);
-  padding: 1.375rem;
+  padding: 1.5rem;
   border: none;
   border-radius: var(--sg-radius-sm);
   background: var(--sg-grey);
@@ -672,16 +674,16 @@
   align-items: center;
   justify-content: center;
   flex: 0 0 auto;
-  width: 32px;
-  height: 32px;
+  width: 34px;
+  height: 34px;
   border-radius: 50%;
   background: var(--sg-card-accent);
   color: var(--sg-white);
 }
 
 .sg-card__icon svg {
-  width: 18px;
-  height: 18px;
+  width: 19px;
+  height: 19px;
 }
 
 .sg-card__heading {
@@ -804,7 +806,7 @@
   }
 
   .sg-guia__search {
-    width: min(460px, 100%);
+    width: min(500px, 100%);
   }
 }
 
