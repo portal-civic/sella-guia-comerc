@@ -348,33 +348,6 @@
   overflow: hidden;
 }
 
-.sg-guia__map-toolbar {
-  position: absolute;
-  top: var(--sg-space-sm);
-  right: var(--sg-space-sm);
-  z-index: 5;
-}
-
-.sg-guia__basemap-select {
-  min-height: 32px;
-  padding: 0.2rem 1.6rem 0.2rem 0.6rem;
-  font: inherit;
-  font-size: 0.75rem;
-  font-weight: 600;
-  color: var(--sg-muted);
-  background: rgba(255, 255, 255, .9);
-  border: 1px solid var(--sg-border);
-  border-radius: var(--sg-radius-sm);
-  box-shadow: var(--sg-shadow-sm);
-  opacity: .85;
-  transition: opacity .15s ease;
-}
-
-.sg-guia__basemap-select:hover,
-.sg-guia__basemap-select:focus {
-  opacity: 1;
-}
-
 .sg-guia__map-note {
   margin: var(--sg-space-md) 0 0;
   padding: var(--sg-space-sm) var(--sg-space-md);
@@ -384,6 +357,89 @@
   background: var(--sg-soft);
   border: 1px solid var(--sg-border);
   border-radius: var(--sg-radius-sm);
+}
+
+/* Marcadors de Leaflet — pin en el color de categoria, vora blanca i
+   ombra suau. `--sg-marker-color` es fixa inline amb var(--sg-cat-*), que
+   es resol per cascada perquè l'element viu dins de #sg-guia. */
+.sg-marker-icon {
+  background: none;
+  border: none;
+}
+
+.sg-marker-icon__pin {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: var(--sg-marker-color, var(--sg-accent));
+  border: 3px solid #ffffff;
+  border-radius: 50% 50% 50% 0;
+  transform: rotate(-45deg);
+  box-shadow: 0 2px 6px rgba(20, 20, 20, .35);
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+
+.sg-marker-icon--active .sg-marker-icon__pin {
+  transform: rotate(-45deg) scale(1.18);
+  box-shadow: 0 4px 12px rgba(20, 20, 20, .45);
+}
+
+/* Clústers de Leaflet.markercluster — insígnia circular neutra, sense
+   lligar-se a cap categoria concreta (un clúster pot barrejar-ne diverses). */
+.sg-cluster-icon {
+  background: none;
+  border: none;
+}
+
+.sg-cluster-icon__badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: var(--sg-accent);
+  color: #ffffff;
+  font-family: var(--sg-font-family);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  border: 3px solid #ffffff;
+  box-shadow: 0 2px 8px rgba(20, 20, 20, .3);
+}
+
+/* Popups de Leaflet — mateix llenguatge visual que les targetes */
+.sg-guia .leaflet-popup-content-wrapper {
+  border-radius: var(--sg-radius-sm);
+  box-shadow: var(--sg-shadow-md);
+}
+
+.sg-guia .leaflet-popup-content {
+  margin: var(--sg-space-md);
+  font-family: var(--sg-font-family);
+}
+
+.sg-popup {
+  --sg-card-accent: var(--sg-accent);
+  display: flex;
+  flex-direction: column;
+}
+
+/* Control de capes de Leaflet — discret i coherent amb la guia */
+.sg-guia .leaflet-control-layers {
+  border-radius: var(--sg-radius-sm);
+  box-shadow: var(--sg-shadow-sm);
+  border: 1px solid var(--sg-border);
+  font-family: var(--sg-font-family);
+}
+
+.sg-guia .leaflet-control-layers label {
+  font-size: 0.8125rem;
+  color: var(--sg-text);
+}
+
+.sg-guia .leaflet-bar,
+.sg-guia .leaflet-control-attribution {
+  font-family: var(--sg-font-family);
 }
 
 /* Insígnies (p. ex. "sense localització fixa") */
@@ -542,26 +598,11 @@
   color: var(--sg-muted);
 }
 
-/* Popups de MapLibre */
-
-.sg-guia .maplibregl-popup-content {
-  padding: var(--sg-space-md);
-  border-radius: var(--sg-radius-sm);
-  box-shadow: var(--sg-shadow-md);
-  font-family: var(--sg-font-family);
-}
-
-.sg-popup {
-  --sg-card-accent: var(--sg-accent);
-  display: flex;
-  flex-direction: column;
-}
-
 /* Responsive */
 
 @media (max-width: 599px) {
   .sg-guia__map {
-    height: 340px;
+    height: 360px;
   }
 }
 

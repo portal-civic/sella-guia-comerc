@@ -5,9 +5,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Guia de comerços, empreses i serveis de Sella — previsualització</title>
 
-<!-- MapLibre GL JS (CDN, provisional — en producció es pot autoallotjar o carregar via wp_enqueue) -->
-<link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4/dist/maplibre-gl.css">
-<script defer src="https://unpkg.com/maplibre-gl@4/dist/maplibre-gl.js"></script>
+<!-- Leaflet (CDN, provisional — en producció es pot autoallotjar o carregar via wp_enqueue) -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<script defer src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<!-- Leaflet.markercluster: agrupa marcadors pròxims quan hi ha molts comerços concentrats -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css">
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css">
+<script defer src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
 
 <!-- Tipografia única per a tota la guia (titulars, cos, controls i targetes). -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -15,6 +20,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
 <link rel="stylesheet" href="css/styles.css">
+<script defer src="js/basemaps.js"></script>
 <script defer src="js/app.js"></script>
 </head>
 <body>
@@ -60,19 +66,9 @@
     </div>
 
     <div class="sg-guia__map-wrap">
+      <!-- El selector de base cartogràfica (L.control.layers) l'afig Leaflet
+           directament dins d'aquest contenidor; ací no cal cap marcatge. -->
       <div id="sg-map" class="sg-guia__map" role="region" aria-label="Mapa d'activitats de Sella"></div>
-
-      <!-- SELECTOR DE BASE CARTOGRÀFICA (provisional, discret) — eliminar aquest bloc sencer per traure el selector -->
-      <div class="sg-guia__map-toolbar">
-        <label for="sg-basemap" class="sg-visually-hidden">Estil del mapa</label>
-        <select id="sg-basemap" class="sg-guia__basemap-select">
-          <option value="light">Clar</option>
-          <option value="streets">Carrers</option>
-          <option value="terrain">Relleu</option>
-        </select>
-      </div>
-      <!-- /SELECTOR DE BASE CARTOGRÀFICA -->
-
       <p id="sg-map-note" class="sg-guia__map-note" role="status" hidden></p>
     </div>
   </section>

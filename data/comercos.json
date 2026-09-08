@@ -52,9 +52,10 @@
       "email": null,
       "website": null,
       "instagram": null,
-      "latitude": null,
-      "longitude": null,
-      "validation_status": "pendent"
+      "latitude": 38.60955,
+      "longitude": -0.2748,
+      "validation_status": "pendent",
+      "coordinates_status": "provisional_reference_prototype"
     },
     {
       "id": "sella-002",
@@ -67,9 +68,10 @@
       "email": null,
       "website": null,
       "instagram": null,
-      "latitude": null,
-      "longitude": null,
-      "validation_status": "pendent"
+      "latitude": 38.6087,
+      "longitude": -0.27405,
+      "validation_status": "pendent",
+      "coordinates_status": "provisional_reference_prototype"
     },
     {
       "id": "sella-003",
@@ -82,9 +84,10 @@
       "email": null,
       "website": null,
       "instagram": null,
-      "latitude": null,
-      "longitude": null,
-      "validation_status": "pendent"
+      "latitude": 38.60856,
+      "longitude": -0.27294,
+      "validation_status": "pendent",
+      "coordinates_status": "provisional_reference_prototype"
     },
     {
       "id": "sella-004",
@@ -97,9 +100,10 @@
       "email": null,
       "website": null,
       "instagram": null,
-      "latitude": null,
-      "longitude": null,
-      "validation_status": "pendent"
+      "latitude": 38.60942,
+      "longitude": -0.27352,
+      "validation_status": "pendent",
+      "coordinates_status": "provisional_reference_prototype"
     },
     {
       "id": "sella-005",
@@ -142,9 +146,10 @@
       "email": "coperezrubio@yahoo.com",
       "website": null,
       "instagram": null,
-      "latitude": null,
-      "longitude": null,
-      "validation_status": "pendent"
+      "latitude": 38.60678,
+      "longitude": -0.271,
+      "validation_status": "pendent",
+      "coordinates_status": "provisional_reference_prototype"
     },
     {
       "id": "sella-008",
@@ -202,9 +207,10 @@
       "email": "info@divitrans.com",
       "website": null,
       "instagram": null,
-      "latitude": null,
-      "longitude": null,
-      "validation_status": "pendent"
+      "latitude": 38.60908,
+      "longitude": -0.27372,
+      "validation_status": "pendent",
+      "coordinates_status": "provisional_reference_prototype"
     },
     {
       "id": "sella-012",
@@ -217,9 +223,10 @@
       "email": "infollinares@gmail.com",
       "website": null,
       "instagram": null,
-      "latitude": null,
-      "longitude": null,
-      "validation_status": "pendent"
+      "latitude": 38.60686,
+      "longitude": -0.27415,
+      "validation_status": "pendent",
+      "coordinates_status": "provisional_reference_prototype"
     },
     {
       "id": "sella-013",
@@ -247,9 +254,10 @@
       "email": null,
       "website": null,
       "instagram": "la_marimorena_apartments",
-      "latitude": null,
-      "longitude": null,
-      "validation_status": "pendent"
+      "latitude": 38.60905,
+      "longitude": -0.27088,
+      "validation_status": "pendent",
+      "coordinates_status": "provisional_reference_prototype"
     },
     {
       "id": "sella-015",
@@ -262,9 +270,10 @@
       "email": null,
       "website": "https://casaroc.com",
       "instagram": null,
-      "latitude": null,
-      "longitude": null,
-      "validation_status": "pendent"
+      "latitude": 38.61008,
+      "longitude": -0.2711,
+      "validation_status": "pendent",
+      "coordinates_status": "provisional_reference_prototype"
     },
     {
       "id": "sella-016",
@@ -277,9 +286,10 @@
       "email": null,
       "website": null,
       "instagram": null,
-      "latitude": null,
-      "longitude": null,
-      "validation_status": "pendent"
+      "latitude": 38.61033,
+      "longitude": -0.27065,
+      "validation_status": "pendent",
+      "coordinates_status": "provisional_reference_prototype"
     },
     {
       "id": "sella-017",
@@ -308,9 +318,10 @@
       "email": null,
       "website": null,
       "instagram": null,
-      "latitude": null,
-      "longitude": null,
-      "validation_status": "pendent"
+      "latitude": 38.60982,
+      "longitude": -0.27612,
+      "validation_status": "pendent",
+      "coordinates_status": "provisional_reference_prototype"
     },
     {
       "id": "sella-019",
@@ -323,9 +334,10 @@
       "email": null,
       "website": null,
       "instagram": null,
-      "latitude": null,
-      "longitude": null,
-      "validation_status": "pendent"
+      "latitude": 38.61031,
+      "longitude": -0.27063,
+      "validation_status": "pendent",
+      "coordinates_status": "provisional_reference_prototype"
     },
     {
       "id": "sella-020",
@@ -338,9 +350,10 @@
       "email": null,
       "website": null,
       "instagram": null,
-      "latitude": null,
-      "longitude": null,
-      "validation_status": "pendent"
+      "latitude": 38.60848,
+      "longitude": -0.27276,
+      "validation_status": "pendent",
+      "coordinates_status": "provisional_reference_prototype"
     },
     {
       "id": "sella-021",
@@ -353,9 +366,10 @@
       "email": null,
       "website": null,
       "instagram": null,
-      "latitude": null,
-      "longitude": null,
-      "validation_status": "pendent"
+      "latitude": 38.60661,
+      "longitude": -0.27146,
+      "validation_status": "pendent",
+      "coordinates_status": "provisional_reference_prototype"
     },
     {
       "id": "sella-022",
@@ -368,9 +382,10 @@
       "email": null,
       "website": null,
       "instagram": null,
-      "latitude": null,
-      "longitude": null,
-      "validation_status": "pendent"
+      "latitude": 38.60648,
+      "longitude": -0.27096,
+      "validation_status": "pendent",
+      "coordinates_status": "provisional_reference_prototype"
     },
     {
       "id": "sella-023",
@@ -383,9 +398,10 @@
       "email": null,
       "website": null,
       "instagram": null,
-      "latitude": null,
-      "longitude": null,
-      "validation_status": "pendent"
+      "latitude": 38.6132,
+      "longitude": -0.2766,
+      "validation_status": "pendent",
+      "coordinates_status": "provisional_reference_prototype"
     },
     {
       "id": "sella-024",
@@ -398,9 +414,10 @@
       "email": null,
       "website": null,
       "instagram": null,
-      "latitude": null,
-      "longitude": null,
-      "validation_status": "pendent"
+      "latitude": 38.6065,
+      "longitude": -0.27115,
+      "validation_status": "pendent",
+      "coordinates_status": "provisional_reference_prototype"
     },
     {
       "id": "sella-025",
@@ -413,9 +430,10 @@
       "email": null,
       "website": null,
       "instagram": null,
-      "latitude": null,
-      "longitude": null,
-      "validation_status": "pendent"
+      "latitude": 38.60854,
+      "longitude": -0.27284,
+      "validation_status": "pendent",
+      "coordinates_status": "provisional_reference_prototype"
     }
   ]
 }
