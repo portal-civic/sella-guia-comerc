@@ -16,13 +16,20 @@
   secció es marca únicament amb el canvi de color de fons i l'espaiat.
 
   COLOR: paleta EXACTA i fixa — cap color es genera amb color-mix(),
-  rgba() ni opacitat. Només aquests 9 valors:
+  rgba() ni opacitat. Colors de base:
     blanc #FFFFFF · gris clar #F3F3F3 · verd pàl·lid #E3EDEB ·
-    verd fosc #106758 · gris fosc #606060 · blau #2566D6 ·
-    groc/ocre #B38201 · roig #C20A01 · text #222222.
+    verd fosc #106758 · gris fosc #606060 · blau #2566D6 · text #222222.
+  Colors de categoria (únics per categoria, vore js/app.js):
+    verd #106758 (Alimentació) · roig #C20A01 (Restauració) ·
+    blau #2566D6 (Allotjaments) · groc/ocre #B38201 (Construcció) ·
+    gris fosc #606060 (Serveis) · porpra #713F98 (Oci) ·
+    blau grisenc fosc #3F5968 (Altres).
   El verd fosc és el color per defecte dels titulars de secció; el blau
-  queda reservat a enllaços/accions ("Veure al mapa"); el groc i el roig
-  són tons de categoria puntuals.
+  queda reservat a enllaços/accions ("Veure al mapa").
+
+  ICONES DE CATEGORIA: sistema unificat de "cercle sòlid + glif blanc",
+  compartit entre la navegació de categories, les targetes i els
+  marcadors del mapa — mai un cercle pàl·lid ni un contorn de color.
 */
 
 .sg-guia {
@@ -62,6 +69,11 @@
   --sg-band-pad-y-sm: 2rem;     /* 32px mòbil */
   --sg-band-cta-pad-y: 4rem;    /* 64px desktop — el tancament necessita més pes */
   --sg-band-cta-pad-y-sm: 2.75rem; /* 44px mòbil */
+  /* La franja de categories és més compacta: ara poden cabre en una sola
+     fila a partir de cert ample, així que no necessita l'alçada d'una
+     franja de contingut normal. */
+  --sg-band-catnav-pad-y: 2.25rem;   /* 36px desktop (32-40 objectiu) */
+  --sg-band-catnav-pad-y-sm: 1.75rem; /* 28px mòbil (24-32 objectiu) */
 
   /* Amplada i coixí horitzontal del contenidor intern de cada franja */
   --sg-band-inner-max-width: 1400px;
@@ -183,6 +195,18 @@
   background: var(--sg-grey);
 }
 
+/* La franja de categories és més compacta que la resta (vore variables
+   més amunt): el títol ja no hi viu, així que no cal tant d'aire. */
+.sg-band--catnav {
+  padding: var(--sg-band-catnav-pad-y-sm) 0;
+}
+
+@media (min-width: 600px) {
+  .sg-band--catnav {
+    padding: var(--sg-band-catnav-pad-y) 0;
+  }
+}
+
 .sg-band--white {
   background: var(--sg-white);
 }
@@ -211,23 +235,23 @@
 }
 
 .sg-guia__title {
-  font-size: 1.875rem; /* 30px mòbil (28-32 objectiu) */
-  line-height: 1.12;
-  max-width: 760px;
+  font-size: 2rem; /* 32px mòbil (30-34 objectiu) */
+  line-height: 1.1;
+  max-width: 800px;
   margin: 0;
-  font-weight: 600;
+  font-weight: 700;
   color: var(--sg-dark-green);
 }
 
 @media (min-width: 600px) {
   .sg-guia__title {
-    font-size: 2.125rem; /* 34px tablet (32-38 objectiu) */
+    font-size: 2.375rem; /* 38px tablet (36-42 objectiu) */
   }
 }
 
 @media (min-width: 900px) {
   .sg-guia__title {
-    font-size: 2.75rem; /* 44px desktop (38-46 objectiu) */
+    font-size: 3rem; /* 48px desktop (46-50 objectiu) */
   }
 }
 
@@ -240,17 +264,25 @@
   font-weight: 400;
 }
 
-/* Cercador, navegació de categories i resum — ordre vertical clar:
-   intro -> cercador -> categories -> resum. */
+/* Mini-secció de cerca, entre el mapa i el directori amb localització.
+   Sense targeta al voltant: només un titolet, el camp de cerca i el
+   resum de resultats, en columna. */
 
-.sg-guia__controls {
-  display: flex;
-  flex-direction: column;
-  gap: var(--sg-space-md);
+.sg-guia__search-tools {
+  margin-bottom: var(--sg-space-map-directory);
+}
+
+.sg-guia__search-heading {
+  margin: 0 0 var(--sg-space-md);
+  font-size: 1.3125rem; /* 21px (20-22 objectiu) */
+  font-weight: 600;
+  line-height: 1.25;
+  color: var(--sg-dark-green);
 }
 
 .sg-guia__search {
   width: 100%;
+  margin-bottom: var(--sg-space-md);
 }
 
 .sg-guia__search-field {
@@ -293,9 +325,10 @@
 
 /* ========================================================================
    NAVEGACIÓ DE CATEGORIES (.sg-catnav) — a l'estil de les dreceres
-   municipals de sella.es: icona + nom, SENSE píndola, SENSE fons, SENSE
-   punt de color. Icona i text sempre en el color exacte de la categoria;
-   l'estat actiu es marca només amb una vora inferior sòlida de 3px.
+   municipals de sella.es: icona (cercle sòlid + glif blanc) + nom, SENSE
+   píndola ni fons darrere de l'element. El nom es manté en el color
+   exacte de categoria; l'estat actiu es marca amb una vora inferior
+   sòlida de 3px del mateix color.
    ======================================================================== */
 
 .sg-catnav {
@@ -314,8 +347,8 @@
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  gap: 0.625rem;
-  padding: 0.875rem 0.5rem 0.75rem;
+  gap: 0.5rem;
+  padding: 0.625rem 0.5rem 0.625rem;
   font: inherit;
   color: var(--sg-catnav-accent);
   background: none;
@@ -325,18 +358,23 @@
   text-align: center;
 }
 
+/* Cercle sòlid de categoria + glif blanc a dins — el mateix sistema que
+   les targetes i els marcadors del mapa. Cap vora blanca, cap to pàl·lid. */
 .sg-catnav__icon {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 34px;
-  height: 34px;
-  color: inherit;
+  flex: 0 0 auto;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--sg-catnav-accent);
+  color: var(--sg-white);
 }
 
 .sg-catnav__icon svg {
-  width: 100%;
-  height: 100%;
+  width: 21px;
+  height: 21px;
 }
 
 .sg-catnav__label {
@@ -351,15 +389,13 @@
   border-bottom-color: var(--sg-catnav-accent);
 }
 
-/* A partir de tauleta: graella de 4 columnes (2 files de 4 elements) —
-   es manté igual en desktop a propòsit, en compte de forçar les 8
-   categories en una sola fila comprimida. */
+/* De tauleta fins a ample mitjà: graella de 4 columnes (2 files de 4). */
 @media (min-width: 600px) {
   .sg-catnav {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     overflow-x: visible;
-    gap: 1.25rem 0.75rem;
+    gap: 1.125rem 0.75rem;
   }
 
   .sg-catnav__item {
@@ -367,18 +403,11 @@
   }
 }
 
-@media (min-width: 900px) {
+/* A partir d'ample gran: les 8 categories caben en una sola fila. */
+@media (min-width: 1200px) {
   .sg-catnav {
-    gap: 1.5rem 1rem;
-  }
-
-  .sg-catnav__icon {
-    width: 36px;
-    height: 36px;
-  }
-
-  .sg-catnav__label {
-    font-size: 1rem; /* 16px */
+    grid-template-columns: repeat(8, 1fr);
+    gap: 0.5rem;
   }
 }
 
@@ -488,7 +517,6 @@
   width: 100%;
   height: 100%;
   border-radius: 50%;
-  border: 2px solid var(--sg-white);
   color: var(--sg-white);
   box-shadow: var(--sg-shadow-sm);
 }
@@ -522,7 +550,6 @@
   font-family: inherit;
   font-size: 0.8125rem;
   font-weight: 600;
-  border: 2px solid var(--sg-white);
   box-shadow: var(--sg-shadow-sm);
 }
 
@@ -606,7 +633,7 @@
 .sg-cards {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 1.25rem;
+  gap: 1.5rem; /* 24px entre targetes, en columna i en fila */
 }
 
 .sg-card {
@@ -638,21 +665,23 @@
   gap: var(--sg-space-sm);
 }
 
-/* Icona de categoria SENSE cercle ni fons: el glif directament en el
-   color exacte de categoria, a l'estil de les dreceres municipals. */
+/* Cercle sòlid de categoria + glif blanc — mateix sistema que la
+   navegació de categories i els marcadors del mapa. */
 .sg-card__icon {
   display: flex;
   align-items: center;
   justify-content: center;
   flex: 0 0 auto;
-  width: 28px;
-  height: 28px;
-  color: var(--sg-card-accent);
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--sg-card-accent);
+  color: var(--sg-white);
 }
 
 .sg-card__icon svg {
-  width: 100%;
-  height: 100%;
+  width: 18px;
+  height: 18px;
 }
 
 .sg-card__heading {

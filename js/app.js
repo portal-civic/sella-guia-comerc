@@ -25,23 +25,66 @@
   ];
 
   // Icones decoratives per categoria (SVG inline, sense emoji). El nom de la
-  // categoria ja apareix sempre com a text, així que la icona és només suport visual.
+  // categoria ja apareix sempre com a text, així que la icona és només suport
+  // visual. Dissenyades per a llegir-se en BLANC sòlid sobre un cercle de
+  // color de categoria (navegació, targetes i marcadors del mapa comparteixen
+  // el mateix sistema): la majoria de formes són siluetes planes
+  // (fill="currentColor"); només els detalls lineals (forquilla/ganivet,
+  // nansa del cistell, anella de la clau anglesa, agulla de la brúixola)
+  // usen un trac fi (fill="none" stroke="currentColor").
   var CATEGORY_ICONS = {
-    all: '<rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/>',
-    alimentacio: '<path d="M4.5 9h15l-1.6 9.2a2 2 0 0 1-2 1.6H8.1a2 2 0 0 1-2-1.6L4.5 9Z"/><path d="M8.5 9V7a3.5 3.5 0 0 1 7 0v2"/>',
-    restauracio: '<path d="M6 2v6a1.5 1.5 0 0 0 3 0V2"/><path d="M7.5 2v20"/><path d="M16.5 2c-1.7 1-2.8 2.9-2.8 5s1.1 4 2.8 5"/><path d="M16.5 2v20"/>',
-    allotjaments: '<path d="M3 19v-6a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v2"/><path d="M13 13h6a2 2 0 0 1 2 2v4"/><path d="M2 19h20"/><circle cx="7" cy="11" r="1.3"/>',
-    construccio: '<path d="M21 7.5a4.5 4.5 0 0 1-6.1 4.2L7.5 19l-2.5-2.5 7.3-7.4A4.5 4.5 0 1 1 21 7.5Z"/>',
-    serveis: '<rect x="3" y="7.5" width="18" height="11" rx="2"/><path d="M8.5 7.5V6a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v1.5"/><path d="M3 12.5h18"/>',
-    oci: '<path d="M3 19 9 8l3.8 5.4 2-2.6L21 19H3Z"/>',
-    altres: '<path d="M4 9.5V20h16V9.5"/><path d="M2.5 9.5 4 4h16l1.5 5.5"/><path d="M9.5 20v-6h5v6"/>'
+    all: '<rect x="3" y="3" width="7" height="7" rx="1.2"/><rect x="14" y="3" width="7" height="7" rx="1.2"/><rect x="3" y="14" width="7" height="7" rx="1.2"/><rect x="14" y="14" width="7" height="7" rx="1.2"/>',
+
+    // Alimentació: cistell de la compra (cos sòlid + nansa en arc).
+    alimentacio: '<path d="M4.5 9.5h15l-1.5 8.7a1.8 1.8 0 0 1-1.8 1.5H7.8a1.8 1.8 0 0 1-1.8-1.5L4.5 9.5Z"/>' +
+      '<path d="M8.5 9.5V7.3a3.5 3.5 0 0 1 7 0v2.2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>',
+
+    // Restauració: forquilla + ganivet, inconfusibles.
+    restauracio: '<path d="M6 2v6a1.5 1.5 0 0 0 3 0V2" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/>' +
+      '<path d="M7.5 2v20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/>' +
+      '<path d="M16.7 2c-1.8 1-2.9 3-2.9 5.2 0 2 1 3.8 2.6 4.8" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/>' +
+      '<path d="M16.7 2v20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/>',
+
+    // Allotjaments: llit vist de costat (capçal + coixí + matalàs + base) —
+    // formes gruixudes perquè es llija clarament fins i tot a 18px.
+    allotjaments: '<rect x="1" y="17" width="22" height="2.4" rx="1.2"/>' +
+      '<rect x="2" y="11.8" width="20" height="5.6" rx="1.5"/>' +
+      '<rect x="1" y="5" width="5" height="13" rx="1.4"/>' +
+      '<rect x="7" y="8.8" width="7" height="4.2" rx="1.6"/>',
+
+    // Construcció i instal·lacions: dues eines encreuades en X — provat
+    // que un dibuix literal de clau anglesa+tornavís no es distingeix a
+    // 18-21px; l'X d'eines es llig net i inconfusible a eixa mida.
+    construccio: '<g transform="rotate(45 12 12)">' +
+      '<rect x="10.8" y="2" width="2.4" height="10" rx="1.2"/>' +
+      '<rect x="9.6" y="11.5" width="4.8" height="8.5" rx="1.8"/>' +
+      '</g>' +
+      '<g transform="rotate(-45 12 12)">' +
+      '<rect x="10.8" y="2" width="2.4" height="10" rx="1.2"/>' +
+      '<rect x="9.6" y="11.5" width="4.8" height="8.5" rx="1.8"/>' +
+      '</g>',
+
+    // Serveis: maletí d'oficina/negocis.
+    serveis: '<rect x="3" y="7.5" width="18" height="11" rx="2.2"/>' +
+      '<path d="M8.5 7.5V6a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v1.5" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/>',
+
+    // Oci i esports: brúixola en forma d'estrela de 4 puntes — una agulla
+    // fina de brúixola no es distingia d'un símbol de prohibició a mida
+    // xicoteta; l'estrela és el glif de "brúixola/direcció" habitual.
+    oci: '<circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.6"/>' +
+      '<path d="M12 5l1.8 5.2L19 12l-5.2 1.8L12 19l-1.8-5.2L5 12l5.2-1.8L12 5Z"/>',
+
+    // Altres: aparador amb tendal ratllat — inconfusible amb una casa/llit.
+    altres: '<rect x="3" y="4" width="18" height="3.6" rx="0.6"/>' +
+      '<path d="M3 7.6l1.5 3 1.5-3 1.5 3 1.5-3 1.5 3 1.5-3 1.5 3 1.5-3 1.5 3 1.5-3 1.5 3 1.5-3H3Z"/>' +
+      '<rect x="4.3" y="12.4" width="15.4" height="7.4" rx="0.5" fill="none" stroke="currentColor" stroke-width="1.7"/>' +
+      '<rect x="10" y="15" width="4" height="4.8" rx="0.4"/>'
   };
 
-  // Mapa de color exacte per categoria — únicament colors institucionals
-  // de sella.es (verd, roig, blau, groc, gris). Diverses categories
-  // comparteixen expressament el mateix color: no és un sistema de
-  // reconeixement d'un color únic per categoria, sinó la paleta
-  // municipal real reaplicada al directori.
+  // Mapa de color exacte per categoria — colors institucionals de
+  // sella.es (verd, roig, blau, groc) més dos tons nous i diferenciats
+  // (porpra per a Oci, blau grisenc fosc per a Altres) perquè cada
+  // categoria tinga ara una identitat de color única.
   var CATEGORY_COLORS = {
     all: '#106758',
     alimentacio: '#106758',
@@ -49,8 +92,8 @@
     allotjaments: '#2566d6',
     construccio: '#b38201',
     serveis: '#606060',
-    oci: '#2566d6',
-    altres: '#606060'
+    oci: '#713f98',
+    altres: '#3f5968'
   };
 
   // Centre aproximat del nucli urbà de Sella (Alacant), i vista per defecte
@@ -141,10 +184,13 @@
     return state.categoryLabels[id] || id;
   }
 
+  // Per defecte les formes són siluetes planes (fill=currentColor); els
+  // elements que necessiten un traç fi (forquilla, nansa, agulla...)
+  // declaren el seu propi fill="none" stroke="currentColor" dins del path.
   function getCategoryIconSvg(id) {
     var path = CATEGORY_ICONS[id] || CATEGORY_ICONS.altres;
-    return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" ' +
-      'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">' + path + '</svg>';
+    return '<svg viewBox="0 0 24 24" fill="currentColor" stroke="none" ' +
+      'aria-hidden="true" focusable="false">' + path + '</svg>';
   }
 
   // Color exacte de categoria (paleta municipal fixa, sense variants

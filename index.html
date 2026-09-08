@@ -28,13 +28,6 @@
   ací simulem manualment la mateixa base tipogràfica inspeccionada en viu
   a sella.es (cos: -apple-system…, 17px, línia 1.5, color #222). Aquest
   bloc <style> NO forma part del marcatge que s'ha d'inserir a WordPress.
-
-  Nota: ja NO cal cap contenidor ".sg-preview-column" que simule l'amplada
-  de la columna de contingut, perquè ara cada franja (.sg-band) gestiona
-  ella mateixa el seu propi contenidor intern (.sg-band__inner) — la
-  previsualització standalone mostra doncs, correctament, les franges de
-  color a amplada completa de finestra, exactament com es veurien
-  incrustades a sella.es.
 -->
 <style>
   body {
@@ -58,28 +51,21 @@
   capçalera, navegació, hero, breadcrumb, títol de pàgina i peu; aquest
   component NO els recrea).
 
-  ESTRUCTURA EN FRANGES A AMPLADA COMPLETA (.sg-band): cada franja trenca
-  visualment fora de la columna de contingut de WordPress perquè el seu
-  color de fons òmpliga tota l'amplada de pàgina disponible (vore la
-  tècnica CSS a styles.css). Dins de cada franja, un .sg-band__inner
-  torna a centrar i limitar el contingut (text, mapa, targetes) a una
-  amplada de lectura còmoda amb el mateix coixí horitzontal que la resta
-  del lloc. Sense corbes, ones ni diagonals decoratives enlloc: el ritme
-  ve només del color de fons i de l'espaiat.
-
-  IMPORTANT: la tècnica de "full-bleed" assumeix que la guia s'incrusta
-  en una àrea de contingut d'una sola columna (sense barra lateral
-  adjacent), com és habitual en una pàgina de servei. Si la plantilla de
-  WordPress final col·loca la guia en una columna estreta amb sidebar,
-  revisar aquest comportament manualment.
+  COMPOSICIÓ: títol/intro (blanc) -> navegació de categories (gris) ->
+  mapa (blanc) -> cerca + resum (mateixa franja blanca) -> activitats amb
+  localització (mateixa franja blanca) -> activitats sense localització
+  fixa (verd pàl·lid) -> CTA final (verd fosc). Cada franja trenca a
+  amplada completa de pàgina (.sg-band) i torna a centrar el contingut
+  amb el mateix contenidor intern (.sg-band__inner) — vore styles.css.
+  Sense corbes, ones ni diagonals decoratives enlloc.
   ========================================================================
 -->
 <main>
 
 <section id="sg-guia" class="sg-guia" aria-labelledby="sg-guia-title">
 
-  <!-- ===== FRANGE A — gris clar: títol + intro + cercador + categories + resum ===== -->
-  <div class="sg-band sg-band--grey">
+  <!-- ===== FRANGE 1 — blanc: títol + intro ===== -->
+  <div class="sg-band sg-band--white sg-band--title">
    <div class="sg-band__inner">
 
     <!--
@@ -95,30 +81,23 @@
     <!-- FI DEL BLOC NOMÉS-PREVISUALITZACIÓ -->
 
     <p class="sg-guia__lead">Troba comerços, empreses, professionals i serveis del municipi i consulta les seues dades de contacte i ubicació.</p>
-
-    <div class="sg-guia__controls">
-      <div class="sg-guia__search">
-        <label for="sg-search" class="sg-visually-hidden">Cercar per nom, categoria, adreça, telèfon, email, web o Instagram</label>
-        <div class="sg-guia__search-field">
-          <svg class="sg-guia__search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.35-4.35"/></svg>
-          <input type="search" id="sg-search" class="sg-guia__search-input" placeholder="Cerca una activitat…" autocomplete="off">
-        </div>
-      </div>
-
-      <div id="sg-filters" class="sg-catnav" role="group" aria-label="Filtra per categoria">
-        <!-- Botons generats per JS a partir de la configuració de categories -->
-      </div>
-
-      <p id="sg-summary" class="sg-guia__summary" role="status" aria-live="polite">Carregant activitats…</p>
-    </div>
-
-    <div id="sg-load-error" class="sg-guia__error" role="alert" hidden></div>
    </div>
   </div>
 
-  <!-- ===== FRANGE B — blanc: mapa + directori amb localització ===== -->
+  <!-- ===== FRANGE 2 — gris: navegació de categories ===== -->
+  <div class="sg-band sg-band--grey sg-band--catnav">
+   <div class="sg-band__inner">
+    <div id="sg-filters" class="sg-catnav" role="group" aria-label="Filtra per categoria">
+      <!-- Botons generats per JS a partir de la configuració de categories -->
+    </div>
+   </div>
+  </div>
+
+  <!-- ===== FRANGE 3 — blanc: mapa + cerca/resum + directori amb localització ===== -->
   <div class="sg-band sg-band--white">
    <div class="sg-band__inner">
+
+    <div id="sg-load-error" class="sg-guia__error" role="alert" hidden></div>
 
     <section class="sg-guia__section sg-guia__section--map" aria-labelledby="sg-map-title">
       <div class="sg-guia__section-head">
@@ -134,6 +113,18 @@
       </div>
     </section>
 
+    <div class="sg-guia__search-tools">
+      <h2 class="sg-guia__search-heading">Cerca al directori</h2>
+      <div class="sg-guia__search">
+        <label for="sg-search" class="sg-visually-hidden">Cercar per nom, categoria, adreça, telèfon, email, web o Instagram</label>
+        <div class="sg-guia__search-field">
+          <svg class="sg-guia__search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.35-4.35"/></svg>
+          <input type="search" id="sg-search" class="sg-guia__search-input" placeholder="Cerca una activitat…" autocomplete="off">
+        </div>
+      </div>
+      <p id="sg-summary" class="sg-guia__summary" role="status" aria-live="polite">Carregant activitats…</p>
+    </div>
+
     <section class="sg-guia__section sg-guia__section--directory" aria-labelledby="sg-directory-title">
       <div class="sg-guia__section-head">
         <h2 id="sg-directory-title" class="sg-guia__section-title">Activitats amb localització</h2>
@@ -145,7 +136,7 @@
    </div>
   </div>
 
-  <!-- ===== FRANGE C — verd pàl·lid: activitats sense localització fixa ===== -->
+  <!-- ===== FRANGE 4 — verd pàl·lid: activitats sense localització fixa ===== -->
   <div class="sg-band sg-band--pale-green">
    <div class="sg-band__inner">
     <section class="sg-guia__section sg-guia__section--unlocated" aria-labelledby="sg-unlocated-title">
@@ -159,7 +150,7 @@
    </div>
   </div>
 
-  <!-- ===== FRANGE D — verd fosc: crida final a l'acció ===== -->
+  <!-- ===== FRANGE 5 — verd fosc: crida final a l'acció ===== -->
   <div class="sg-band sg-band--dark-green">
    <div class="sg-band__inner">
     <aside class="sg-guia__cta">
