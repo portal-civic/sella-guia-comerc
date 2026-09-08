@@ -200,16 +200,16 @@
     opts = opts || {};
     var actions = [];
 
-    if (b.phone) actions.push({ type: 'link', href: telHref(b.phone), label: 'Telefonar' });
-    if (b.email) actions.push({ type: 'link', href: 'mailto:' + b.email, label: 'Correu' });
-    if (b.website) actions.push({ type: 'link', href: websiteHref(b.website), label: 'Web', external: true });
-    if (b.instagram) actions.push({ type: 'link', href: instagramUrl(b.instagram), label: 'Instagram', external: true });
+    if (b.phone) actions.push({ type: 'link', href: telHref(b.phone), label: 'Telefonar', variant: 'primary' });
+    if (b.email) actions.push({ type: 'link', href: 'mailto:' + b.email, label: 'Correu', variant: 'secondary' });
+    if (b.website) actions.push({ type: 'link', href: websiteHref(b.website), label: 'Web', external: true, variant: 'secondary' });
+    if (b.instagram) actions.push({ type: 'link', href: instagramUrl(b.instagram), label: 'Instagram', external: true, variant: 'secondary' });
 
     if (opts.directions && hasValidCoords(b)) {
-      actions.push({ type: 'link', href: directionsUrl(b), label: 'Com arribar', external: true });
+      actions.push({ type: 'link', href: directionsUrl(b), label: 'Com arribar', external: true, variant: 'secondary' });
     }
     if (opts.showOnMapButton && hasValidCoords(b)) {
-      actions.push({ type: 'button', mapTarget: b.id, label: 'Veure al mapa' });
+      actions.push({ type: 'button', mapTarget: b.id, label: 'Veure al mapa', variant: 'secondary' });
     }
 
     return actions;
@@ -231,12 +231,13 @@
 
   function renderActionsHtml(actions) {
     return actions.map(function (a) {
+      var variantClass = ' sg-action--' + (a.variant === 'primary' ? 'primary' : 'secondary');
       if (a.type === 'button') {
-        return '<button type="button" class="sg-action" data-map-target="' +
+        return '<button type="button" class="sg-action' + variantClass + '" data-map-target="' +
           escapeHtml(a.mapTarget) + '">' + escapeHtml(a.label) + '</button>';
       }
       var target = a.external ? ' target="_blank" rel="noopener noreferrer"' : '';
-      return '<a class="sg-action" href="' + escapeHtml(a.href) + '"' + target + '>' + escapeHtml(a.label) + '</a>';
+      return '<a class="sg-action' + variantClass + '" href="' + escapeHtml(a.href) + '"' + target + '>' + escapeHtml(a.label) + '</a>';
     }).join('');
   }
 
