@@ -8,6 +8,8 @@
 
   var DATA_URL = 'data/comercos.json';
   var NO_FIXED_LOCATION = 'no_fixed_public_location';
+  var NO_FIXED_BADGE_TEXT = 'Sense localització fixa';
+  var NO_FIXED_SENTENCE_TEXT = 'Servei sense lloc fix d’atenció al públic';
 
   // Etiquetes i ordre dels filtres, tal com s'han definit per a la interfície.
   // L'id de cada filtre ha de coincidir amb un id de categoria del JSON.
@@ -21,6 +23,18 @@
     { id: 'oci', label: 'Oci i esports' },
     { id: 'altres', label: 'Altres' }
   ];
+
+  // Icones decoratives per categoria (SVG inline, sense emoji). El nom de la
+  // categoria ja apareix sempre com a text, així que la icona és només suport visual.
+  var CATEGORY_ICONS = {
+    alimentacio: '<path d="M4.5 9h15l-1.6 9.2a2 2 0 0 1-2 1.6H8.1a2 2 0 0 1-2-1.6L4.5 9Z"/><path d="M8.5 9V7a3.5 3.5 0 0 1 7 0v2"/>',
+    restauracio: '<path d="M6 2v6a1.5 1.5 0 0 0 3 0V2"/><path d="M7.5 2v20"/><path d="M16.5 2c-1.7 1-2.8 2.9-2.8 5s1.1 4 2.8 5"/><path d="M16.5 2v20"/>',
+    allotjaments: '<path d="M3 19v-6a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v2"/><path d="M13 13h6a2 2 0 0 1 2 2v4"/><path d="M2 19h20"/><circle cx="7" cy="11" r="1.3"/>',
+    construccio: '<path d="M21 7.5a4.5 4.5 0 0 1-6.1 4.2L7.5 19l-2.5-2.5 7.3-7.4A4.5 4.5 0 1 1 21 7.5Z"/>',
+    serveis: '<rect x="3" y="7.5" width="18" height="11" rx="2"/><path d="M8.5 7.5V6a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v1.5"/><path d="M3 12.5h18"/>',
+    oci: '<path d="M3 19 9 8l3.8 5.4 2-2.6L21 19H3Z"/>',
+    altres: '<path d="M4 9.5V20h16V9.5"/><path d="M2.5 9.5 4 4h16l1.5 5.5"/><path d="M9.5 20v-6h5v6"/>'
+  };
 
   // Centre aproximat del nucli urbà de Sella (Alacant), només per orientar
   // la vista inicial del mapa mentre no hi ha coordenades validades.
@@ -127,6 +141,12 @@
     return state.categoryLabels[id] || id;
   }
 
+  function getCategoryIconSvg(id) {
+    var path = CATEGORY_ICONS[id] || CATEGORY_ICONS.altres;
+    return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" ' +
+      'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">' + path + '</svg>';
+  }
+
   function normalizeText(str) {
     return String(str || '')
       .normalize('NFD')
@@ -176,22 +196,17 @@
     });
   }
 
-  // Camps a mostrar (categoria i nom es gestionen a banda, com a capçalera).
-  function getBusinessFields(b) {
-    var fields = [];
-
+  // Línia d'adreça: text pla si n'hi ha, o insígnia si el servei no té
+  // localització fixa. `sentence` mostra la frase completa (acordió); si no,
+  // s'usa el text curt de la insígnia (targeta).
+  function getAddressInfo(b, sentence) {
     if (isNoFixedLocation(b)) {
-      fields.push({ label: null, value: 'Servei sense lloc fix d’atenció al públic' });
-    } else if (b.address) {
-      fields.push({ label: 'Adreça', value: b.address });
+      return { badge: true, text: sentence ? NO_FIXED_SENTENCE_TEXT : NO_FIXED_BADGE_TEXT };
     }
-
-    if (b.phone) fields.push({ label: 'Telèfon', value: b.phone });
-    if (b.email) fields.push({ label: 'Email', value: b.email });
-    if (b.website) fields.push({ label: 'Web', value: displayUrl(b.website) });
-    if (b.instagram) fields.push({ label: 'Instagram', value: '@' + instagramHandle(b.instagram) });
-
-    return fields;
+    if (b.address) {
+      return { badge: false, text: b.address };
+    }
+    return null;
   }
 
   // opts.directions -> afig "Com arribar" (popup del mapa)
@@ -215,18 +230,12 @@
     return actions;
   }
 
-  function renderFieldsHtml(fields, className) {
-    className = className || 'sg-fields';
-    if (!fields.length) return '';
-    var items = fields.map(function (f) {
-      if (f.label) {
-        return '<li class="' + className + '__item"><span class="' + className + '__label">' +
-          escapeHtml(f.label) + '</span><span class="' + className + '__value">' +
-          escapeHtml(f.value) + '</span></li>';
-      }
-      return '<li class="' + className + '__item ' + className + '__item--note">' + escapeHtml(f.value) + '</li>';
-    }).join('');
-    return '<ul class="' + className + '">' + items + '</ul>';
+  function renderAddressHtml(info, className) {
+    if (!info) return '';
+    if (info.badge) {
+      return '<p class="' + className + '"><span class="sg-badge sg-badge--no-location">' + escapeHtml(info.text) + '</span></p>';
+    }
+    return '<p class="' + className + '">' + escapeHtml(info.text) + '</p>';
   }
 
   function renderActionsHtml(actions) {
@@ -329,9 +338,9 @@
 
       var body = document.createElement('div');
       body.className = 'sg-accordion__body';
-      var fields = getBusinessFields(b);
+      var addressInfo = getAddressInfo(b, true);
       var actions = getBusinessActions(b, {});
-      body.innerHTML = renderFieldsHtml(fields, 'sg-accordion__fields') +
+      body.innerHTML = renderAddressHtml(addressInfo, 'sg-accordion__address') +
         (actions.length ? '<div class="sg-accordion__actions">' + renderActionsHtml(actions) + '</div>' : '');
       details.appendChild(body);
 
@@ -349,13 +358,17 @@
       article.id = 'sg-card-' + b.id;
       article.setAttribute('role', 'listitem');
 
-      var fields = getBusinessFields(b);
+      var addressInfo = getAddressInfo(b, false);
       var actions = getBusinessActions(b, { showOnMapButton: true });
 
       article.innerHTML =
+        '<div class="sg-card__top">' +
+        '<span class="sg-card__icon">' + getCategoryIconSvg(b.category) + '</span>' +
+        '<div class="sg-card__heading">' +
         '<p class="sg-card__eyebrow">' + escapeHtml(getCategoryLabel(b.category)) + '</p>' +
         '<h3 class="sg-card__name">' + escapeHtml(b.name) + '</h3>' +
-        renderFieldsHtml(fields, 'sg-card__fields') +
+        '</div></div>' +
+        renderAddressHtml(addressInfo, 'sg-card__address') +
         (actions.length ? '<div class="sg-card__actions">' + renderActionsHtml(actions) + '</div>' : '');
 
       container.appendChild(article);
@@ -405,7 +418,7 @@
 
   function getAccentColor() {
     var value = getComputedStyle(document.getElementById('sg-guia')).getPropertyValue('--sg-accent');
-    return value ? value.trim() : '#0b5fa5';
+    return value ? value.trim() : '#c8242a';
   }
 
   function initMap() {
@@ -478,12 +491,12 @@
   }
 
   function buildPopupHtml(b) {
-    var fields = getBusinessFields(b);
+    var addressInfo = getAddressInfo(b, false);
     var actions = getBusinessActions(b, { directions: true });
     return '<div class="sg-popup">' +
       '<p class="sg-popup__eyebrow">' + escapeHtml(getCategoryLabel(b.category)) + '</p>' +
       '<h3 class="sg-popup__name">' + escapeHtml(b.name) + '</h3>' +
-      renderFieldsHtml(fields, 'sg-popup__fields') +
+      renderAddressHtml(addressInfo, 'sg-popup__address') +
       (actions.length ? '<div class="sg-popup__actions">' + renderActionsHtml(actions) + '</div>' : '') +
       '</div>';
   }
