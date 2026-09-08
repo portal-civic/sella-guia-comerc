@@ -8,9 +8,12 @@
   Llenguatge visual adaptat del prototip de referència (reference/): cerca,
   filtres tipus píndola, targetes arredonides, ombres suaus, icones
   circulars i bloc de contacte final. S'hi afig un sistema de colors per
-  categoria (--sg-cat-*) i una tipografia d'accent editorial per als
-  titulars, mantenint el roig institucional #c8242a com a accent global
-  secundari (Totes, enllaços, focus).
+  categoria (--sg-cat-*), mantenint el roig institucional #c8242a com a
+  accent global secundari (Totes, enllaços, focus).
+
+  Tipografia: una única família sans-serif contemporània (Manrope) per a
+  tot el component — titulars, cos, controls i targetes. La personalitat
+  visual prové de l'escala, el pes i l'espaiat, no d'una lletra decorativa.
 */
 
 .sg-guia {
@@ -77,18 +80,22 @@
   --sg-space-lg: 1.5rem;    /* 24px */
   --sg-space-xl: 2rem;      /* 32px */
   --sg-space-2xl: 3rem;     /* 48px */
-  --sg-space-3xl: 3.5rem;   /* 56px */
+  --sg-space-3xl: 3.25rem;  /* 52px — separació entre seccions majors */
 
-  /* Tipografia d'accent editorial (només H1/H2) + escala tipogràfica */
-  --sg-font-display: 'Fraunces', Georgia, 'Times New Roman', serif;
-  --sg-fs-h1: clamp(2.2rem, 1.9rem + 1.4vw, 3rem);
-  --sg-fs-h2: clamp(1.375rem, 1.3rem + 0.3vw, 1.5rem);
+  /* Ritme vertical específic per a transicions concretes de la pàgina */
+  --sg-space-controls-map: 2.25rem;  /* 36px — controls -> mapa */
+  --sg-space-unlocated-cta: 2.75rem; /* 44px — sense localització -> bloc final */
+
+  /* Tipografia: una única família sans-serif per a tot el component */
+  --sg-font-family: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --sg-fs-h1: clamp(2.1rem, 1.7rem + 2vw, 3rem);
+  --sg-fs-h2: clamp(1.5rem, 1.42rem + 0.4vw, 1.75rem);
   --sg-fs-lead: 1.0625rem;
   --sg-fs-body: 1rem;
   --sg-fs-name: 1.0625rem;
   --sg-fs-meta: 0.8125rem;
 
-  font-family: inherit;
+  font-family: var(--sg-font-family);
   color: var(--sg-text);
   background: var(--sg-bg);
   line-height: 1.6;
@@ -132,13 +139,12 @@
 }
 
 .sg-guia__title {
-  font-family: var(--sg-font-display);
   font-size: var(--sg-fs-h1);
-  line-height: 1.08;
+  line-height: 1.07;
   max-width: 700px;
-  margin: 0 0 var(--sg-space-sm);
-  font-weight: 600;
-  letter-spacing: -0.01em;
+  margin: 0;
+  font-weight: 800;
+  letter-spacing: -0.02em;
 }
 
 .sg-guia__lead {
@@ -155,7 +161,7 @@
   display: flex;
   flex-direction: column;
   gap: var(--sg-space-md);
-  margin-bottom: var(--sg-space-3xl);
+  margin-bottom: var(--sg-space-controls-map);
 }
 
 .sg-guia__search {
@@ -164,7 +170,7 @@
 
 .sg-guia__search-input {
   width: 100%;
-  min-height: 46px;
+  min-height: 48px;
   padding: var(--sg-space-xs) var(--sg-space-md);
   font: inherit;
   font-size: var(--sg-fs-body);
@@ -201,11 +207,11 @@
 .sg-filter {
   --sg-filter-accent: var(--sg-accent);
   flex: 0 0 auto;
-  min-height: 42px;
-  padding: 0.625rem 1.125rem;
+  min-height: 44px;
+  padding: 0.625rem 1.25rem;
   font: inherit;
   font-size: 0.9375rem;
-  font-weight: 700;
+  font-weight: 600;
   color: var(--sg-text);
   background: var(--sg-bg);
   border: 1px solid var(--sg-border);
@@ -273,6 +279,7 @@
 .sg-guia__section--unlocated {
   background: var(--sg-section-unlocated-bg);
   border: 1px solid var(--sg-section-unlocated-border);
+  margin-bottom: var(--sg-space-unlocated-cta);
 }
 
 .sg-guia__section-head {
@@ -281,11 +288,10 @@
 }
 
 .sg-guia__section-title {
-  font-family: var(--sg-font-display);
   font-size: var(--sg-fs-h2);
-  line-height: 1.25;
-  margin: 0 0 var(--sg-space-2xs);
-  font-weight: 600;
+  line-height: 1.2;
+  margin: 0 0 0.375rem;
+  font-weight: 700;
   letter-spacing: -0.01em;
 }
 
@@ -416,9 +422,11 @@
 
 .sg-card__eyebrow,
 .sg-popup__eyebrow {
-  margin: 0 0 0.15rem;
-  font-size: 0.8125rem;
+  margin: 0 0 0.2rem;
+  font-size: 0.75rem;
   font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
   color: var(--sg-card-accent);
 }
 
@@ -489,10 +497,9 @@
 }
 
 .sg-guia__cta-title {
-  font-family: var(--sg-font-display);
   margin: 0 0 var(--sg-space-2xs);
   font-size: 1.25rem;
-  font-weight: 600;
+  font-weight: 700;
   letter-spacing: -0.01em;
 }
 
