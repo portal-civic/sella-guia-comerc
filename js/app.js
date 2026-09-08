@@ -261,6 +261,12 @@
     });
   }
 
+  // Activitats amb localització fixa que compleixen els filtres actius: és
+  // l'únic conjunt que ha d'aparèixer al mapa i al directori principal.
+  function getLocatedFilteredBusinesses() {
+    return getFilteredBusinesses().filter(function (b) { return !isNoFixedLocation(b); });
+  }
+
   /* ---------- Render ---------- */
 
   function categoryAccentVar(id) {
@@ -293,11 +299,17 @@
 
   function renderAll() {
     var filtered = getFilteredBusinesses();
+    // El directori principal ("Activitats amb localització") i la secció
+    // d'activitats sense localització fixa són conjunts disjunts: cada
+    // activitat apareix en un i només un dels dos, mai en tots dos alhora.
+    var unlocated = filtered.filter(isNoFixedLocation);
+    var located = filtered.filter(function (b) { return !isNoFixedLocation(b); });
+
     renderSummary(filtered);
-    renderNoResults(filtered);
-    renderDirectory(filtered);
-    renderUnlocated(filtered.filter(isNoFixedLocation));
-    renderMapMarkers(filtered);
+    renderNoResults(located);
+    renderDirectory(located);
+    renderUnlocated(unlocated);
+    renderMapMarkers(located);
   }
 
   function renderSummary(list) {
@@ -433,7 +445,7 @@
     state.map.addControl(new maplibregl.NavigationControl({ showCompass: false }), 'top-right');
 
     state.map.on('load', function () {
-      renderMapMarkers(getFilteredBusinesses());
+      renderMapMarkers(getLocatedFilteredBusinesses());
     });
 
     if (basemapSelect) {
@@ -441,7 +453,7 @@
         var style = BASEMAP_STYLES[basemapSelect.value] || BASEMAP_STYLES.light;
         state.map.setStyle(style);
         state.map.once('styledata', function () {
-          renderMapMarkers(getFilteredBusinesses());
+          renderMapMarkers(getLocatedFilteredBusinesses());
         });
       });
     }

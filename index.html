@@ -38,7 +38,10 @@
   <div class="sg-guia__controls">
     <div class="sg-guia__search">
       <label for="sg-search" class="sg-visually-hidden">Cercar per nom, categoria, adreça, telèfon, email, web o Instagram</label>
-      <input type="search" id="sg-search" class="sg-guia__search-input" placeholder="Cerca una activitat…" autocomplete="off">
+      <div class="sg-guia__search-field">
+        <svg class="sg-guia__search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.35-4.35"/></svg>
+        <input type="search" id="sg-search" class="sg-guia__search-input" placeholder="Cerca una activitat…" autocomplete="off">
+      </div>
     </div>
 
     <div id="sg-filters" class="sg-guia__filters" role="group" aria-label="Filtra per categoria">
@@ -76,8 +79,8 @@
 
   <section class="sg-guia__section sg-guia__section--directory" aria-labelledby="sg-directory-title">
     <div class="sg-guia__section-head">
-      <h2 id="sg-directory-title" class="sg-guia__section-title">Totes les activitats</h2>
-      <p class="sg-guia__section-text">Consulta les dades disponibles de comerços, empreses, professionals i serveis de Sella.</p>
+      <h2 id="sg-directory-title" class="sg-guia__section-title">Activitats amb localització</h2>
+      <p class="sg-guia__section-text">Comerços, empreses i professionals amb un lloc fix d'atenció al públic a Sella.</p>
     </div>
     <p id="sg-no-results" class="sg-guia__no-results" role="status" hidden>No s'ha trobat cap activitat amb aquests criteris de cerca.</p>
     <div id="sg-directory" class="sg-cards" role="list"></div>
