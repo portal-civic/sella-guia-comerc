@@ -26,8 +26,8 @@
   hereta la tipografia real de sella.es un cop incrustat a la pàgina.
   Com que aquest document standalone no té eixe CSS del tema municipal,
   ací simulem manualment la mateixa base tipogràfica inspeccionada en viu
-  a sella.es (cos: -apple-system…, 17px, línia 25.5px, color #222) perquè
-  la previsualització es veja representativa. Aquest bloc <style>, i el
+  a sella.es (cos: -apple-system…, 17px, línia 1.5, color #222) perquè la
+  previsualització es veja representativa. Aquest bloc <style>, i el
   contenidor .sg-preview-column de més avall, NO formen part del
   marcatge que s'ha d'inserir a WordPress.
 -->
@@ -44,15 +44,16 @@
      (.grid-container { max-width:1400px }, padding 40px / 30px en mòbil),
      perquè es puga jutjar com es comportarà el component real dins d'eixe
      espai. El component en si (#sg-guia) es manté a width:100% i sense
-     max-width propi. */
+     max-width propi — les franges de color de secció ompliran eixa
+     amplada completa, no la del viewport del navegador. */
   .sg-preview-column {
     max-width: 1400px;
     margin-inline: auto;
-    padding: 40px;
+    padding: 0 40px;
   }
   @media (max-width: 768px) {
     .sg-preview-column {
-      padding: 30px;
+      padding: 0 30px;
     }
   }
 </style>
@@ -71,80 +72,114 @@
   del contingut de la pàgina de sella.es (WordPress ja aporta la
   capçalera, navegació, hero, breadcrumb, títol de pàgina i peu; aquest
   component NO els recrea).
+
+  L'ESTRUCTURA EN "FRANGES" (.sg-band) és deliberada: reprodueix el
+  llenguatge de seccions del web municipal (blocs de fons alterns +
+  separadors corbats/diagonals puntuals). Cada franja ocupa el 100% de
+  l'amplada que li done WordPress; no hi ha cap max-width propi.
   ========================================================================
 -->
 <main>
 
 <section id="sg-guia" class="sg-guia" aria-labelledby="sg-guia-title">
 
-  <!--
-    NOMÉS PREVISUALITZACIÓ: en producció, el títol H1 i el breadcrumb ja
-    els proporciona la plantilla de WordPress (p. ex. "Guia comercial i
-    de serveis"). ELIMINEU AQUEST <header> SENCER en incrustar el
-    component — la guia real ha de començar directament pel paràgraf
-    d'introducció que hi ha tot seguit.
-  -->
-  <header class="sg-guia__preview-header">
-    <h1 id="sg-guia-title" class="sg-guia__title">Guia de comerços, empreses i serveis de Sella</h1>
-  </header>
-  <!-- FI DEL BLOC NOMÉS-PREVISUALITZACIÓ -->
+  <!-- ===== FRANGE A — gris clar: intro + cercador + filtres + resum ===== -->
+  <div class="sg-band sg-band--grey">
 
-  <p class="sg-guia__lead">Troba comerços, empreses, professionals i serveis del municipi i consulta les seues dades de contacte i ubicació.</p>
+    <!--
+      NOMÉS PREVISUALITZACIÓ: en producció, el títol H1 i el breadcrumb ja
+      els proporciona la plantilla de WordPress (p. ex. "Guia comercial i
+      de serveis"). ELIMINEU AQUEST <header> SENCER en incrustar el
+      component — la guia real ha de començar directament pel paràgraf
+      d'introducció que hi ha tot seguit.
+    -->
+    <header class="sg-guia__preview-header">
+      <h1 id="sg-guia-title" class="sg-guia__title">Guia de comerços, empreses i serveis de Sella</h1>
+    </header>
+    <!-- FI DEL BLOC NOMÉS-PREVISUALITZACIÓ -->
 
-  <div class="sg-guia__controls">
-    <div class="sg-guia__search">
-      <label for="sg-search" class="sg-visually-hidden">Cercar per nom, categoria, adreça, telèfon, email, web o Instagram</label>
-      <div class="sg-guia__search-field">
-        <svg class="sg-guia__search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.35-4.35"/></svg>
-        <input type="search" id="sg-search" class="sg-guia__search-input" placeholder="Cerca una activitat…" autocomplete="off">
+    <p class="sg-guia__lead">Troba comerços, empreses, professionals i serveis del municipi i consulta les seues dades de contacte i ubicació.</p>
+
+    <div class="sg-guia__controls">
+      <div class="sg-guia__search">
+        <label for="sg-search" class="sg-visually-hidden">Cercar per nom, categoria, adreça, telèfon, email, web o Instagram</label>
+        <div class="sg-guia__search-field">
+          <svg class="sg-guia__search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.35-4.35"/></svg>
+          <input type="search" id="sg-search" class="sg-guia__search-input" placeholder="Cerca una activitat…" autocomplete="off">
+        </div>
       </div>
+
+      <div id="sg-filters" class="sg-guia__filters" role="group" aria-label="Filtra per categoria">
+        <!-- Botons generats per JS a partir de la configuració de categories -->
+      </div>
+
+      <p id="sg-summary" class="sg-guia__summary" role="status" aria-live="polite">Carregant activitats…</p>
     </div>
 
-    <div id="sg-filters" class="sg-guia__filters" role="group" aria-label="Filtra per categoria">
-      <!-- Botons generats per JS a partir de la configuració de categories -->
-    </div>
-
-    <p id="sg-summary" class="sg-guia__summary" role="status" aria-live="polite">Carregant activitats…</p>
+    <div id="sg-load-error" class="sg-guia__error" role="alert" hidden></div>
   </div>
 
-  <div id="sg-load-error" class="sg-guia__error" role="alert" hidden></div>
+  <!-- Separador corbat: gris -> blanc -->
+  <div class="sg-band-transition sg-band-transition--curve" aria-hidden="true" style="--sg-transition-bg:#F3F3F3; --sg-transition-fill:#FFFFFF;">
+    <svg viewBox="0 0 1440 60" preserveAspectRatio="none"><path d="M0,60 C360,4 1080,4 1440,60 L1440,60 L0,60 Z"/></svg>
+  </div>
 
-  <section class="sg-guia__section sg-guia__section--map" aria-labelledby="sg-map-title">
-    <div class="sg-guia__section-head">
-      <h2 id="sg-map-title" class="sg-guia__section-title">Mapa d'activitats</h2>
-      <p class="sg-guia__section-text">Consulta al mapa les activitats amb localització pública.</p>
-    </div>
+  <!-- ===== FRANGE B — blanc: mapa + directori amb localització ===== -->
+  <div class="sg-band sg-band--white">
 
-    <div class="sg-guia__map-wrap">
-      <!-- El selector de base cartogràfica (L.control.layers) l'afig Leaflet
-           directament dins d'aquest contenidor; ací no cal cap marcatge. -->
-      <div id="sg-map" class="sg-guia__map" role="region" aria-label="Mapa d'activitats de Sella"></div>
-      <p id="sg-map-note" class="sg-guia__map-note" role="status" hidden></p>
-    </div>
-  </section>
+    <section class="sg-guia__section sg-guia__section--map" aria-labelledby="sg-map-title">
+      <div class="sg-guia__section-head">
+        <h2 id="sg-map-title" class="sg-guia__section-title">Mapa d'activitats</h2>
+        <p class="sg-guia__section-text">Consulta al mapa les activitats amb localització pública.</p>
+      </div>
 
-  <section class="sg-guia__section sg-guia__section--directory" aria-labelledby="sg-directory-title">
-    <div class="sg-guia__section-head">
-      <h2 id="sg-directory-title" class="sg-guia__section-title">Activitats amb localització</h2>
-      <p class="sg-guia__section-text">Comerços, empreses i professionals amb un lloc fix d'atenció al públic a Sella.</p>
-    </div>
-    <p id="sg-no-results" class="sg-guia__no-results" role="status" hidden>No s'ha trobat cap activitat amb aquests criteris de cerca.</p>
-    <div id="sg-directory" class="sg-cards" role="list"></div>
-  </section>
+      <div class="sg-guia__map-wrap">
+        <!-- El selector de base cartogràfica (L.control.layers) l'afig Leaflet
+             directament dins d'aquest contenidor; ací no cal cap marcatge. -->
+        <div id="sg-map" class="sg-guia__map" role="region" aria-label="Mapa d'activitats de Sella"></div>
+        <p id="sg-map-note" class="sg-guia__map-note" role="status" hidden></p>
+      </div>
+    </section>
 
-  <section class="sg-guia__section sg-guia__section--unlocated" aria-labelledby="sg-unlocated-title">
-    <div class="sg-guia__section-head">
-      <h2 id="sg-unlocated-title" class="sg-guia__section-title">Activitats sense localització fixa</h2>
-      <p class="sg-guia__section-text">Professionals i empreses que presten serveis sense un lloc fix d'atenció al públic.</p>
-    </div>
-    <p id="sg-unlocated-empty" class="sg-guia__empty-note" hidden>No hi ha activitats sense localització fixa amb aquests criteris.</p>
-    <div id="sg-unlocated" class="sg-cards" role="list"></div>
-  </section>
+    <section class="sg-guia__section sg-guia__section--directory" aria-labelledby="sg-directory-title">
+      <div class="sg-guia__section-head">
+        <h2 id="sg-directory-title" class="sg-guia__section-title">Activitats amb localització</h2>
+        <p class="sg-guia__section-text">Comerços, empreses i professionals amb un lloc fix d'atenció al públic a Sella.</p>
+      </div>
+      <p id="sg-no-results" class="sg-guia__no-results" role="status" hidden>No s'ha trobat cap activitat amb aquests criteris de cerca.</p>
+      <div id="sg-directory" class="sg-cards" role="list"></div>
+    </section>
+  </div>
 
-  <aside class="sg-guia__cta">
-    <h2 class="sg-guia__cta-title">Vols actualitzar les dades de la teua activitat?</h2>
-    <p class="sg-guia__cta-text">Si detectes alguna informació incorrecta o incompleta, contacta amb l'Ajuntament de Sella.</p>
-  </aside>
+  <!-- Separador corbat: blanc -> verd pàl·lid -->
+  <div class="sg-band-transition sg-band-transition--curve" aria-hidden="true" style="--sg-transition-bg:#FFFFFF; --sg-transition-fill:#E3EDEB;">
+    <svg viewBox="0 0 1440 60" preserveAspectRatio="none"><path d="M0,60 C360,4 1080,4 1440,60 L1440,60 L0,60 Z"/></svg>
+  </div>
+
+  <!-- ===== FRANGE C — verd pàl·lid: activitats sense localització fixa ===== -->
+  <div class="sg-band sg-band--pale-green">
+    <section class="sg-guia__section sg-guia__section--unlocated" aria-labelledby="sg-unlocated-title">
+      <div class="sg-guia__section-head">
+        <h2 id="sg-unlocated-title" class="sg-guia__section-title">Activitats sense localització fixa</h2>
+        <p class="sg-guia__section-text">Professionals i empreses que presten serveis sense un lloc fix d'atenció al públic.</p>
+      </div>
+      <p id="sg-unlocated-empty" class="sg-guia__empty-note" hidden>No hi ha activitats sense localització fixa amb aquests criteris.</p>
+      <div id="sg-unlocated" class="sg-cards" role="list"></div>
+    </section>
+  </div>
+
+  <!-- Separador diagonal, més marcat: verd pàl·lid -> verd fosc (CTA) -->
+  <div class="sg-band-transition sg-band-transition--diagonal" aria-hidden="true" style="--sg-transition-bg:#E3EDEB; --sg-transition-fill:#106758;">
+    <svg viewBox="0 0 1440 60" preserveAspectRatio="none"><path d="M0,60 L1440,4 L1440,60 L0,60 Z"/></svg>
+  </div>
+
+  <!-- ===== FRANGE D — verd fosc: crida final a l'acció ===== -->
+  <div class="sg-band sg-band--dark-green">
+    <aside class="sg-guia__cta">
+      <h2 class="sg-guia__cta-title">Vols actualitzar les dades de la teua activitat?</h2>
+      <p class="sg-guia__cta-text">Si detectes alguna informació incorrecta o incompleta, contacta amb l'Ajuntament de Sella.</p>
+    </aside>
+  </div>
 
 </section>
 
