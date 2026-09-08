@@ -74,6 +74,10 @@
      franja de contingut normal. */
   --sg-band-catnav-pad-y: 2.5rem;    /* 40px desktop (38-42 objectiu) */
   --sg-band-catnav-pad-y-sm: 1.75rem; /* 28px mòbil (24-32 objectiu) */
+  /* La franja "sense localització fixa" sol tindre poques targetes (7):
+     un pel menys de padding evita que es vega desproporcionadament alta. */
+  --sg-band-unlocated-pad-y: 2.75rem;    /* 44px desktop (-12px) */
+  --sg-band-unlocated-pad-y-sm: 1.5rem;  /* 24px mòbil (-8px) */
 
   /* Amplada i coixí horitzontal del contenidor intern de cada franja */
   --sg-band-inner-max-width: 1400px;
@@ -81,9 +85,9 @@
   --sg-band-inner-pad-x-lg: 1.75rem; /* 28px desktop */
 
   /* Ritme vertical intern */
-  --sg-space-title-intro: 1rem;      /* 16px */
+  --sg-space-title-intro: 1.375rem;  /* 22px (+6px per a més aire sota el títol) */
   --sg-space-intro-search: 2.25rem;  /* 36px */
-  --sg-space-map-directory: 3.5rem;  /* 56px — mapa -> directori (mateixa franja) */
+  --sg-space-map-directory: 2.5rem;  /* 40px — mapa -> cerca (-16px, transició més connectada) */
 
   /* Escala tipogràfica — base 17px/1.5 (real, sella.es). Pesos
      principalment 400/500/600; mai 700/800 llevat de necessitat real. */
@@ -213,6 +217,13 @@
 
 .sg-band--pale-green {
   background: var(--sg-pale-green);
+  padding: var(--sg-band-unlocated-pad-y-sm) 0;
+}
+
+@media (min-width: 600px) {
+  .sg-band--pale-green {
+    padding: var(--sg-band-unlocated-pad-y) 0;
+  }
 }
 
 .sg-band--dark-green {
@@ -269,7 +280,7 @@
    resum de resultats, en columna. */
 
 .sg-guia__search-tools {
-  margin-bottom: 4rem; /* 64px — una mica més d'aire abans del directori */
+  margin-bottom: 2rem; /* 32px — clar però no excessiu abans del directori */
 }
 
 .sg-guia__search-heading {
@@ -403,13 +414,20 @@
   }
 }
 
-/* A partir d'ample gran: les 8 categories caben en una sola fila. Menys
-   espai horitzontal entre elements perquè es llija com un sol grup
-   compacte de navegació, no disperses per tota la pantalla. */
+/* A partir d'ample gran: les 8 categories caben en una sola fila. En
+   compte d'una graella que estire cada element a 1/8 de l'amplada total
+   (massa separades entre si), es passa a flex amb amplada natural i
+   centrat: el grup es llig compacte i intencionat, no dispers per tota
+   la franja. */
 @media (min-width: 1200px) {
   .sg-catnav {
-    grid-template-columns: repeat(8, 1fr);
+    display: flex;
+    justify-content: center;
     gap: 0.25rem;
+  }
+
+  .sg-catnav__item {
+    flex: 0 0 auto;
   }
 }
 
@@ -733,7 +751,7 @@
 .sg-action--secondary {
   display: inline-flex;
   align-items: center;
-  min-height: 38px;
+  min-height: 40px;
   padding: 0 0.875rem;
   font: inherit;
   font-size: var(--sg-fs-control);
@@ -806,7 +824,7 @@
   }
 
   .sg-guia__search {
-    width: min(500px, 100%);
+    width: min(560px, 100%);
   }
 }
 
