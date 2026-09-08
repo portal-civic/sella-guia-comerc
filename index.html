@@ -26,10 +26,15 @@
   hereta la tipografia real de sella.es un cop incrustat a la pàgina.
   Com que aquest document standalone no té eixe CSS del tema municipal,
   ací simulem manualment la mateixa base tipogràfica inspeccionada en viu
-  a sella.es (cos: -apple-system…, 17px, línia 1.5, color #222) perquè la
-  previsualització es veja representativa. Aquest bloc <style>, i el
-  contenidor .sg-preview-column de més avall, NO formen part del
-  marcatge que s'ha d'inserir a WordPress.
+  a sella.es (cos: -apple-system…, 17px, línia 1.5, color #222). Aquest
+  bloc <style> NO forma part del marcatge que s'ha d'inserir a WordPress.
+
+  Nota: ja NO cal cap contenidor ".sg-preview-column" que simule l'amplada
+  de la columna de contingut, perquè ara cada franja (.sg-band) gestiona
+  ella mateixa el seu propi contenidor intern (.sg-band__inner) — la
+  previsualització standalone mostra doncs, correctament, les franges de
+  color a amplada completa de finestra, exactament com es veurien
+  incrustades a sella.es.
 -->
 <style>
   body {
@@ -40,31 +45,11 @@
     font-size: 17px;
     line-height: 1.5;
   }
-  /* Simula únicament l'amplada de la columna de contingut de sella.es
-     (.grid-container { max-width:1400px }, padding 40px / 30px en mòbil),
-     perquè es puga jutjar com es comportarà el component real dins d'eixe
-     espai. El component en si (#sg-guia) es manté a width:100% i sense
-     max-width propi — les franges de color de secció ompliran eixa
-     amplada completa, no la del viewport del navegador. */
-  .sg-preview-column {
-    max-width: 1400px;
-    margin-inline: auto;
-    padding: 0 40px;
-  }
-  @media (max-width: 768px) {
-    .sg-preview-column {
-      padding: 0 30px;
-    }
-  }
 </style>
 <!-- ==================== FI DEL BLOC EXCLUSIU DE PREVISUALITZACIÓ ==================== -->
 
 </head>
 <body>
-
-<!-- ⬇⬇⬇ NOMÉS PREVISUALITZACIÓ — simula la columna de contingut de WordPress; no incrustar ⬇⬇⬇ -->
-<div class="sg-preview-column">
-<!-- ⬆⬆⬆ FI DEL CONTENIDOR DE PREVISUALITZACIÓ ⬆⬆⬆ -->
 
 <!--
   ========================================================================
@@ -73,20 +58,29 @@
   capçalera, navegació, hero, breadcrumb, títol de pàgina i peu; aquest
   component NO els recrea).
 
-  L'ESTRUCTURA EN "FRANGES" (.sg-band) és deliberada: reprodueix el
-  llenguatge de seccions planes del web municipal (blocs de fons alterns
-  — gris, blanc, verd pàl·lid, verd fosc). El canvi de secció es marca
-  NOMÉS amb el canvi de color de fons i l'espaiat: sense corbes, ones ni
-  diagonals decoratives. Cada franja ocupa el 100% de l'amplada que li
-  done WordPress; no hi ha cap max-width propi.
+  ESTRUCTURA EN FRANGES A AMPLADA COMPLETA (.sg-band): cada franja trenca
+  visualment fora de la columna de contingut de WordPress perquè el seu
+  color de fons òmpliga tota l'amplada de pàgina disponible (vore la
+  tècnica CSS a styles.css). Dins de cada franja, un .sg-band__inner
+  torna a centrar i limitar el contingut (text, mapa, targetes) a una
+  amplada de lectura còmoda amb el mateix coixí horitzontal que la resta
+  del lloc. Sense corbes, ones ni diagonals decoratives enlloc: el ritme
+  ve només del color de fons i de l'espaiat.
+
+  IMPORTANT: la tècnica de "full-bleed" assumeix que la guia s'incrusta
+  en una àrea de contingut d'una sola columna (sense barra lateral
+  adjacent), com és habitual en una pàgina de servei. Si la plantilla de
+  WordPress final col·loca la guia en una columna estreta amb sidebar,
+  revisar aquest comportament manualment.
   ========================================================================
 -->
 <main>
 
 <section id="sg-guia" class="sg-guia" aria-labelledby="sg-guia-title">
 
-  <!-- ===== FRANGE A — gris clar: intro + cercador + filtres + resum ===== -->
+  <!-- ===== FRANGE A — gris clar: títol + intro + cercador + categories + resum ===== -->
   <div class="sg-band sg-band--grey">
+   <div class="sg-band__inner">
 
     <!--
       NOMÉS PREVISUALITZACIÓ: en producció, el títol H1 i el breadcrumb ja
@@ -119,10 +113,12 @@
     </div>
 
     <div id="sg-load-error" class="sg-guia__error" role="alert" hidden></div>
+   </div>
   </div>
 
   <!-- ===== FRANGE B — blanc: mapa + directori amb localització ===== -->
   <div class="sg-band sg-band--white">
+   <div class="sg-band__inner">
 
     <section class="sg-guia__section sg-guia__section--map" aria-labelledby="sg-map-title">
       <div class="sg-guia__section-head">
@@ -146,10 +142,12 @@
       <p id="sg-no-results" class="sg-guia__no-results" role="status" hidden>No s'ha trobat cap activitat amb aquests criteris de cerca.</p>
       <div id="sg-directory" class="sg-cards" role="list"></div>
     </section>
+   </div>
   </div>
 
   <!-- ===== FRANGE C — verd pàl·lid: activitats sense localització fixa ===== -->
   <div class="sg-band sg-band--pale-green">
+   <div class="sg-band__inner">
     <section class="sg-guia__section sg-guia__section--unlocated" aria-labelledby="sg-unlocated-title">
       <div class="sg-guia__section-head">
         <h2 id="sg-unlocated-title" class="sg-guia__section-title">Activitats sense localització fixa</h2>
@@ -158,14 +156,17 @@
       <p id="sg-unlocated-empty" class="sg-guia__empty-note" hidden>No hi ha activitats sense localització fixa amb aquests criteris.</p>
       <div id="sg-unlocated" class="sg-cards" role="list"></div>
     </section>
+   </div>
   </div>
 
   <!-- ===== FRANGE D — verd fosc: crida final a l'acció ===== -->
   <div class="sg-band sg-band--dark-green">
+   <div class="sg-band__inner">
     <aside class="sg-guia__cta">
       <h2 class="sg-guia__cta-title">Vols actualitzar les dades de la teua activitat?</h2>
       <p class="sg-guia__cta-text">Si detectes alguna informació incorrecta o incompleta, contacta amb l'Ajuntament de Sella.</p>
     </aside>
+   </div>
   </div>
 
 </section>
@@ -176,8 +177,6 @@
   FI DEL COMPONENT DE PRODUCCIÓ
   ========================================================================
 -->
-
-</div><!-- /.sg-preview-column (només previsualització) -->
 
 </body>
 </html>
