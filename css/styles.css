@@ -338,8 +338,17 @@
    NAVEGACIÓ DE CATEGORIES (.sg-catnav) — a l'estil de les dreceres
    municipals de sella.es: icona (cercle sòlid + glif blanc) + nom, SENSE
    píndola ni fons darrere de l'element. El nom es manté en el color
-   exacte de categoria; l'estat actiu es marca amb una vora inferior
-   sòlida de 3px del mateix color.
+   exacte de categoria; l'estat actiu es marca amb una barra inferior
+   sòlida de 3px, d'amplada FIXA i centrada — mai depenent de l'amplada
+   del text ni de la columna.
+
+   A partir de tauleta (>=600px) i sobretot en ample gran (>=1200px), els
+   8 elements viuen en una graella d'amplades IGUALS
+   (grid-template-columns: repeat(n, minmax(0, 1fr))): cada categoria
+   ocupa exactament la mateixa fracció d'amplada, independentment de si
+   el seu nom és curt ("Serveis") o llarg ("Construcció i
+   instal·lacions") — un nom llarg simplement fa salt de línia dins de
+   la seua columna en compte d'eixamplar-la.
    ======================================================================== */
 
 .sg-catnav {
@@ -352,6 +361,7 @@
 
 .sg-catnav__item {
   --sg-catnav-accent: var(--sg-dark-green);
+  position: relative;
   flex: 0 0 auto;
   min-width: 92px;
   display: flex;
@@ -359,12 +369,11 @@
   align-items: center;
   justify-content: flex-start;
   gap: 0.5625rem;
-  padding: 0.625rem 0.5rem 0.625rem;
+  padding: 0.625rem 0.5rem 0.8125rem;
   font: inherit;
   color: var(--sg-catnav-accent);
   background: none;
   border: none;
-  border-bottom: 3px solid transparent;
   cursor: pointer;
   text-align: center;
 }
@@ -376,35 +385,55 @@
   align-items: center;
   justify-content: center;
   flex: 0 0 auto;
-  width: 45px;
-  height: 45px;
+  width: 48px;
+  height: 48px;
   border-radius: 50%;
   background: var(--sg-catnav-accent);
   color: var(--sg-white);
 }
 
 .sg-catnav__icon svg {
-  width: 24px;
-  height: 24px;
+  width: 26px;
+  height: 26px;
 }
 
+/* Alçada mínima reservada per a DUES línies de text: així la fila
+   d'icones es manté perfectament alineada encara que alguna etiqueta
+   ("Construcció i instal·lacions") faça salt de línia i altres no. */
 .sg-catnav__label {
+  min-height: 2.75rem;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
   font-size: var(--sg-fs-catnav-label);
   font-weight: 600;
   line-height: 1.25;
   color: inherit;
 }
 
-.sg-catnav__item:hover,
-.sg-catnav__item.is-active {
-  border-bottom-color: var(--sg-catnav-accent);
+/* Indicador d'actiu: barra fixa i centrada, independent del text */
+.sg-catnav__item::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  transform: translateX(-50%);
+  width: 32px;
+  height: 3px;
+  background: transparent;
 }
 
-/* De tauleta fins a ample mitjà: graella de 4 columnes (2 files de 4). */
+.sg-catnav__item:hover::after,
+.sg-catnav__item.is-active::after {
+  background: var(--sg-catnav-accent);
+}
+
+/* De tauleta fins a ample mitjà: graella de 4 columnes (2 files de 4),
+   totes d'amplada igual. */
 @media (min-width: 600px) {
   .sg-catnav {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(4, minmax(0, 1fr));
     overflow-x: visible;
     gap: 1.125rem 0.75rem;
   }
@@ -414,20 +443,12 @@
   }
 }
 
-/* A partir d'ample gran: les 8 categories caben en una sola fila. En
-   compte d'una graella que estire cada element a 1/8 de l'amplada total
-   (massa separades entre si), es passa a flex amb amplada natural i
-   centrat: el grup es llig compacte i intencionat, no dispers per tota
-   la franja. */
+/* A partir d'ample gran: les 8 categories caben en una sola fila, totes
+   equidistants (graella real, no flex d'amplada segons contingut). */
 @media (min-width: 1200px) {
   .sg-catnav {
-    display: flex;
-    justify-content: center;
-    gap: 0.25rem;
-  }
-
-  .sg-catnav__item {
-    flex: 0 0 auto;
+    grid-template-columns: repeat(8, minmax(0, 1fr));
+    gap: 0.5rem;
   }
 }
 
