@@ -263,6 +263,10 @@
 
   /* ---------- Render ---------- */
 
+  function categoryAccentVar(id) {
+    return id === 'all' ? 'var(--sg-accent)' : 'var(--sg-cat-' + id + ', var(--sg-accent))';
+  }
+
   function renderFilters() {
     var container = document.getElementById('sg-filters');
     container.innerHTML = '';
@@ -271,6 +275,7 @@
       btn.type = 'button';
       btn.className = 'sg-filter' + (f.id === state.activeCategory ? ' is-active' : '');
       btn.dataset.category = f.id;
+      btn.style.setProperty('--sg-filter-accent', categoryAccentVar(f.id));
       btn.setAttribute('aria-pressed', f.id === state.activeCategory ? 'true' : 'false');
       btn.textContent = f.label;
       container.appendChild(btn);
@@ -290,8 +295,8 @@
     var filtered = getFilteredBusinesses();
     renderSummary(filtered);
     renderNoResults(filtered);
-    renderAccordion(filtered.filter(isNoFixedLocation));
     renderDirectory(filtered);
+    renderUnlocated(filtered.filter(isNoFixedLocation));
     renderMapMarkers(filtered);
   }
 
@@ -313,65 +318,46 @@
     el.hidden = list.length !== 0;
   }
 
-  function renderAccordion(list) {
-    var container = document.getElementById('sg-accordion');
-    container.innerHTML = '';
+  // Constructor de targeta compartit pel directori principal i per la
+  // secció d'activitats sense localització fixa (mateix sistema visual).
+  function buildCardEl(b) {
+    var article = document.createElement('article');
+    article.className = 'sg-card';
+    article.id = 'sg-card-' + b.id;
+    article.setAttribute('role', 'listitem');
+    article.style.setProperty('--sg-card-accent', categoryAccentVar(b.category));
 
-    if (list.length === 0) {
-      var empty = document.createElement('p');
-      empty.className = 'sg-guia__empty-note';
-      empty.textContent = 'No hi ha serveis sense localització fixa amb aquests criteris.';
-      container.appendChild(empty);
-      return;
-    }
+    var addressInfo = getAddressInfo(b, false);
+    var actions = getBusinessActions(b, { showOnMapButton: true });
 
-    list.forEach(function (b) {
-      var details = document.createElement('details');
-      details.className = 'sg-accordion__item';
-      details.id = 'sg-accordion-' + b.id;
+    article.innerHTML =
+      '<div class="sg-card__top">' +
+      '<span class="sg-card__icon">' + getCategoryIconSvg(b.category) + '</span>' +
+      '<div class="sg-card__heading">' +
+      '<p class="sg-card__eyebrow">' + escapeHtml(getCategoryLabel(b.category)) + '</p>' +
+      '<h3 class="sg-card__name">' + escapeHtml(b.name) + '</h3>' +
+      '</div></div>' +
+      renderAddressHtml(addressInfo, 'sg-card__address') +
+      (actions.length ? '<div class="sg-card__actions">' + renderActionsHtml(actions) + '</div>' : '');
 
-      var summary = document.createElement('summary');
-      summary.className = 'sg-accordion__summary';
-      summary.innerHTML = '<span class="sg-accordion__name">' + escapeHtml(b.name) + '</span>' +
-        '<span class="sg-accordion__category">' + escapeHtml(getCategoryLabel(b.category)) + '</span>';
-      details.appendChild(summary);
-
-      var body = document.createElement('div');
-      body.className = 'sg-accordion__body';
-      var addressInfo = getAddressInfo(b, true);
-      var actions = getBusinessActions(b, {});
-      body.innerHTML = renderAddressHtml(addressInfo, 'sg-accordion__address') +
-        (actions.length ? '<div class="sg-accordion__actions">' + renderActionsHtml(actions) + '</div>' : '');
-      details.appendChild(body);
-
-      container.appendChild(details);
-    });
+    return article;
   }
 
   function renderDirectory(list) {
     var container = document.getElementById('sg-directory');
     container.innerHTML = '';
-
     list.forEach(function (b) {
-      var article = document.createElement('article');
-      article.className = 'sg-card';
-      article.id = 'sg-card-' + b.id;
-      article.setAttribute('role', 'listitem');
+      container.appendChild(buildCardEl(b));
+    });
+  }
 
-      var addressInfo = getAddressInfo(b, false);
-      var actions = getBusinessActions(b, { showOnMapButton: true });
-
-      article.innerHTML =
-        '<div class="sg-card__top">' +
-        '<span class="sg-card__icon">' + getCategoryIconSvg(b.category) + '</span>' +
-        '<div class="sg-card__heading">' +
-        '<p class="sg-card__eyebrow">' + escapeHtml(getCategoryLabel(b.category)) + '</p>' +
-        '<h3 class="sg-card__name">' + escapeHtml(b.name) + '</h3>' +
-        '</div></div>' +
-        renderAddressHtml(addressInfo, 'sg-card__address') +
-        (actions.length ? '<div class="sg-card__actions">' + renderActionsHtml(actions) + '</div>' : '');
-
-      container.appendChild(article);
+  function renderUnlocated(list) {
+    var container = document.getElementById('sg-unlocated');
+    var emptyEl = document.getElementById('sg-unlocated-empty');
+    container.innerHTML = '';
+    emptyEl.hidden = list.length !== 0;
+    list.forEach(function (b) {
+      container.appendChild(buildCardEl(b));
     });
   }
 
@@ -389,10 +375,12 @@
       renderAll();
     });
 
-    document.getElementById('sg-directory').addEventListener('click', function (e) {
-      var btn = e.target.closest('[data-map-target]');
-      if (!btn) return;
-      showOnMap(btn.getAttribute('data-map-target'));
+    ['sg-directory', 'sg-unlocated'].forEach(function (id) {
+      document.getElementById(id).addEventListener('click', function (e) {
+        var btn = e.target.closest('[data-map-target]');
+        if (!btn) return;
+        showOnMap(btn.getAttribute('data-map-target'));
+      });
     });
   }
 
@@ -416,9 +404,10 @@
     };
   }
 
-  function getAccentColor() {
-    var value = getComputedStyle(document.getElementById('sg-guia')).getPropertyValue('--sg-accent');
-    return value ? value.trim() : '#c8242a';
+  function getCategoryColor(id) {
+    var style = getComputedStyle(document.getElementById('sg-guia'));
+    var value = style.getPropertyValue('--sg-cat-' + id);
+    return value.trim() || style.getPropertyValue('--sg-accent').trim() || '#c8242a';
   }
 
   function initMap() {
@@ -467,11 +456,10 @@
     state.markers = {};
 
     var validList = list.filter(hasValidCoords);
-    var accentColor = getAccentColor();
 
     validList.forEach(function (b) {
       var popup = new maplibregl.Popup({ offset: 24, maxWidth: '280px' }).setHTML(buildPopupHtml(b));
-      var marker = new maplibregl.Marker({ color: accentColor })
+      var marker = new maplibregl.Marker({ color: getCategoryColor(b.category) })
         .setLngLat([b.longitude, b.latitude])
         .setPopup(popup)
         .addTo(state.map);
@@ -493,7 +481,7 @@
   function buildPopupHtml(b) {
     var addressInfo = getAddressInfo(b, false);
     var actions = getBusinessActions(b, { directions: true });
-    return '<div class="sg-popup">' +
+    return '<div class="sg-popup" style="--sg-card-accent:' + escapeHtml(categoryAccentVar(b.category)) + '">' +
       '<p class="sg-popup__eyebrow">' + escapeHtml(getCategoryLabel(b.category)) + '</p>' +
       '<h3 class="sg-popup__name">' + escapeHtml(b.name) + '</h3>' +
       renderAddressHtml(addressInfo, 'sg-popup__address') +

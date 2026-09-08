@@ -9,6 +9,12 @@
 <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4/dist/maplibre-gl.css">
 <script defer src="https://unpkg.com/maplibre-gl@4/dist/maplibre-gl.js"></script>
 
+<!-- Tipografia d'accent per als titulars (H1/H2). El cos de text continua
+     usant la família per defecte heretada del lloc amfitrió. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&display=swap" rel="stylesheet">
+
 <link rel="stylesheet" href="css/styles.css">
 <script defer src="js/app.js"></script>
 </head>
@@ -39,19 +45,24 @@
     <div id="sg-filters" class="sg-guia__filters" role="group" aria-label="Filtra per categoria">
       <!-- Botons generats per JS a partir de la configuració de categories -->
     </div>
-  </div>
 
-  <p id="sg-summary" class="sg-guia__summary" role="status" aria-live="polite">Carregant activitats…</p>
+    <p id="sg-summary" class="sg-guia__summary" role="status" aria-live="polite">Carregant activitats…</p>
+  </div>
 
   <div id="sg-load-error" class="sg-guia__error" role="alert" hidden></div>
 
-  <div class="sg-guia__main">
+  <section class="sg-guia__section sg-guia__section--map" aria-labelledby="sg-map-title">
+    <div class="sg-guia__section-head">
+      <h2 id="sg-map-title" class="sg-guia__section-title">Mapa d'activitats</h2>
+      <p class="sg-guia__section-text">Consulta al mapa les activitats amb localització pública.</p>
+    </div>
 
     <div class="sg-guia__map-wrap">
+      <div id="sg-map" class="sg-guia__map" role="region" aria-label="Mapa d'activitats de Sella"></div>
 
-      <!-- SELECTOR DE BASE CARTOGRÀFICA (provisional) — eliminar aquest bloc sencer per traure el selector -->
+      <!-- SELECTOR DE BASE CARTOGRÀFICA (provisional, discret) — eliminar aquest bloc sencer per traure el selector -->
       <div class="sg-guia__map-toolbar">
-        <label for="sg-basemap" class="sg-guia__basemap-label">Estil del mapa</label>
+        <label for="sg-basemap" class="sg-visually-hidden">Estil del mapa</label>
         <select id="sg-basemap" class="sg-guia__basemap-select">
           <option value="light">Clar</option>
           <option value="streets">Carrers</option>
@@ -60,28 +71,32 @@
       </div>
       <!-- /SELECTOR DE BASE CARTOGRÀFICA -->
 
-      <div id="sg-map" class="sg-guia__map" role="region" aria-label="Mapa d'activitats de Sella"></div>
       <p id="sg-map-note" class="sg-guia__map-note" role="status" hidden></p>
     </div>
-
-    <div class="sg-guia__nofixed">
-      <h2 class="sg-guia__section-title">Serveis sense localització fixa</h2>
-      <div id="sg-accordion" class="sg-accordion">
-        <p class="sg-guia__empty-note">Carregant…</p>
-      </div>
-    </div>
-
-  </div>
-
-  <section class="sg-guia__directory" aria-labelledby="sg-directory-title">
-    <h2 id="sg-directory-title" class="sg-guia__section-title">Totes les activitats</h2>
-    <p id="sg-no-results" class="sg-guia__no-results" role="status" hidden>No s'ha trobat cap activitat amb aquests criteris de cerca.</p>
-    <div id="sg-directory" class="sg-directory" role="list"></div>
   </section>
 
-  <footer class="sg-guia__footer">
-    <p>Si detectes alguna dada incorrecta o incompleta, o vols actualitzar la informació de la teua activitat, contacta amb l'Ajuntament de Sella.</p>
-  </footer>
+  <section class="sg-guia__section sg-guia__section--directory" aria-labelledby="sg-directory-title">
+    <div class="sg-guia__section-head">
+      <h2 id="sg-directory-title" class="sg-guia__section-title">Totes les activitats</h2>
+      <p class="sg-guia__section-text">Consulta les dades disponibles de comerços, empreses, professionals i serveis de Sella.</p>
+    </div>
+    <p id="sg-no-results" class="sg-guia__no-results" role="status" hidden>No s'ha trobat cap activitat amb aquests criteris de cerca.</p>
+    <div id="sg-directory" class="sg-cards" role="list"></div>
+  </section>
+
+  <section class="sg-guia__section sg-guia__section--unlocated" aria-labelledby="sg-unlocated-title">
+    <div class="sg-guia__section-head">
+      <h2 id="sg-unlocated-title" class="sg-guia__section-title">Activitats sense localització fixa</h2>
+      <p class="sg-guia__section-text">Professionals i empreses que presten serveis sense un lloc fix d'atenció al públic.</p>
+    </div>
+    <p id="sg-unlocated-empty" class="sg-guia__empty-note" hidden>No hi ha activitats sense localització fixa amb aquests criteris.</p>
+    <div id="sg-unlocated" class="sg-cards" role="list"></div>
+  </section>
+
+  <aside class="sg-guia__cta">
+    <h2 class="sg-guia__cta-title">Vols actualitzar les dades de la teua activitat?</h2>
+    <p class="sg-guia__cta-text">Si detectes alguna dada incorrecta o incompleta, contacta amb l'Ajuntament de Sella.</p>
+  </aside>
 
 </section>
 
