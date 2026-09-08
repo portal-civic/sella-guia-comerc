@@ -27,6 +27,7 @@
   // Icones decoratives per categoria (SVG inline, sense emoji). El nom de la
   // categoria ja apareix sempre com a text, així que la icona és només suport visual.
   var CATEGORY_ICONS = {
+    all: '<rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/>',
     alimentacio: '<path d="M4.5 9h15l-1.6 9.2a2 2 0 0 1-2 1.6H8.1a2 2 0 0 1-2-1.6L4.5 9Z"/><path d="M8.5 9V7a3.5 3.5 0 0 1 7 0v2"/>',
     restauracio: '<path d="M6 2v6a1.5 1.5 0 0 0 3 0V2"/><path d="M7.5 2v20"/><path d="M16.5 2c-1.7 1-2.8 2.9-2.8 5s1.1 4 2.8 5"/><path d="M16.5 2v20"/>',
     allotjaments: '<path d="M3 19v-6a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v2"/><path d="M13 13h6a2 2 0 0 1 2 2v4"/><path d="M2 19h20"/><circle cx="7" cy="11" r="1.3"/>',
@@ -34,6 +35,22 @@
     serveis: '<rect x="3" y="7.5" width="18" height="11" rx="2"/><path d="M8.5 7.5V6a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v1.5"/><path d="M3 12.5h18"/>',
     oci: '<path d="M3 19 9 8l3.8 5.4 2-2.6L21 19H3Z"/>',
     altres: '<path d="M4 9.5V20h16V9.5"/><path d="M2.5 9.5 4 4h16l1.5 5.5"/><path d="M9.5 20v-6h5v6"/>'
+  };
+
+  // Mapa de color exacte per categoria — únicament colors institucionals
+  // de sella.es (verd, roig, blau, groc, gris). Diverses categories
+  // comparteixen expressament el mateix color: no és un sistema de
+  // reconeixement d'un color únic per categoria, sinó la paleta
+  // municipal real reaplicada al directori.
+  var CATEGORY_COLORS = {
+    all: '#106758',
+    alimentacio: '#106758',
+    restauracio: '#c20a01',
+    allotjaments: '#2566d6',
+    construccio: '#b38201',
+    serveis: '#606060',
+    oci: '#2566d6',
+    altres: '#606060'
   };
 
   // Centre aproximat del nucli urbà de Sella (Alacant), i vista per defecte
@@ -128,6 +145,13 @@
     var path = CATEGORY_ICONS[id] || CATEGORY_ICONS.altres;
     return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" ' +
       'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">' + path + '</svg>';
+  }
+
+  // Color exacte de categoria (paleta municipal fixa, sense variants
+  // generades). `all` torna el verd institucional; qualsevol categoria
+  // desconeguda cau al gris neutre.
+  function getCategoryColor(id) {
+    return CATEGORY_COLORS[id] || CATEGORY_COLORS.altres;
   }
 
   function normalizeText(str) {
@@ -255,30 +279,28 @@
 
   /* ---------- Render ---------- */
 
-  // Per als filtres, "Totes" usa el verd institucional (acció principal).
-  // Per a targetes/marcadors/popups, el blau institucional és la reserva
-  // si mai una categoria no tinguera un color propi definit.
-  function categoryAccentVar(id) {
-    return id === 'all' ? 'var(--sg-municipal-green)' : 'var(--sg-cat-' + id + ', var(--sg-municipal-blue))';
-  }
-
+  // Navegació de categories a l'estil de les dreceres municipals de
+  // sella.es: icona + nom, sense píndola ni fons — l'estat actiu es marca
+  // amb una vora inferior sòlida en el mateix color de categoria.
   function renderFilters() {
     var container = document.getElementById('sg-filters');
     container.innerHTML = '';
     CATEGORY_FILTERS.forEach(function (f) {
       var btn = document.createElement('button');
       btn.type = 'button';
-      btn.className = 'sg-filter' + (f.id === state.activeCategory ? ' is-active' : '');
+      btn.className = 'sg-catnav__item' + (f.id === state.activeCategory ? ' is-active' : '');
       btn.dataset.category = f.id;
-      btn.style.setProperty('--sg-filter-accent', categoryAccentVar(f.id));
+      btn.style.setProperty('--sg-catnav-accent', getCategoryColor(f.id));
       btn.setAttribute('aria-pressed', f.id === state.activeCategory ? 'true' : 'false');
-      btn.textContent = f.label;
+      btn.innerHTML =
+        '<span class="sg-catnav__icon">' + getCategoryIconSvg(f.id) + '</span>' +
+        '<span class="sg-catnav__label">' + escapeHtml(f.label) + '</span>';
       container.appendChild(btn);
     });
   }
 
   function updateFilterButtons() {
-    var buttons = document.querySelectorAll('#sg-filters .sg-filter');
+    var buttons = document.querySelectorAll('#sg-filters .sg-catnav__item');
     buttons.forEach(function (btn) {
       var active = btn.dataset.category === state.activeCategory;
       btn.classList.toggle('is-active', active);
@@ -326,7 +348,7 @@
     article.className = 'sg-card';
     article.id = 'sg-card-' + b.id;
     article.setAttribute('role', 'listitem');
-    article.style.setProperty('--sg-card-accent', categoryAccentVar(b.category));
+    article.style.setProperty('--sg-card-accent', getCategoryColor(b.category));
     if (hasValidCoords(b)) {
       article.dataset.bizId = b.id;
     }
@@ -367,7 +389,7 @@
 
   function bindControls() {
     document.getElementById('sg-filters').addEventListener('click', function (e) {
-      var btn = e.target.closest('.sg-filter');
+      var btn = e.target.closest('.sg-catnav__item');
       if (!btn) return;
       state.activeCategory = btn.dataset.category;
       updateFilterButtons();
@@ -412,17 +434,17 @@
 
   /* ---------- Mapa (Leaflet + Leaflet.markercluster) ---------- */
 
-  // Icona de marcador (pin) en forma de gota, en el color de la categoria.
-  // Es construeix amb var(--sg-cat-*) en compte d'un color resolt: com que
-  // l'element es penja dins de #sg-map (descendent de #sg-guia), la cascada
-  // CSS ho resol igual que a les targetes o als filtres.
+  // Marcador de Leaflet: cercle sòlid en el color exacte de categoria amb
+  // el mateix glif SVG de categoria en blanc a dins (currentColor: #fff).
   function buildMarkerIcon(category) {
+    var color = getCategoryColor(category);
     return L.divIcon({
       className: 'sg-marker-icon',
-      html: '<span class="sg-marker-icon__pin" style="--sg-marker-color:' + escapeHtml(categoryAccentVar(category)) + '"></span>',
-      iconSize: [30, 30],
-      iconAnchor: [15, 29],
-      popupAnchor: [0, -26]
+      html: '<span class="sg-marker-icon__pin" style="background:' + escapeHtml(color) + '">' +
+        getCategoryIconSvg(category) + '</span>',
+      iconSize: [32, 32],
+      iconAnchor: [16, 16],
+      popupAnchor: [0, -18]
     });
   }
 
@@ -568,7 +590,7 @@
   function buildPopupHtml(b) {
     var addressInfo = getAddressInfo(b, false);
     var actions = getBusinessActions(b, { directions: true });
-    return '<div class="sg-popup" style="--sg-card-accent:' + escapeHtml(categoryAccentVar(b.category)) + '">' +
+    return '<div class="sg-popup" style="--sg-card-accent:' + escapeHtml(getCategoryColor(b.category)) + '">' +
       '<p class="sg-popup__eyebrow">' + escapeHtml(getCategoryLabel(b.category)) + '</p>' +
       '<h3 class="sg-popup__name">' + escapeHtml(b.name) + '</h3>' +
       renderAddressHtml(addressInfo, 'sg-popup__address') +
