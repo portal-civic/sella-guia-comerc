@@ -1,44 +1,54 @@
 /*
   Guia de comerços, empreses i serveis de Sella
-  Estil pensat per a integrar-se dins del contingut de sella.es (no és una
-  microsite independent). Totes les variables porten el prefix --sg- i
-  només s'apliquen dins de #sg-guia perquè no interferisquen amb el CSS
-  del lloc que allotja aquest component. Per aquest motiu la tipografia
-  s'aplica explícitament a #sg-guia i als seus descendents (incloent-hi
-  controls de formulari) en compte de tocar `html`/`body`, que pertanyen
-  al lloc amfitrió.
+  Component pensat per a incrustar-se dins del contingut de sella.es
+  (WordPress + tema GeneratePress). Totes les regles viuen sota #sg-guia /
+  .sg-guia perquè no interferisquen amb el tema municipal — no es toca
+  `html`, `body`, ni selectors globals (h1, h2, a, button, input...).
 
-  Direcció visual: guia digital editorial i contemporània — no un panell
-  administratiu. Base blanca, vores suaus, ombres lleugeres, un sistema
-  de colors per categoria (--sg-cat-*) usat amb moderació, i el roig
-  institucional #c8242a com a accent global secundari (Totes, enllaços,
-  focus). Tipografia única: Manrope, en tot el component.
+  TIPOGRAFIA: `font-family: inherit` a .sg-guia, perquè hereta la família
+  real de sella.es un cop incrustat (comprovat en viu: -apple-system,
+  system-ui, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color
+  Emoji", "Segoe UI Emoji", "Segoe UI Symbol"; cos 17px/25.5px, #222). La
+  simulació d'eixa base per a la previsualització standalone viu NOMÉS en
+  un <style> inline dins d'index.html, mai ací.
+
+  COLOR: variables --sg-municipal-* extretes directament del CSS calculat
+  de sella.es (:root amb --global-color-8/9/10, --contrast, --base) —
+  vore l'informe de la tasca per a la font exacta de cada valor. El verd
+  i el blau institucionals lideren la interfície; el roig queda reservat
+  a accents puntuals (mai com a color dominant). Els colors de categoria
+  (--sg-cat-*) es mantenen per a reconeixement/filtratge, però només
+  s'apliquen a icones, etiquetes i marcadors — mai com a vora o fons
+  ampli de targeta.
 */
 
 .sg-guia {
-  /* Color base */
+  /* Colors base — extrets del CSS calculat real de sella.es */
   --sg-bg: #ffffff;
-  --sg-text: #1a1a1a;
-  --sg-muted: #5c5f66;
-  --sg-border: #d9dbdf;
-  --sg-soft: #f4f5f6;
-  --sg-accent: #c8242a; /* provisional: substituir pel color corporatiu exacte de sella.es */
+  --sg-text: #222222;      /* --contrast a sella.es */
+  --sg-muted: #575760;     /* --contrast-2 a sella.es */
+  --sg-soft: #f3f3f3;      /* --base a sella.es */
+  /* sella.es usa el mateix #f3f3f3 com a vora d'input, quasi imperceptible
+     sobre blanc; ací s'enfosqueix lleugerament per llegibilitat de les
+     vores interactives (cerca, filtres, targetes, mapa). */
+  --sg-border: #dcdde0;
 
-  /* Variants derivades de --sg-accent (amb reserva estàtica per a navegadors sense color-mix) */
-  --sg-accent-soft: #f7e2e3;
-  --sg-accent-soft: color-mix(in srgb, var(--sg-accent) 14%, white);
-  --sg-accent-pale: #e3aeb0;
-  --sg-accent-pale: color-mix(in srgb, var(--sg-accent) 38%, white);
-  --sg-accent-tint: #fbeeee;
-  --sg-accent-tint: color-mix(in srgb, var(--sg-accent) 6%, white);
-  --sg-accent-ring: rgba(200, 36, 42, .18);
-  --sg-accent-ring: color-mix(in srgb, var(--sg-accent) 18%, transparent);
-  --sg-accent-hover: #a51e23;
-  --sg-accent-hover: color-mix(in srgb, var(--sg-accent) 85%, black);
-  --sg-focus: var(--sg-accent);
+  /* Colors institucionals — valors reals de sella.es (:root del tema) */
+  --sg-municipal-blue: #1e72bd;   /* --global-color-8: h1/h2/h3, enllaços */
+  --sg-municipal-green: #006758;  /* --global-color-10: navegació, marca */
+  --sg-municipal-red: #c30e05;    /* --global-color-9: accent puntual/hover */
+
+  --sg-blue-tint: color-mix(in srgb, var(--sg-municipal-blue) 8%, white);
+  --sg-blue-pale: color-mix(in srgb, var(--sg-municipal-blue) 30%, white);
+  --sg-blue-ring: color-mix(in srgb, var(--sg-municipal-blue) 20%, transparent);
+  --sg-green-tint: color-mix(in srgb, var(--sg-municipal-green) 7%, white);
+  --sg-green-pale: color-mix(in srgb, var(--sg-municipal-green) 28%, white);
+  --sg-green-ring: color-mix(in srgb, var(--sg-municipal-green) 22%, transparent);
+
+  --sg-focus: var(--sg-municipal-green);
 
   /* Sistema de colors per categoria — ús contingut: icona, etiqueta,
-     filtre actiu i futurs marcadors del mapa. Mai com a color dominant. */
+     filtre i marcador. Mai com a color dominant ni vora de targeta. */
   --sg-cat-alimentacio: #1f7a44;
   --sg-cat-restauracio: #b3541f;
   --sg-cat-allotjaments: #1d5a96;
@@ -55,15 +65,15 @@
   --sg-cat-oci-pale: color-mix(in srgb, var(--sg-cat-oci) 12%, white);
   --sg-cat-altres-pale: color-mix(in srgb, var(--sg-cat-altres) 12%, white);
 
-  /* Radis */
-  --sg-radius-sm: 9px;
-  --sg-radius-md: 14px;
-  --sg-radius-lg: 18px;
+  /* Radis — plans, discrets, coherents amb un lloc municipal (no arredonits
+     a l'estil "app") */
+  --sg-radius-sm: 4px;
+  --sg-radius-md: 6px;
   --sg-radius-pill: 999px;
 
-  /* Ombres (subtils, mai pesades) */
-  --sg-shadow-sm: 0 2px 10px rgba(20, 20, 20, .05);
-  --sg-shadow-md: 0 8px 24px rgba(20, 20, 20, .08);
+  /* Ombres quasi imperceptibles — la vora és el recurs principal */
+  --sg-shadow-sm: 0 1px 2px rgba(20, 20, 20, .05);
+  --sg-shadow-md: 0 4px 14px rgba(20, 20, 20, .1);
 
   /* Escala d'espaiat (base 8px) */
   --sg-space-2xs: 0.25rem;  /* 4px */
@@ -74,42 +84,38 @@
   --sg-space-xl: 2rem;      /* 32px */
   --sg-space-2xl: 3rem;     /* 48px */
 
-  /* Ritme vertical de la part superior de la pàgina */
-  --sg-space-title-intro: 0.875rem;    /* 14px — títol -> intro */
-  --sg-space-intro-search: 2rem;       /* 32px — intro -> cercador (header) */
-  --sg-space-controls-map: 2.75rem;    /* 44px — resum -> secció de mapa */
+  /* Ritme vertical de la part superior */
+  --sg-space-title-intro: 0.875rem;    /* 14px */
+  --sg-space-intro-search: 2rem;       /* 32px */
+  --sg-space-controls-map: 2.75rem;    /* 44px */
 
   /* Ritme vertical entre grans seccions de contingut */
-  --sg-space-map-directory: 4rem;        /* 64px */
+  --sg-space-map-directory: 4rem;          /* 64px */
   --sg-space-directory-unlocated: 4.25rem; /* 68px */
-  --sg-space-unlocated-cta: 3.75rem;     /* 60px */
+  --sg-space-unlocated-cta: 3.75rem;       /* 60px */
 
-  /* Amplada de contingut controlada perquè el component no s'estire sobre
-     tot el viewport mentre la tipografia es queda xicoteta. */
-  --sg-max-width: 1280px;
-  --sg-container-pad: 1.75rem; /* 28px */
-
-  /* Tipografia: una única família sans-serif per a tot el component. La
-     personalitat visual prové de l'escala, el pes i l'espaiat. */
-  --sg-font-family: 'Manrope', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --sg-fs-h1: clamp(2.25rem, 1.5rem + 3vw, 3.375rem);      /* ~36 -> 54px */
-  --sg-fs-h2: clamp(1.625rem, 1.5rem + 0.6vw, 1.875rem);   /* 26 -> 30px */
-  --sg-fs-lead: clamp(1.0625rem, 1rem + 0.35vw, 1.125rem); /* 17 -> 18px */
+  /* Escala tipogràfica — base 17px/1.5 (real, sella.es), amb jerarquia
+     al voltant d'eixa base. La mida NO és uniforme: només el text
+     d'introducció usa els 17px complets. */
+  --sg-fs-lead: 1.0625rem;      /* 17px — igual que el cos real de sella.es */
   --sg-fs-body: 1rem;
-  --sg-fs-name: 1.0625rem;      /* 17px */
+  --sg-fs-h2: 1.5625rem;        /* 25px — mateix valor real dels h2 de sella.es */
+  --sg-fs-name: 1rem;           /* 16px */
   --sg-fs-card-body: 0.9375rem; /* 15px */
   --sg-fs-section-text: 0.9375rem; /* 15px */
-  --sg-fs-eyebrow: 0.75rem;     /* 12px */
+  --sg-fs-eyebrow: 0.8125rem;   /* 13px */
+  --sg-fs-control: 0.875rem;    /* 14px — filtres, accions */
 
-  font-family: var(--sg-font-family);
+  font-family: inherit;
   color: var(--sg-text);
   background: var(--sg-bg);
-  line-height: 1.6;
+  line-height: 1.5;
   font-size: var(--sg-fs-body);
 
-  max-width: var(--sg-max-width);
-  margin-inline: auto;
-  padding-inline: var(--sg-container-pad);
+  /* El component ocupa tota la columna de contingut que ja li done
+     WordPress: sense max-width ni contenidor propis. */
+  width: 100%;
+  max-width: none;
 }
 
 .sg-guia,
@@ -123,8 +129,8 @@
   max-width: 100%;
 }
 
-/* Aplicació explícita de la tipografia també als controls de formulari,
-   que per defecte no hereten font-family del document. */
+/* Aplicació explícita de la tipografia heretada també als controls de
+   formulari, que per defecte no hereten font-family del document. */
 .sg-guia h1,
 .sg-guia h2,
 .sg-guia h3,
@@ -132,7 +138,7 @@
 .sg-guia button,
 .sg-guia select,
 .sg-guia textarea {
-  font-family: var(--sg-font-family);
+  font-family: inherit;
 }
 
 /* Utilitats */
@@ -154,27 +160,30 @@
   outline-offset: 2px;
 }
 
-/* Capçalera del component */
-
-.sg-guia__header {
-  margin-bottom: var(--sg-space-intro-search);
+/* Capçalera NOMÉS DE PREVISUALITZACIÓ. En producció, WordPress ja
+   proporciona el títol de pàgina i el breadcrumb; aquest <header> no
+   s'ha d'incrustar (vore comentaris a index.html). Es manté un estil
+   modest, no una H1 de gran escala tipus "app". */
+.sg-guia__preview-header {
+  margin-bottom: var(--sg-space-title-intro);
 }
 
 .sg-guia__title {
-  font-size: var(--sg-fs-h1);
-  line-height: 1.05;
+  font-size: 1.875rem; /* 30px */
+  line-height: 1.2;
   max-width: 760px;
   margin: 0;
-  font-weight: 800;
-  letter-spacing: -0.02em;
+  font-weight: 700;
+  color: var(--sg-municipal-blue);
 }
 
 .sg-guia__lead {
-  margin: var(--sg-space-title-intro) 0 0;
-  color: var(--sg-muted);
-  max-width: 650px;
+  margin: 0 0 var(--sg-space-intro-search);
+  color: var(--sg-text);
+  max-width: 700px;
   font-size: var(--sg-fs-lead);
-  line-height: 1.55;
+  line-height: 1.5;
+  font-weight: 400;
 }
 
 /* Cercador, filtres i resum */
@@ -198,19 +207,19 @@
 
 .sg-guia__search-icon {
   position: absolute;
-  left: 16px;
-  width: 19px;
-  height: 19px;
-  color: var(--sg-muted);
+  left: 14px;
+  width: 18px;
+  height: 18px;
+  color: var(--sg-municipal-green);
   pointer-events: none;
 }
 
 .sg-guia__search-input {
   width: 100%;
-  min-height: 48px;
-  padding: 0.6rem 1.125rem 0.6rem 2.75rem;
+  min-height: 46px;
+  padding: 0.5rem 1rem 0.5rem 2.625rem;
   font: inherit;
-  font-size: 0.9375rem;
+  font-size: var(--sg-fs-control);
   color: var(--sg-text);
   background: var(--sg-bg);
   border: 1px solid var(--sg-border);
@@ -224,8 +233,8 @@
 
 .sg-guia__search-input:focus {
   outline: none;
-  border-color: var(--sg-accent);
-  box-shadow: inset 0 0 0 3px var(--sg-accent-ring);
+  border-color: var(--sg-municipal-green);
+  box-shadow: inset 0 0 0 3px var(--sg-green-ring);
 }
 
 .sg-guia__search-input:focus-visible {
@@ -242,14 +251,14 @@
 }
 
 .sg-filter {
-  --sg-filter-accent: var(--sg-accent);
+  --sg-filter-accent: var(--sg-municipal-green);
   flex: 0 0 auto;
   min-height: 40px;
   padding: 0 1.125rem;
   display: inline-flex;
   align-items: center;
   font: inherit;
-  font-size: 0.875rem;
+  font-size: var(--sg-fs-control);
   font-weight: 600;
   color: var(--sg-text);
   background: var(--sg-bg);
@@ -259,13 +268,34 @@
   transition: border-color .15s ease, background .15s ease, color .15s ease;
 }
 
+/* Punt de color de categoria — identifica la categoria sense saturar
+   tota la píndola (el text de la categoria ja hi és al costat). */
+.sg-filter[data-category]:not([data-category="all"])::before {
+  content: '';
+  flex: 0 0 auto;
+  width: 8px;
+  height: 8px;
+  margin-right: 0.5rem;
+  border-radius: 50%;
+  background: var(--sg-filter-accent);
+}
+
 .sg-filter:hover {
   border-color: var(--sg-filter-accent);
 }
 
-.sg-filter.is-active {
+/* "Totes" activa: color institucional ple (acció principal/neutra). */
+.sg-filter[data-category="all"].is-active {
   color: #ffffff;
-  background: var(--sg-filter-accent);
+  background: var(--sg-municipal-green);
+  border-color: var(--sg-municipal-green);
+}
+
+/* Categoria activa: to pàl·lid + text/vora en color de categoria — més
+   calmat que una píndola completament saturada. */
+.sg-filter[data-category]:not([data-category="all"]).is-active {
+  color: var(--sg-filter-accent);
+  background: color-mix(in srgb, var(--sg-filter-accent) 14%, white);
   border-color: var(--sg-filter-accent);
 }
 
@@ -273,7 +303,7 @@
 
 .sg-guia__summary {
   margin: 0;
-  font-size: 0.9375rem;
+  font-size: 0.875rem;
   color: var(--sg-muted);
 }
 
@@ -309,6 +339,9 @@
 
 .sg-guia__section--unlocated {
   margin-bottom: var(--sg-space-unlocated-cta);
+  padding: 1.75rem;
+  border-radius: var(--sg-radius-md);
+  background: var(--sg-green-tint);
 }
 
 .sg-guia__section-head {
@@ -321,13 +354,14 @@
   line-height: 1.2;
   margin: 0 0 0.375rem;
   font-weight: 700;
-  letter-spacing: -0.01em;
+  color: var(--sg-municipal-blue);
 }
 
 .sg-guia__section-text {
   margin: 0;
   color: var(--sg-muted);
   font-size: var(--sg-fs-section-text);
+  line-height: 1.5;
 }
 
 /* Mapa — el mapa mateix és el bloc visual, sense contenidor de color */
@@ -340,11 +374,10 @@
 .sg-guia__map {
   position: relative;
   width: 100%;
-  height: 460px;
+  height: 480px;
   border: 1px solid var(--sg-border);
   border-radius: var(--sg-radius-md);
   background: var(--sg-soft);
-  box-shadow: var(--sg-shadow-sm);
   overflow: hidden;
 }
 
@@ -359,6 +392,13 @@
   border-radius: var(--sg-radius-sm);
 }
 
+/* Leaflet reinicia la tipografia del contenidor del mapa (font pròpia a
+   12px): ací es restaura l'herència de la guia i s'ajusten mides. */
+.sg-guia .leaflet-container {
+  font-family: inherit;
+  color: var(--sg-text);
+}
+
 /* Marcadors de Leaflet — pin en el color de categoria, vora blanca i
    ombra suau. `--sg-marker-color` es fixa inline amb var(--sg-cat-*), que
    es resol per cascada perquè l'element viu dins de #sg-guia. */
@@ -371,7 +411,7 @@
   display: block;
   width: 100%;
   height: 100%;
-  background: var(--sg-marker-color, var(--sg-accent));
+  background: var(--sg-marker-color, var(--sg-municipal-blue));
   border: 3px solid #ffffff;
   border-radius: 50% 50% 50% 0;
   transform: rotate(-45deg);
@@ -384,8 +424,9 @@
   box-shadow: 0 4px 12px rgba(20, 20, 20, .45);
 }
 
-/* Clústers de Leaflet.markercluster — insígnia circular neutra, sense
-   lligar-se a cap categoria concreta (un clúster pot barrejar-ne diverses). */
+/* Clústers de Leaflet.markercluster — llenguatge institucional neutre
+   (verd municipal): un clúster mai ha de llegir-se com una categoria
+   concreta (per això no s'usa cap --sg-cat-*, ni el roig puntual). */
 .sg-cluster-icon {
   background: none;
   border: none;
@@ -398,28 +439,30 @@
   width: 100%;
   height: 100%;
   border-radius: 50%;
-  background: var(--sg-accent);
+  background: var(--sg-municipal-green);
   color: #ffffff;
-  font-family: var(--sg-font-family);
+  font-family: inherit;
   font-size: 0.8125rem;
   font-weight: 700;
   border: 3px solid #ffffff;
   box-shadow: 0 2px 8px rgba(20, 20, 20, .3);
 }
 
-/* Popups de Leaflet — mateix llenguatge visual que les targetes */
+/* Popups de Leaflet — mateix llenguatge visual que les targetes, compacte */
 .sg-guia .leaflet-popup-content-wrapper {
-  border-radius: var(--sg-radius-sm);
+  border-radius: var(--sg-radius-md);
   box-shadow: var(--sg-shadow-md);
 }
 
 .sg-guia .leaflet-popup-content {
-  margin: var(--sg-space-md);
-  font-family: var(--sg-font-family);
+  margin: 0.875rem;
+  font-family: inherit;
+  font-size: var(--sg-fs-card-body);
+  line-height: 1.45;
 }
 
 .sg-popup {
-  --sg-card-accent: var(--sg-accent);
+  --sg-card-accent: var(--sg-municipal-blue);
   display: flex;
   flex-direction: column;
 }
@@ -429,7 +472,7 @@
   border-radius: var(--sg-radius-sm);
   box-shadow: var(--sg-shadow-sm);
   border: 1px solid var(--sg-border);
-  font-family: var(--sg-font-family);
+  font-family: inherit;
 }
 
 .sg-guia .leaflet-control-layers label {
@@ -437,20 +480,45 @@
   color: var(--sg-text);
 }
 
-.sg-guia .leaflet-bar,
-.sg-guia .leaflet-control-attribution {
-  font-family: var(--sg-font-family);
+.sg-guia .leaflet-control-layers-selector:checked + span,
+.sg-guia .leaflet-control-layers label:hover {
+  color: var(--sg-municipal-green);
 }
 
-/* Insígnies (p. ex. "sense localització fixa") */
+.sg-guia .leaflet-bar {
+  border-radius: var(--sg-radius-sm);
+  overflow: hidden;
+}
+
+.sg-guia .leaflet-bar a {
+  font-family: inherit;
+  color: var(--sg-text);
+}
+
+.sg-guia .leaflet-bar a:hover {
+  background: var(--sg-green-tint);
+  color: var(--sg-municipal-green);
+}
+
+.sg-guia .leaflet-control-attribution {
+  font-family: inherit;
+  background: rgba(255, 255, 255, .8);
+}
+
+.sg-guia .leaflet-control-attribution a {
+  color: var(--sg-municipal-blue);
+}
+
+/* Insígnies (p. ex. "sense localització fixa") — neutra, mai amb el
+   color d'una categoria (indica un estat d'ubicació, no una categoria) */
 
 .sg-badge {
   display: inline-flex;
   align-items: center;
   border-radius: var(--sg-radius-pill);
-  padding: 0.375rem 0.75rem;
+  padding: 0.3rem 0.625rem;
   font-size: 0.8125rem;
-  font-weight: 700;
+  font-weight: 600;
 }
 
 .sg-badge--no-location {
@@ -463,18 +531,25 @@
 .sg-cards {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 1.25rem;
+  gap: 1.125rem;
 }
 
 .sg-card {
-  --sg-card-accent: var(--sg-accent);
-  padding: 1.375rem;
+  --sg-card-accent: var(--sg-municipal-blue);
+  padding: 1.25rem;
   border: 1px solid var(--sg-border);
   border-radius: var(--sg-radius-md);
   background: var(--sg-bg);
   box-shadow: var(--sg-shadow-sm);
   display: flex;
   flex-direction: column;
+  transition: border-color .15s ease, background .15s ease;
+}
+
+.sg-card:hover,
+.sg-card:focus-within {
+  border-color: var(--sg-muted);
+  background: color-mix(in srgb, var(--sg-soft) 55%, white);
 }
 
 .sg-card__top {
@@ -488,16 +563,16 @@
   align-items: center;
   justify-content: center;
   flex: 0 0 auto;
-  width: 44px;
-  height: 44px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   background: color-mix(in srgb, var(--sg-card-accent) 12%, white);
   color: var(--sg-card-accent);
 }
 
 .sg-card__icon svg {
-  width: 21px;
-  height: 21px;
+  width: 19px;
+  height: 19px;
 }
 
 .sg-card__heading {
@@ -506,11 +581,9 @@
 
 .sg-card__eyebrow,
 .sg-popup__eyebrow {
-  margin: 0 0 0.2rem;
+  margin: 0 0 0.15rem;
   font-size: var(--sg-fs-eyebrow);
-  font-weight: 700;
-  letter-spacing: 0.03em;
-  text-transform: uppercase;
+  font-weight: 600;
   color: var(--sg-card-accent);
 }
 
@@ -519,7 +592,8 @@
   margin: 0;
   font-size: var(--sg-fs-name);
   line-height: 1.3;
-  font-weight: 700;
+  font-weight: 600;
+  color: var(--sg-text);
 }
 
 .sg-card__address,
@@ -527,11 +601,12 @@
   margin: var(--sg-space-sm) 0 0;
   color: var(--sg-text);
   font-size: var(--sg-fs-card-body);
+  line-height: 1.45;
 }
 
-/* Accions (telefonar, correu, web, instagram, mapa) — llenguatge visual
-   compacte i neutre; l'accent institucional es reserva per a l'acció més
-   rellevant (telefonar) i per als estats hover/focus, no per a totes. */
+/* Accions (telefonar, correu, web, instagram, mapa) — llenguatge neutre;
+   "Veure al mapa" és l'única acció amb accent institucional (blau), com
+   a acció pròpia i més rellevant de la guia. */
 
 .sg-card__actions,
 .sg-popup__actions {
@@ -548,53 +623,62 @@
   display: inline-flex;
   align-items: center;
   min-height: 36px;
-  padding: 0 0.8125rem;
+  padding: 0 0.75rem;
   font: inherit;
-  font-size: 0.8125rem;
-  font-weight: 650;
+  font-size: var(--sg-fs-control);
+  font-weight: 500;
   color: var(--sg-text);
   text-decoration: none;
   background: var(--sg-bg);
   border: 1px solid var(--sg-border);
-  border-radius: 8px;
+  border-radius: var(--sg-radius-sm);
   cursor: pointer;
   transition: background .15s ease, border-color .15s ease, color .15s ease;
 }
 
-.sg-action--primary {
-  color: var(--sg-accent);
-  border-color: var(--sg-accent-pale);
-}
-
 .sg-action:hover,
-.sg-action--secondary:hover,
-.sg-action--primary:hover {
-  background: var(--sg-accent-tint);
-  border-color: var(--sg-accent);
-  color: var(--sg-accent);
+.sg-action--secondary:hover {
+  background: var(--sg-soft);
+  border-color: var(--sg-muted);
 }
 
-/* Bloc de contacte final — CTA deliberat, no un residu de peu de pàgina */
+.sg-action--map {
+  color: var(--sg-municipal-blue);
+  border-color: var(--sg-blue-pale);
+  font-weight: 600;
+}
+
+.sg-action--map::after {
+  content: '\2192';
+  margin-left: 0.375rem;
+}
+
+.sg-action--map:hover {
+  background: var(--sg-blue-tint);
+  border-color: var(--sg-municipal-blue);
+}
+
+/* Bloc de contacte final — informatiu i deliberat, no un residu de peu */
 
 .sg-guia__cta {
-  padding: 1.75rem;
-  background: var(--sg-accent-tint);
-  border: 1px solid var(--sg-accent-pale);
+  padding: 1.5rem;
+  background: var(--sg-green-tint);
+  border: 1px solid var(--sg-green-pale);
   border-radius: var(--sg-radius-md);
   color: var(--sg-text);
 }
 
 .sg-guia__cta-title {
   margin: 0 0 var(--sg-space-xs);
-  font-size: 1.375rem;
+  font-size: 1.25rem;
   font-weight: 700;
-  letter-spacing: -0.01em;
+  color: var(--sg-municipal-green);
 }
 
 .sg-guia__cta-text {
   margin: 0;
   font-size: 0.9375rem;
-  line-height: 1.55;
+  line-height: 1.5;
   color: var(--sg-muted);
 }
 
@@ -619,7 +703,7 @@
 
   .sg-guia__search {
     flex: 0 0 auto;
-    width: min(440px, 100%);
+    width: min(460px, 100%);
   }
 
   .sg-guia__filters {

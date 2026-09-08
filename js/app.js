@@ -198,7 +198,10 @@
     opts = opts || {};
     var actions = [];
 
-    if (b.phone) actions.push({ type: 'link', href: telHref(b.phone), label: 'Telefonar', variant: 'primary' });
+    // Totes les accions de contacte comparteixen el mateix llenguatge neutre
+    // ("secondary"); "Veure al mapa" és l'única amb accent institucional
+    // ("map"), perquè és l'acció pròpia i més rellevant de la guia.
+    if (b.phone) actions.push({ type: 'link', href: telHref(b.phone), label: 'Telefonar', variant: 'secondary' });
     if (b.email) actions.push({ type: 'link', href: 'mailto:' + b.email, label: 'Correu', variant: 'secondary' });
     if (b.website) actions.push({ type: 'link', href: websiteHref(b.website), label: 'Web', external: true, variant: 'secondary' });
     if (b.instagram) actions.push({ type: 'link', href: instagramUrl(b.instagram), label: 'Instagram', external: true, variant: 'secondary' });
@@ -207,7 +210,7 @@
       actions.push({ type: 'link', href: directionsUrl(b), label: 'Com arribar', external: true, variant: 'secondary' });
     }
     if (opts.showOnMapButton && hasValidCoords(b)) {
-      actions.push({ type: 'button', mapTarget: b.id, label: 'Veure al mapa', variant: 'secondary' });
+      actions.push({ type: 'button', mapTarget: b.id, label: 'Veure al mapa', variant: 'map' });
     }
 
     return actions;
@@ -223,7 +226,7 @@
 
   function renderActionsHtml(actions) {
     return actions.map(function (a) {
-      var variantClass = ' sg-action--' + (a.variant === 'primary' ? 'primary' : 'secondary');
+      var variantClass = ' sg-action--' + (a.variant === 'map' ? 'map' : 'secondary');
       if (a.type === 'button') {
         return '<button type="button" class="sg-action' + variantClass + '" data-map-target="' +
           escapeHtml(a.mapTarget) + '">' + escapeHtml(a.label) + '</button>';
@@ -252,8 +255,11 @@
 
   /* ---------- Render ---------- */
 
+  // Per als filtres, "Totes" usa el verd institucional (acció principal).
+  // Per a targetes/marcadors/popups, el blau institucional és la reserva
+  // si mai una categoria no tinguera un color propi definit.
   function categoryAccentVar(id) {
-    return id === 'all' ? 'var(--sg-accent)' : 'var(--sg-cat-' + id + ', var(--sg-accent))';
+    return id === 'all' ? 'var(--sg-municipal-green)' : 'var(--sg-cat-' + id + ', var(--sg-municipal-blue))';
   }
 
   function renderFilters() {
