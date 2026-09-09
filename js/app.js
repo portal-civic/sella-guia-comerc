@@ -45,11 +45,15 @@
       '<path d="M16.7 2c-1.8 1-2.9 3-2.9 5.2 0 2 1 3.8 2.6 4.8" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/>' +
       '<path d="M16.7 2v20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/>',
 
-    // Allotjaments: llit vist de costat (capçal a l'esquerra + coixí
-    // rodó + matalàs + potes amb buit a sota) — el glif estàndard de
-    // "llit/allotjament", inconfusible i llegible a 18-26px.
-    allotjaments: '<g transform="scale(-1,1) translate(-24,0)">' +
-      '<path d="M7 13c1.66 0 3-1.34 3-3S8.66 7 7 7s-3 1.34-3 3 1.34 3 3 3zm12-6h-8v7H3V5H1v15h2v-3h18v3h2v-9c0-2.21-1.79-4-4-4z"/>' +
+    // Allotjaments: geometria SVG aprovada tal qual (viewBox propi
+    // 0 0 178 240, vore CATEGORY_ICON_VIEWBOX) — no reescalar les
+    // coordenades, només canviar el viewBox de l'<svg> contenidor.
+    allotjaments: '<g fill="currentColor">' +
+      '<path d="M30 91 Q30 85 36 85 Q42 85 42 91 L42 162 L30 162 Z"/>' +
+      '<path d="M46 116 L46 105 Q46 99 52 99 L57 99 Q71 99 71 112 L71 116 Z"/>' +
+      '<path d="M78 123 L78 122 Q78 113 93 113 L141 113 Q147 113 147 119 L147 123 Z"/>' +
+      '<rect x="30" y="123" width="117" height="18"/>' +
+      '<rect x="137" y="141" width="10" height="21"/>' +
       '</g>',
 
     // Construcció i instal·lacions: una única clau anglesa clàssica (boca
@@ -75,6 +79,13 @@
       '<path d="M3 7.6l1.5 3 1.5-3 1.5 3 1.5-3 1.5 3 1.5-3 1.5 3 1.5-3 1.5 3 1.5-3 1.5 3 1.5-3H3Z"/>' +
       '<rect x="4.3" y="12.4" width="15.4" height="7.4" rx="0.5" fill="none" stroke="currentColor" stroke-width="1.7"/>' +
       '<rect x="10" y="15" width="4" height="4.8" rx="0.4"/>'
+  };
+
+  // viewBox propi per a categories la geometria de les quals ve donada en
+  // un sistema de coordenades diferent del 0 0 24 24 habitual (p. ex. una
+  // icona aprovada externament). Per defecte totes usen 0 0 24 24.
+  var CATEGORY_ICON_VIEWBOX = {
+    allotjaments: '0 0 178 240'
   };
 
   // Mapa de color exacte per categoria — colors institucionals de
@@ -185,7 +196,8 @@
   // declaren el seu propi fill="none" stroke="currentColor" dins del path.
   function getCategoryIconSvg(id) {
     var path = CATEGORY_ICONS[id] || CATEGORY_ICONS.altres;
-    return '<svg viewBox="0 0 24 24" fill="currentColor" stroke="none" ' +
+    var viewBox = CATEGORY_ICON_VIEWBOX[id] || '0 0 24 24';
+    return '<svg viewBox="' + viewBox + '" fill="currentColor" stroke="none" ' +
       'aria-hidden="true" focusable="false">' + path + '</svg>';
   }
 
