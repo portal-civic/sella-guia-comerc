@@ -594,24 +594,53 @@
   box-shadow: var(--sg-shadow-sm);
 }
 
-/* Popups de Leaflet — mateix llenguatge visual que les targetes, compacte */
+/* Popups de Leaflet — mateix llenguatge visual que les targetes, compacte.
+   La franja de categoria (color exacte + text blanc) ocupa tota l'amplada
+   de la capçalera; per això el marge intern es trasllada del contenidor
+   de Leaflet al cos del popup (.sg-popup__body). */
 .sg-guia .leaflet-popup-content-wrapper {
+  padding: 0;
   border-radius: var(--sg-radius-sm);
   box-shadow: var(--sg-shadow-sm);
+  overflow: hidden;
 }
 
 .sg-guia .leaflet-popup-content {
-  margin: 0.875rem;
+  margin: 0;
   font-family: inherit;
   font-size: var(--sg-fs-card-body);
   line-height: 1.45;
   color: var(--sg-text);
 }
 
+.sg-guia .leaflet-popup-close-button {
+  color: var(--sg-white);
+  z-index: 1;
+}
+
+.sg-guia .leaflet-popup-close-button:hover {
+  color: var(--sg-white);
+  opacity: 0.8;
+}
+
 .sg-popup {
   --sg-card-accent: var(--sg-blue);
   display: flex;
   flex-direction: column;
+}
+
+.sg-popup__category-bar {
+  margin: 0;
+  padding: 0.6875rem 0.875rem; /* ~11px vertical, 14px horitzontal */
+  background: var(--sg-card-accent);
+  color: var(--sg-white);
+  font-size: 0.8125rem; /* 13px */
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.sg-popup__body {
+  padding: 0.875rem;
 }
 
 /* Control de capes de Leaflet — discret i coherent amb la guia */
@@ -729,8 +758,7 @@
   min-width: 0;
 }
 
-.sg-card__eyebrow,
-.sg-popup__eyebrow {
+.sg-card__eyebrow {
   margin: 0 0 0.15rem;
   font-size: var(--sg-fs-eyebrow);
   font-weight: 600;
@@ -752,6 +780,49 @@
   color: var(--sg-text);
   font-size: var(--sg-fs-card-body);
   line-height: 1.45;
+}
+
+/* Telèfon, correu i web en text visible i seleccionable — a més dels
+   botons d'acció corresponents (duplicació intencionada, no purament
+   decorativa: permet copiar/enllaçar sense passar pel botó). Instagram
+   mai apareix ací: només com a botó. */
+.sg-card__meta,
+.sg-popup__meta {
+  list-style: none;
+  margin: 0.875rem 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.sg-card__address + .sg-card__meta,
+.sg-popup__address + .sg-popup__meta {
+  margin-top: 0.5rem;
+}
+
+.sg-card__meta li,
+.sg-popup__meta li {
+  min-width: 0;
+}
+
+.sg-card__meta a,
+.sg-popup__meta a {
+  display: inline-block;
+  max-width: 100%;
+  color: var(--sg-dark-grey);
+  font-size: var(--sg-fs-card-body);
+  line-height: 1.45;
+  text-decoration: none;
+  word-break: break-word;
+}
+
+.sg-card__meta a:hover,
+.sg-card__meta a:focus-visible,
+.sg-popup__meta a:hover,
+.sg-popup__meta a:focus-visible {
+  color: var(--sg-text);
+  text-decoration: underline;
 }
 
 /* Accions (telefonar, correu, web, instagram, mapa) — llenguatge neutre;

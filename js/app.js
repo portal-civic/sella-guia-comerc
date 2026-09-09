@@ -294,6 +294,26 @@
     return '<p class="' + className + '">' + escapeHtml(info.text) + '</p>';
   }
 
+  // Línies de contacte visibles (telèfon, correu, web): sempre en text
+  // seleccionable/enllaçable, a més del botó d'acció corresponent — la
+  // duplicació text+botó és intencionada, no s'ha de simplificar.
+  // Instagram mai apareix ací com a text: només com a botó.
+  function getContactLines(b) {
+    var lines = [];
+    if (b.phone) lines.push({ href: telHref(b.phone), text: b.phone });
+    if (b.email) lines.push({ href: 'mailto:' + b.email, text: b.email });
+    if (b.website) lines.push({ href: websiteHref(b.website), text: displayUrl(b.website), external: true });
+    return lines;
+  }
+
+  function renderContactLinesHtml(lines, className) {
+    if (!lines.length) return '';
+    return '<ul class="' + className + '">' + lines.map(function (l) {
+      var target = l.external ? ' target="_blank" rel="noopener noreferrer"' : '';
+      return '<li><a href="' + escapeHtml(l.href) + '"' + target + '>' + escapeHtml(l.text) + '</a></li>';
+    }).join('') + '</ul>';
+  }
+
   function renderActionsHtml(actions) {
     return actions.map(function (a) {
       var variantClass = ' sg-action--' + (a.variant === 'map' ? 'map' : 'secondary');
@@ -401,6 +421,7 @@
 
     var addressInfo = getAddressInfo(b, false);
     var actions = getBusinessActions(b, { showOnMapButton: true });
+    var contactLines = getContactLines(b);
 
     article.innerHTML =
       '<div class="sg-card__top">' +
@@ -410,6 +431,7 @@
       '<h3 class="sg-card__name">' + escapeHtml(b.name) + '</h3>' +
       '</div></div>' +
       renderAddressHtml(addressInfo, 'sg-card__address') +
+      renderContactLinesHtml(contactLines, 'sg-card__meta') +
       (actions.length ? '<div class="sg-card__actions">' + renderActionsHtml(actions) + '</div>' : '');
 
     return article;
@@ -633,15 +655,21 @@
     state.map.fitBounds(bounds, { padding: [48, 48], maxZoom: FIT_BOUNDS_MAX_ZOOM, animate: !state.reduceMotion });
   }
 
+  // El popup porta una franja de capçalera en el color exacte de la
+  // categoria (amb el nom de la categoria en text, no només color) i un
+  // cos blanc net a sota amb la resta d'informació.
   function buildPopupHtml(b) {
     var addressInfo = getAddressInfo(b, false);
     var actions = getBusinessActions(b, { directions: true });
+    var contactLines = getContactLines(b);
     return '<div class="sg-popup" style="--sg-card-accent:' + escapeHtml(getCategoryColor(b.category)) + '">' +
-      '<p class="sg-popup__eyebrow">' + escapeHtml(getCategoryLabel(b.category)) + '</p>' +
+      '<p class="sg-popup__category-bar">' + escapeHtml(getCategoryLabel(b.category)) + '</p>' +
+      '<div class="sg-popup__body">' +
       '<h3 class="sg-popup__name">' + escapeHtml(b.name) + '</h3>' +
       renderAddressHtml(addressInfo, 'sg-popup__address') +
+      renderContactLinesHtml(contactLines, 'sg-popup__meta') +
       (actions.length ? '<div class="sg-popup__actions">' + renderActionsHtml(actions) + '</div>' : '') +
-      '</div>';
+      '</div></div>';
   }
 
   function showOnMap(id) {
