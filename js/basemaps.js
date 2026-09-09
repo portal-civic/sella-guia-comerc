@@ -22,6 +22,7 @@
   'use strict';
 
   var OSM_ATTR = '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors';
+  var IGN_ATTR = '&copy; <a href="https://www.ign.es" target="_blank" rel="noopener">Instituto Geográfico Nacional de España</a> (CC BY 4.0)';
 
   window.SG_BASEMAPS = {
 
@@ -115,6 +116,56 @@
         label: 'ArcGIS · Satèl·lit',
         url: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
         options: { maxZoom: 19, attribution: 'Tiles &copy; Esri — Source: Esri, Maxar, Earthstar Geographics, CNES/Airbus DS, USDA, USGS, AeroGRID, IGN, and the GIS User Community' }
+      },
+
+      // ---- PROVES TEMPORALS: capes oficials IGN/CNIG (Espanya) ----
+      // WMTS oficial de l'IGN (servicios.idee.es / www.ign.es), servit amb
+      // el tilematrixset GoogleMapsCompatible (EPSG:3857) perquè funcione
+      // directament amb L.tileLayer com qualsevol altra capa XYZ. Llicència
+      // CC BY 4.0 (scne.es), sense clau ni condicions d'ús restrictives
+      // (confirmat via GetCapabilities: "No se aplican condiciones").
+      //
+      // maxNativeZoom fixat a partir d'inspecció visual real de tessel·les
+      // sobre Sella (no del límit declarat a GetCapabilities, que en els 3
+      // casos arriba fins a TileMatrix 20 encara que el detall genuí no hi
+      // arribe sempre): vore comentaris a cada capa.
+      {
+        id: 'ign-base',
+        label: 'IGN Base',
+        // Comprovat visualment a z14/16/17/18/19/20: detall genuí i nou a
+        // cada nivell (apareixen noms de carrer i numeració de portal que
+        // no es veuen als zooms anteriors), sense senyals de difuminat ni
+        // ampliació — és un mapa renderitzat, no una imatge de resolució
+        // fixa. Es fixa maxNativeZoom al límit declarat (20) perquè la
+        // comprovació visual no ha mostrat cap degradació.
+        url: 'https://www.ign.es/wmts/ign-base?service=WMTS&request=GetTile&version=1.0.0&layer=IGNBaseTodo&style=default&format=image/png&tilematrixset=GoogleMapsCompatible&TileMatrix={z}&TileRow={y}&TileCol={x}',
+        options: { maxNativeZoom: 20, maxZoom: 20, attribution: IGN_ATTR }
+      },
+      {
+        id: 'ign-mtn',
+        label: 'IGN Raster',
+        // Mapa Topogràfic Nacional ràster (layer=MTN; "mapa-raster" com a
+        // nom de capa NO existeix — GetCapabilities confirma que l'únic
+        // identificador vàlid és "MTN"). Comprovat visualment: nítid i amb
+        // detall real fins a z17 (corbes de nivell, cotes, Castell de
+        // Santa Bàrbara llegible); a z18/19/20 la mateixa tessel·la es
+        // torna clarament borrosa/ampliada (vores toves, cap etiqueta
+        // nova) — mateix patró que TopPlusOpen. maxNativeZoom es limita a
+        // 17 perquè Leaflet amplie eixa darrera tessel·la nítida en lloc
+        // de servir directament les versions borroses del servidor.
+        url: 'https://www.ign.es/wmts/mapa-raster?service=WMTS&request=GetTile&version=1.0.0&layer=MTN&style=default&format=image/jpeg&tilematrixset=GoogleMapsCompatible&TileMatrix={z}&TileRow={y}&TileCol={x}',
+        options: { maxNativeZoom: 17, maxZoom: 20, attribution: IGN_ATTR }
+      },
+      {
+        id: 'pnoa',
+        label: 'PNOA Ortofoto',
+        // Ortofoto PNOA Màxima Actualitat (layer=OI.OrthoimageCoverage).
+        // Comprovada visualment: nítida i amb detall real (cotxes
+        // individuals, teules de teulada) fins a z19; a z20 s'aprecia una
+        // suavitat/pixelat lleuger propi d'arribar a la resolució nativa
+        // del sòl (GSD) de l'ortofoto. maxNativeZoom es fixa a 19.
+        url: 'https://www.ign.es/wmts/pnoa-ma?service=WMTS&request=GetTile&version=1.0.0&layer=OI.OrthoimageCoverage&style=default&format=image/jpeg&tilematrixset=GoogleMapsCompatible&TileMatrix={z}&TileRow={y}&TileCol={x}',
+        options: { maxNativeZoom: 19, maxZoom: 21, attribution: IGN_ATTR }
       }
     ],
 
