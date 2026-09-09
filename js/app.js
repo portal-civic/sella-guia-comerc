@@ -45,14 +45,12 @@
       '<path d="M16.7 2c-1.8 1-2.9 3-2.9 5.2 0 2 1 3.8 2.6 4.8" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/>' +
       '<path d="M16.7 2v20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/>',
 
-    // Allotjaments: llit vist de costat (capçal prim + coixí arrodonit +
-    // matalàs + potes) — silueta senzilla, sense perspectiva, llegible a
-    // 18-26px.
-    allotjaments: '<rect x="2" y="4" width="2.6" height="14" rx="1.3"/>' +
-      '<rect x="4.6" y="9" width="6.6" height="4.4" rx="2.2"/>' +
-      '<rect x="2" y="13" width="20" height="5.5" rx="1.8"/>' +
-      '<rect x="3" y="18.8" width="2" height="2.6" rx="0.6"/>' +
-      '<rect x="19" y="18.8" width="2" height="2.6" rx="0.6"/>',
+    // Allotjaments: llit vist de costat (capçal a l'esquerra + coixí
+    // rodó + matalàs + potes amb buit a sota) — el glif estàndard de
+    // "llit/allotjament", inconfusible i llegible a 18-26px.
+    allotjaments: '<g transform="scale(-1,1) translate(-24,0)">' +
+      '<path d="M7 13c1.66 0 3-1.34 3-3S8.66 7 7 7s-3 1.34-3 3 1.34 3 3 3zm12-6h-8v7H3V5H1v15h2v-3h18v3h2v-9c0-2.21-1.79-4-4-4z"/>' +
+      '</g>',
 
     // Construcció i instal·lacions: una única clau anglesa clàssica (boca
     // oberta en ganxo + mànec diagonal) — el glif de "clau"/"eina" estàndard,
