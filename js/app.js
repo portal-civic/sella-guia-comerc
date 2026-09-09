@@ -45,35 +45,32 @@
       '<path d="M16.7 2c-1.8 1-2.9 3-2.9 5.2 0 2 1 3.8 2.6 4.8" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/>' +
       '<path d="M16.7 2v20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/>',
 
-    // Allotjaments: llit vist de costat (capçal alt + matalàs + coixí +
-    // potes) — silueta senzilla, sense perspectiva, llegible a 18-26px.
-    allotjaments: '<rect x="2" y="3" width="3.4" height="15.5" rx="1.2"/>' +
-      '<rect x="2" y="12" width="20" height="6" rx="2"/>' +
-      '<rect x="5.5" y="8.3" width="6.5" height="4.6" rx="2"/>' +
-      '<rect x="3" y="19.6" width="2" height="2.4" rx="0.6"/>' +
-      '<rect x="19" y="19.6" width="2" height="2.4" rx="0.6"/>',
+    // Allotjaments: llit vist de costat (capçal prim + coixí arrodonit +
+    // matalàs + potes) — silueta senzilla, sense perspectiva, llegible a
+    // 18-26px.
+    allotjaments: '<rect x="2" y="4" width="2.6" height="14" rx="1.3"/>' +
+      '<rect x="4.6" y="9" width="6.6" height="4.4" rx="2.2"/>' +
+      '<rect x="2" y="13" width="20" height="5.5" rx="1.8"/>' +
+      '<rect x="3" y="18.8" width="2" height="2.6" rx="0.6"/>' +
+      '<rect x="19" y="18.8" width="2" height="2.6" rx="0.6"/>',
 
-    // Construcció i instal·lacions: una única clau anglesa (boca oberta +
-    // mànec + extrem arrodonit), en diagonal — inconfusible i llegible a
-    // 18-26px; abans eren dues eines encreuades, ara és una sola clau.
-    // (Una versió amb anella al mànec es va provar i es llegia com una
-    // clau de casa, no com una eina; per això la boca oberta de dues
-    // puntes s'ha mantingut adherida al mànec, sense anella.)
-    construccio: '<g transform="rotate(38 12 12)">' +
-      '<rect x="10.5" y="6" width="3" height="13" rx="1.5"/>' +
-      '<rect x="7.4" y="1.8" width="3.7" height="6.8" rx="1.6"/>' +
-      '<rect x="12.9" y="1.8" width="3.7" height="6.8" rx="1.6"/>' +
-      '<rect x="9.2" y="17.6" width="5.6" height="3.6" rx="1.7"/>' +
-      '</g>',
+    // Construcció i instal·lacions: una única clau anglesa clàssica (boca
+    // oberta en ganxo + mànec diagonal) — el glif de "clau"/"eina" estàndard,
+    // inconfusible i llegible a 18-26px. (Es van provar versions amb dos
+    // puntes rectangulars separades i amb anella al mànec: la primera es
+    // llegia com un os/pesa i la segona com una clau de casa; aquest ganxo
+    // continu és el que es distingeix clarament com a eina.)
+    construccio: '<path d="M22.7 19l-9.1-9.1c.9-2.3.4-5-1.5-6.9-2-2-5-2.4-7.4-1.3L9 6 6 9 1.6 4.7C.4 7.1.9 10.1 2.9 12.1c1.9 1.9 4.6 2.4 6.9 1.5l9.1 9.1c.4.4 1 .4 1.4 0l2.3-2.3c.5-.4.5-1.1.1-1.4z"/>',
 
     // Serveis: maletí d'oficina/negocis.
     serveis: '<rect x="3" y="7.5" width="18" height="11" rx="2.2"/>' +
       '<path d="M8.5 7.5V6a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v1.5" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/>',
 
-    // Oci i esports: muntanya de doble pic — silueta plana, sense
-    // brúixola ni estrela; concepte recuperat d'una versió anterior
-    // (visualment més clar per a "activitat a l'aire lliure").
-    oci: '<path d="M3 19 9 8l3.8 5.4 2-2.6L21 19H3Z"/>',
+    // Oci i esports: muntanya de doble pic, ara més alta/prominent dins
+    // el mateix viewBox — silueta plana, sense brúixola ni estrela;
+    // concepte recuperat d'una versió anterior (més clar per a "activitat
+    // a l'aire lliure") i ampliat perquè es note tan fort com la resta.
+    oci: '<path d="M2 19 L8.5 3.6 L12.6 11.16 L15.3 7.52 L22 19 Z"/>',
 
     // Altres: aparador amb tendal ratllat — inconfusible amb una casa/llit.
     altres: '<rect x="3" y="4" width="18" height="3.6" rx="0.6"/>' +
