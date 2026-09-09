@@ -84,8 +84,13 @@
   // viewBox propi per a categories la geometria de les quals ve donada en
   // un sistema de coordenades diferent del 0 0 24 24 habitual (p. ex. una
   // icona aprovada externament). Per defecte totes usen 0 0 24 24.
+  // Allotjaments: la geometria aprovada (paths+rects) ocupa només
+  // x 30-147 / y 85-162 dins del viewBox original 0 0 178 240 — un
+  // "retall" ajustat a eixe requadre (+ un xicotet marge) fa que el llit
+  // òmpliga la icona igual que la resta de glifs, sense tocar cap
+  // coordenada del path.
   var CATEGORY_ICON_VIEWBOX = {
-    allotjaments: '0 0 178 240'
+    allotjaments: '25 80 127 87'
   };
 
   // Mapa de color exacte per categoria — colors institucionals de
