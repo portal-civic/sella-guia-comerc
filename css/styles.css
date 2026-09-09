@@ -397,6 +397,15 @@
   height: 26px;
 }
 
+/* "Totes" no és una categoria real: en compte del cercle sòlid, un anell
+   (fons blanc + vora verda de 3px) amb el glif en verd — mateix diàmetre
+   exterior de 48px que la resta perquè l'alineació no es note. */
+.sg-catnav__icon--ring {
+  background: var(--sg-white);
+  border: 3px solid var(--sg-catnav-accent);
+  color: var(--sg-catnav-accent);
+}
+
 /* Alçada mínima reservada per a DUES línies de text: així la fila
    d'icones es manté perfectament alineada encara que alguna etiqueta
    ("Construcció i instal·lacions") faça salt de línia i altres no. */

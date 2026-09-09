@@ -45,34 +45,35 @@
       '<path d="M16.7 2c-1.8 1-2.9 3-2.9 5.2 0 2 1 3.8 2.6 4.8" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/>' +
       '<path d="M16.7 2v20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/>',
 
-    // Allotjaments: llit vist de costat (capçal + coixí + matalàs + base) —
-    // formes gruixudes perquè es llija clarament fins i tot a 18px.
-    allotjaments: '<rect x="1" y="17" width="22" height="2.4" rx="1.2"/>' +
-      '<rect x="2" y="11.8" width="20" height="5.6" rx="1.5"/>' +
-      '<rect x="1" y="5" width="5" height="13" rx="1.4"/>' +
-      '<rect x="7" y="8.8" width="7" height="4.2" rx="1.6"/>',
+    // Allotjaments: llit vist de costat (capçal alt + matalàs + coixí +
+    // potes) — silueta senzilla, sense perspectiva, llegible a 18-26px.
+    allotjaments: '<rect x="2" y="3" width="3.4" height="15.5" rx="1.2"/>' +
+      '<rect x="2" y="12" width="20" height="6" rx="2"/>' +
+      '<rect x="5.5" y="8.3" width="6.5" height="4.6" rx="2"/>' +
+      '<rect x="3" y="19.6" width="2" height="2.4" rx="0.6"/>' +
+      '<rect x="19" y="19.6" width="2" height="2.4" rx="0.6"/>',
 
-    // Construcció i instal·lacions: dues eines encreuades en X — provat
-    // que un dibuix literal de clau anglesa+tornavís no es distingeix a
-    // 18-21px; l'X d'eines es llig net i inconfusible a eixa mida.
-    construccio: '<g transform="rotate(45 12 12)">' +
-      '<rect x="10.8" y="2" width="2.4" height="10" rx="1.2"/>' +
-      '<rect x="9.6" y="11.5" width="4.8" height="8.5" rx="1.8"/>' +
-      '</g>' +
-      '<g transform="rotate(-45 12 12)">' +
-      '<rect x="10.8" y="2" width="2.4" height="10" rx="1.2"/>' +
-      '<rect x="9.6" y="11.5" width="4.8" height="8.5" rx="1.8"/>' +
+    // Construcció i instal·lacions: una única clau anglesa (boca oberta +
+    // mànec + extrem arrodonit), en diagonal — inconfusible i llegible a
+    // 18-26px; abans eren dues eines encreuades, ara és una sola clau.
+    // (Una versió amb anella al mànec es va provar i es llegia com una
+    // clau de casa, no com una eina; per això la boca oberta de dues
+    // puntes s'ha mantingut adherida al mànec, sense anella.)
+    construccio: '<g transform="rotate(38 12 12)">' +
+      '<rect x="10.5" y="6" width="3" height="13" rx="1.5"/>' +
+      '<rect x="7.4" y="1.8" width="3.7" height="6.8" rx="1.6"/>' +
+      '<rect x="12.9" y="1.8" width="3.7" height="6.8" rx="1.6"/>' +
+      '<rect x="9.2" y="17.6" width="5.6" height="3.6" rx="1.7"/>' +
       '</g>',
 
     // Serveis: maletí d'oficina/negocis.
     serveis: '<rect x="3" y="7.5" width="18" height="11" rx="2.2"/>' +
       '<path d="M8.5 7.5V6a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v1.5" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/>',
 
-    // Oci i esports: brúixola en forma d'estrela de 4 puntes — una agulla
-    // fina de brúixola no es distingia d'un símbol de prohibició a mida
-    // xicoteta; l'estrela és el glif de "brúixola/direcció" habitual.
-    oci: '<circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.6"/>' +
-      '<path d="M12 5l1.8 5.2L19 12l-5.2 1.8L12 19l-1.8-5.2L5 12l5.2-1.8L12 5Z"/>',
+    // Oci i esports: muntanya de doble pic — silueta plana, sense
+    // brúixola ni estrela; concepte recuperat d'una versió anterior
+    // (visualment més clar per a "activitat a l'aire lliure").
+    oci: '<path d="M3 19 9 8l3.8 5.4 2-2.6L21 19H3Z"/>',
 
     // Altres: aparador amb tendal ratllat — inconfusible amb una casa/llit.
     altres: '<rect x="3" y="4" width="18" height="3.6" rx="0.6"/>' +
@@ -358,8 +359,12 @@
       btn.dataset.category = f.id;
       btn.style.setProperty('--sg-catnav-accent', getCategoryColor(f.id));
       btn.setAttribute('aria-pressed', f.id === state.activeCategory ? 'true' : 'false');
+      // "Totes" no és una categoria real: s'hi distingeix amb un anell
+      // (fons blanc + vora verda) en compte del cercle sòlid de les
+      // categories pròpies, mantenint el mateix verd institucional.
+      var iconClass = 'sg-catnav__icon' + (f.id === 'all' ? ' sg-catnav__icon--ring' : '');
       btn.innerHTML =
-        '<span class="sg-catnav__icon">' + getCategoryIconSvg(f.id) + '</span>' +
+        '<span class="' + iconClass + '">' + getCategoryIconSvg(f.id) + '</span>' +
         '<span class="sg-catnav__label">' + escapeHtml(f.label) + '</span>';
       container.appendChild(btn);
     });
