@@ -232,8 +232,13 @@
     ].filter(Boolean).join(' ');
   }
 
+  // Un registre pot tindre diversos telèfons separats per «/».
+  function splitPhones(phone) {
+    return String(phone || '').split('/').map(function (p) { return p.trim(); }).filter(Boolean);
+  }
+
   function telHref(phone) {
-    return 'tel:' + phone.replace(/[^\d+]/g, '');
+    return 'tel:' + splitPhones(phone)[0].replace(/[^\d+]/g, '');
   }
 
   function displayUrl(url) {
@@ -313,7 +318,7 @@
   // Instagram mai apareix ací com a text: només com a botó.
   function getContactLines(b) {
     var lines = [];
-    if (b.phone) lines.push({ href: telHref(b.phone), text: b.phone });
+    splitPhones(b.phone).forEach(function (p) { lines.push({ href: telHref(p), text: p }); });
     if (b.email) lines.push({ href: 'mailto:' + b.email, text: b.email });
     if (b.website) lines.push({ href: websiteHref(b.website), text: displayUrl(b.website), external: true });
     return lines;
@@ -447,6 +452,7 @@
       '<p class="sg-card__eyebrow">' + escapeHtml(getCategoryLabel(b.category)) + '</p>' +
       '<h3 class="sg-card__name">' + escapeHtml(b.name) + '</h3>' +
       '</div></div>' +
+      (b.notice ? '<p class="sg-card__address"><span class="sg-badge sg-badge--notice">' + escapeHtml(b.notice) + '</span></p>' : '') +
       renderAddressHtml(addressInfo, 'sg-card__address') +
       renderContactLinesHtml(contactLines, 'sg-card__meta') +
       (actions.length ? '<div class="sg-card__actions">' + renderActionsHtml(actions) + '</div>' : '');
@@ -683,6 +689,7 @@
       '<p class="sg-popup__category-bar">' + escapeHtml(getCategoryLabel(b.category)) + '</p>' +
       '<div class="sg-popup__body">' +
       '<h3 class="sg-popup__name">' + escapeHtml(b.name) + '</h3>' +
+      (b.notice ? '<p class="sg-popup__address"><span class="sg-badge sg-badge--notice">' + escapeHtml(b.notice) + '</span></p>' : '') +
       renderAddressHtml(addressInfo, 'sg-popup__address') +
       renderContactLinesHtml(contactLines, 'sg-popup__meta') +
       (actions.length ? '<div class="sg-popup__actions">' + renderActionsHtml(actions) + '</div>' : '') +

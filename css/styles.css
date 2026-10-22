@@ -703,6 +703,11 @@
   font-weight: 600;
 }
 
+/* Avís d'estat (p. ex. «Tancat temporalment»): roig institucional. */
+.sg-badge--notice {
+  color: var(--sg-red);
+}
+
 /* Graella de targetes (directori i activitats sense localització fixa).
    Blocs plans de contingut municipal — no targetes SaaS flotants: sense
    vora de color, sense ombra visible, radi mínim. El color depén de la
