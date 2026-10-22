@@ -491,14 +491,14 @@
       "email": null,
       "website": null,
       "instagram": null,
-      "latitude": null,
-      "longitude": null,
+      "latitude": 38.6081077,
+      "longitude": -0.2724904,
       "notice": null,
       "validation_status": "pendent",
       "contrast_status_2026": "Nova fitxa al web",
-      "notes": "Adreça corregida per l'usuari (carrer Font, 1); la fitxa municipal indica «C/ La Fuente Nº 1». Coordenades pendents.",
+      "notes": "Adreça i coordenades facilitades per l'usuari (carrer Font, 1); la fitxa municipal indica «C/ La Fuente Nº 1».",
       "source_url": "https://www.sella.es/alojamiento/la-casa-blava/",
-      "coordinates_status": "pending"
+      "coordinates_status": "provided_by_user"
     },
     {
       "id": "sella-034",
