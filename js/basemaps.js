@@ -33,7 +33,7 @@
         id: 'osm',
         label: 'OpenStreetMap',
         url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-        options: { subdomains: 'abc', maxZoom: 19, attribution: OSM_ATTR }
+        options: { subdomains: 'abc', maxZoom: 19, attribution: OSM_ATTR, className: 'sg-tiles-osm' }
       },
       {
         id: 'osmfr',
