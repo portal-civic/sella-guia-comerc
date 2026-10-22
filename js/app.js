@@ -112,6 +112,7 @@
   // quan cap activitat visible té coordenades (vista general del poble).
   var MAP_CENTER = [38.6089, -0.2734];
   var MAP_ZOOM = 15;
+  var VILLAGE_CENTER = [38.6092, -0.2738]; // vista inicial: nucli urbà de Sella
   var NEIGHBOURHOOD_ZOOM = 16; // zoom aplicat quan només hi ha un marcador visible
   var FIT_BOUNDS_MAX_ZOOM = 17; // evita un zoom excessiu quan els punts són molt pròxims
 
@@ -653,6 +654,21 @@
   // de zoom quan estan molt pròxims entre si.
   function fitMapToVisibleMarkers(list) {
     if (!state.map) return;
+
+    // Sense cap filtre actiu, la vista s'obri centrada al nucli urbà (els
+    // punts allunyats, com Finca Seguró, queden fora d'esta vista inicial).
+    // En triar una categoria o buscar, el mapa s'ajusta per a mostrar tots
+    // els resultats, encara que estiguen fora del poble.
+    if (state.activeCategory === 'all' && !state.searchTerm.trim()) {
+      var villageZoom = window.innerWidth < 700 ? 15 : 16;
+      if (state.reduceMotion || !state.villageViewShown) {
+        state.map.setView(VILLAGE_CENTER, villageZoom);
+      } else {
+        state.map.flyTo(VILLAGE_CENTER, villageZoom);
+      }
+      state.villageViewShown = true;
+      return;
+    }
 
     if (list.length === 0) {
       if (state.reduceMotion) {
