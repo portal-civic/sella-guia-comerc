@@ -485,7 +485,7 @@
       "id": "sella-033",
       "name": "La Casa Blava",
       "category": "allotjaments",
-      "address": "C/ La Fuente, 1, 03579 Sella",
+      "address": "C/ Font, 1, 03579 Sella",
       "location_type": "fixed_public_location",
       "phone": "627 131 338",
       "email": null,
@@ -496,7 +496,7 @@
       "notice": null,
       "validation_status": "pendent",
       "contrast_status_2026": "Nova fitxa al web",
-      "notes": null,
+      "notes": "Adreça corregida per l'usuari (carrer Font, 1); la fitxa municipal indica «C/ La Fuente Nº 1». Coordenades pendents.",
       "source_url": "https://www.sella.es/alojamiento/la-casa-blava/",
       "coordinates_status": "pending"
     },
