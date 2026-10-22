@@ -561,7 +561,14 @@
     var defaultLayer = null;
 
     (config.keyless || []).forEach(function (def) {
-      var layer = L.tileLayer(def.url, def.options);
+      var layer;
+      if (def.type === 'maplibre') {
+        // Capa vectorial (OpenFreeMap). Si MapLibre no s'ha carregat, s'omet.
+        if (!L.maplibreGL) return;
+        layer = L.maplibreGL({ style: def.style, attribution: def.attribution });
+      } else {
+        layer = L.tileLayer(def.url, def.options);
+      }
       layers[def.label] = layer;
       if (!defaultLayer) defaultLayer = layer;
     });

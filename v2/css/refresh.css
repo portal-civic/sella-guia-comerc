@@ -208,10 +208,3 @@
   .sg-card:hover,
   .sg-card:focus-within { transform: none; }
 }
-
-/* ---------- Mapa base OSM amb to suau (estil Positron) ----------
-   Només afecta la capa OpenStreetMap (className 'sg-tiles-osm' a
-   js/basemaps.js); els marcadors i les altres capes no canvien. */
-.sg-guia .sg-tiles-osm {
-  filter: grayscale(1) brightness(1.12) contrast(.82);
-}
