@@ -184,14 +184,15 @@
       "email": "mail@sietebancales.com",
       "website": null,
       "instagram": null,
-      "latitude": null,
-      "longitude": null,
+      "latitude": 38.6348481,
+      "longitude": -0.3208557,
       "notice": null,
       "validation_status": "pendent",
       "contrast_status_2026": "Nova fitxa al web",
       "notes": "Activitat de bodega; la finca també disposa d’una fitxa pròpia d’allotjament.",
       "source_url": "https://www.sella.es/?comercio_local=bodega-finca-seguro",
-      "coordinates_status": "pending"
+      "coordinates_status": "from_municipal_map_link",
+      "coordinates_source": "https://goo.gl/maps/Ez7rgEsa2Qv5EEu97"
     },
     {
       "id": "sella-028",
@@ -431,14 +432,15 @@
       "email": null,
       "website": null,
       "instagram": null,
-      "latitude": null,
-      "longitude": null,
+      "latitude": 38.609341,
+      "longitude": -0.271649,
       "notice": null,
       "validation_status": "pendent",
       "contrast_status_2026": "Nova fitxa al web",
       "notes": "Bed & Breakfast, segons la fitxa municipal.",
       "source_url": "https://www.sella.es/alojamiento/villa-pico/",
-      "coordinates_status": "pending"
+      "coordinates_status": "from_municipal_map_link",
+      "coordinates_source": "https://goo.gl/maps/f3kYqxuqykteu7rq7"
     },
     {
       "id": "sella-031",
@@ -469,14 +471,15 @@
       "email": null,
       "website": null,
       "instagram": null,
-      "latitude": null,
-      "longitude": null,
+      "latitude": 38.6078664,
+      "longitude": -0.2725991,
       "notice": null,
       "validation_status": "pendent",
       "contrast_status_2026": "Nova fitxa al web",
       "notes": null,
       "source_url": "https://www.sella.es/alojamiento/la-casa-verda/",
-      "coordinates_status": "pending"
+      "coordinates_status": "from_municipal_map_link",
+      "coordinates_source": "https://goo.gl/maps/AyqAL8o83zuenudj9"
     },
     {
       "id": "sella-033",
@@ -507,14 +510,15 @@
       "email": null,
       "website": null,
       "instagram": null,
-      "latitude": null,
-      "longitude": null,
+      "latitude": 38.6348481,
+      "longitude": -0.3208557,
       "notice": null,
       "validation_status": "pendent",
       "contrast_status_2026": "Nova fitxa al web",
       "notes": "Fitxa diferenciada de l’allotjament; comparteix dades de contacte amb la bodega de la finca.",
       "source_url": "https://www.sella.es/alojamiento/casa-rural-finca-seguro/",
-      "coordinates_status": "pending"
+      "coordinates_status": "from_municipal_map_link",
+      "coordinates_source": "https://goo.gl/maps/WWSbrWNiRAAXzs2u6"
     },
     {
       "id": "sella-035",
@@ -526,14 +530,15 @@
       "email": null,
       "website": null,
       "instagram": null,
-      "latitude": null,
-      "longitude": null,
+      "latitude": 38.6091004,
+      "longitude": -0.2723135,
       "notice": null,
       "validation_status": "pendent",
       "contrast_status_2026": "Nova fitxa al web",
       "notes": null,
       "source_url": "https://www.sella.es/alojamiento/casa-rural-el-mirador/",
-      "coordinates_status": "pending"
+      "coordinates_status": "from_municipal_map_link",
+      "coordinates_source": "https://goo.gl/maps/2adEjmpiFEsjwX5A6"
     },
     {
       "id": "sella-036",
@@ -564,14 +569,15 @@
       "email": null,
       "website": null,
       "instagram": null,
-      "latitude": null,
-      "longitude": null,
+      "latitude": 38.6126648,
+      "longitude": -0.2794178,
       "notice": "Tancat temporalment",
       "validation_status": "pendent",
       "contrast_status_2026": "Tancat temporalment",
       "notes": "EQUIPAMENT MUNICIPAL. TANCAT TEMPORALMENT: l’avís municipal del 19/08/2024 prohibeix l’acampada fins a nou avís; la pàgina de Turisme Actiu també indica «CERRADA TEMPORALMENTE». No oferir com a allotjament disponible.",
       "source_url": "https://www.sella.es/alojamiento/area-recreativa-font-major/ | https://www.sella.es/turismo_activo/area-recreativa-font-major/ | https://www.sella.es/cierre-area-recreativa-font-major/",
-      "coordinates_status": "pending"
+      "coordinates_status": "from_municipal_map_link",
+      "coordinates_source": "https://goo.gl/maps/fvaRipdyCDx4xW7z5"
     },
     {
       "id": "sella-017",
@@ -602,14 +608,15 @@
       "email": null,
       "website": null,
       "instagram": null,
-      "latitude": null,
-      "longitude": null,
+      "latitude": 38.6074555,
+      "longitude": -0.2724074,
       "notice": null,
       "validation_status": "pendent",
       "contrast_status_2026": "Nova fitxa al web",
       "notes": "Lloguer de bicicletes elèctriques, rutes i articles per a ciclistes; no s’hi publica un telèfon accessible en text.",
       "source_url": "https://www.sella.es/?comercio_local=re-fuel-bikers-guijarro",
-      "coordinates_status": "pending"
+      "coordinates_status": "from_municipal_map_link",
+      "coordinates_source": "https://maps.app.goo.gl/uxu27SbRqCAMchUv5"
     },
     {
       "id": "sella-018",
@@ -754,14 +761,15 @@
       "email": null,
       "website": null,
       "instagram": null,
-      "latitude": null,
-      "longitude": null,
+      "latitude": 38.6074418,
+      "longitude": -0.2718019,
       "notice": null,
       "validation_status": "pendent",
       "contrast_status_2026": "Nova fitxa al web",
       "notes": "Possible correspondència amb «La Fonda» de 2024 (telèfon coincident; adreça diferent). No fusionar les dues fitxes sense comprovació.",
       "source_url": "https://www.sella.es/donde_comer/fonda-casa-mercedes/",
-      "coordinates_status": "pending"
+      "coordinates_status": "from_municipal_map_link",
+      "coordinates_source": "https://goo.gl/maps/ihh1ivxTMFDPu6qi9"
     },
     {
       "id": "sella-025",
