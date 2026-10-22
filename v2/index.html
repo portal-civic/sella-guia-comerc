@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guia de comerç de Sella — proposta v2</title>
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<script defer src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css">
+<script defer src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
+
+<!-- Tipografia dels títols (Alegreya). En WordPress cal carregar-la també
+     (wp_enqueue_style o una línia al <head> del tema). El cos de text
+     continua heretant la tipografia de sella.es. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Alegreya:wght@500;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="css/styles.css">
+<script defer src="../js/basemaps.js"></script>
+<script defer src="js/app.js"></script>
+
+<!-- NOMÉS PREVISUALITZACIÓ: simula la capçalera i la base tipogràfica de
+     sella.es. No es porta a WordPress. -->
+<style>
+  body { margin: 0; background: #fff; color: #222; font-family: -apple-system, system-ui, "Segoe UI", Helvetica, Arial, sans-serif; font-size: 17px; line-height: 1.5; }
+  .preview-page-title { max-width: 1200px; margin: 0 auto; padding: 2rem 16px 0; }
+  .preview-page-title p { margin: 0 0 .25rem; font-size: .85rem; color: #606060; }
+  .preview-page-title h1 { margin: 0; font-size: 2rem; font-weight: 600; color: #222; }
+</style>
+</head>
+<body>
+
+<!-- NOMÉS PREVISUALITZACIÓ: en sella.es, el títol i el camí de navegació
+     els posa la plantilla de WordPress. -->
+<div class="preview-page-title">
+  <p>Portada » Serveis » Comerç local</p>
+  <h1>Guia comercial i de serveis</h1>
+</div>
+
+<!-- ===================== INICI DEL COMPONENT ===================== -->
+<section id="sg-guia" class="sg2" aria-label="Guia de comerços, empreses i serveis de Sella">
+
+  <div class="sg2-intro">
+    <div class="sg2-intro__text">
+      <p class="sg2-intro__lead">Al poble hi ha forns, botigues, bars, allotjaments i professionals que treballen cada dia per als veïns i per a qui ens visita.</p>
+      <p>En aquesta guia trobaràs on són i com contactar-hi. Els números del mapa són els mateixos que els del plànol comercial imprés.</p>
+    </div>
+    <figure class="sg2-photo sg2-photo--intro">
+      <img src="img/carrer-valencia.jpg" width="960" height="960" alt="Carrer València de Sella, amb cases blanques i la serra al fons" loading="lazy">
+      <figcaption>Carrer València. Foto: Jaume Soriano</figcaption>
+    </figure>
+  </div>
+
+  <nav class="sg2-cats" aria-label="Categories">
+    <div id="sg-filters" class="sg2-cats__list" role="group" aria-label="Filtra per categoria"></div>
+  </nav>
+
+  <div id="sg-load-error" class="sg2-error" role="alert" hidden></div>
+
+  <section class="sg2-block" aria-labelledby="sg-map-title">
+    <h2 id="sg-map-title" class="sg2-h2">On són</h2>
+    <div class="sg2-map-wrap">
+      <div id="sg-map" class="sg2-map" role="region" aria-label="Mapa de comerços de Sella"></div>
+      <p id="sg-map-note" class="sg2-map-note" role="status" hidden></p>
+    </div>
+  </section>
+
+  <div class="sg2-search">
+    <label for="sg-search" class="sg2-search__label">Busca per nom, adreça o telèfon</label>
+    <div class="sg2-search__row">
+      <input type="search" id="sg-search" class="sg2-search__input" autocomplete="off">
+      <p id="sg-summary" class="sg2-search__summary" role="status" aria-live="polite">Carregant…</p>
+    </div>
+  </div>
+
+  <section class="sg2-block" aria-labelledby="sg-directory-title">
+    <h2 id="sg-directory-title" class="sg2-h2">Amb local obert al públic</h2>
+    <p id="sg-no-results" class="sg2-empty" role="status" hidden>Cap comerç amb local coincideix amb la busca. Prova amb una altra paraula o tria «Totes».</p>
+    <div id="sg-directory" class="sg2-dir"></div>
+  </section>
+
+  <section class="sg2-block sg2-block--stone" aria-labelledby="sg-unlocated-title">
+    <div class="sg2-stone__head">
+      <div>
+        <h2 id="sg-unlocated-title" class="sg2-h2">Sense local obert al públic</h2>
+        <p class="sg2-stone__text">Professionals i productors que treballen a domicili, per encàrrec o des de casa. Contacta-hi directament.</p>
+      </div>
+      <figure class="sg2-photo sg2-photo--stone">
+        <img src="img/font-major.jpg" width="1200" height="900" alt="Brollador de la Font Major, amb l'aigua clara davant de la reixa de pedra" loading="lazy">
+        <figcaption>Font Major. Foto: Ajuntament de Sella</figcaption>
+      </figure>
+    </div>
+    <p id="sg-unlocated-empty" class="sg2-empty" hidden>Cap activitat sense local coincideix amb la busca.</p>
+    <div id="sg-unlocated" class="sg2-dir"></div>
+  </section>
+
+  <p class="sg2-closing">Falta el teu negoci o hi ha alguna dada incorrecta? Escriu a <a href="mailto:sella@sella.es">sella@sella.es</a> o telefona a l'Ajuntament, <a href="tel:+34965879001">965 87 90 01</a>.</p>
+
+</section>
+<!-- ===================== FI DEL COMPONENT ===================== -->
+
+</body>
+</html>

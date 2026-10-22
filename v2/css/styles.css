@@ -1,0 +1,299 @@
+/*
+  Guia de comerç de Sella — proposta v2
+  Component per a incrustar dins d'una pàgina de sella.es. Tot viu sota
+  .sg2: no es toca html, body ni selectors globals.
+
+  Idea: una guia de poble, no un directori d'aplicació. Llistat en files
+  agrupat per categoria (com una llibreta de telèfons), números que
+  coincideixen amb el plànol imprés i el mapa, dues fotos del poble i
+  títols en Alegreya. El cos hereta la tipografia de sella.es.
+*/
+
+.sg2 {
+  --verd: #106758;
+  --text: #222222;
+  --suau: #5a605c;
+  --linia: #d6dad5;
+  --pedra: #e9ece7;
+  --blanc: #ffffff;
+  --serif: "Alegreya", Georgia, "Times New Roman", serif;
+
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 16px 3rem;
+  color: var(--text);
+  font-family: inherit;
+  line-height: 1.5;
+  box-sizing: border-box;
+}
+.sg2 *, .sg2 *::before, .sg2 *::after { box-sizing: inherit; }
+.sg2 a { color: var(--verd); text-underline-offset: 2px; }
+.sg2 a:hover { color: var(--text); }
+.sg2 :focus-visible { outline: 3px solid var(--verd); outline-offset: 2px; }
+
+.sg2-h2 {
+  margin: 0 0 1rem;
+  font-family: var(--serif);
+  font-weight: 700;
+  font-size: clamp(1.5rem, 1.2rem + 1vw, 2rem);
+  line-height: 1.15;
+  color: var(--verd);
+}
+
+/* ---------- Introducció amb foto ---------- */
+
+.sg2-intro {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+  gap: 2.5rem;
+  align-items: end;
+  padding: 2rem 0 2.5rem;
+}
+.sg2-intro__text { max-width: 36rem; }
+.sg2-intro__text p { margin: 0 0 1rem; color: var(--suau); }
+.sg2-intro__text .sg2-intro__lead {
+  font-family: var(--serif);
+  font-weight: 500;
+  font-size: clamp(1.35rem, 1.1rem + 1vw, 1.8rem);
+  line-height: 1.3;
+  color: var(--text);
+}
+
+.sg2-photo { margin: 0; }
+.sg2-photo img { display: block; width: 100%; height: auto; object-fit: cover; }
+.sg2-photo figcaption { margin-top: .4rem; font-size: .8rem; color: var(--suau); }
+.sg2-photo--intro img { aspect-ratio: 5 / 4; object-position: 50% 60%; }
+
+/* ---------- Categories ---------- */
+
+.sg2-cats {
+  border-top: 1px solid var(--linia);
+  border-bottom: 1px solid var(--linia);
+  margin-bottom: 2.5rem;
+}
+.sg2-cats__list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 .25rem;
+}
+.sg2-cat {
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  padding: .85rem .75rem .75rem;
+  border: 0;
+  border-bottom: 3px solid transparent;
+  background: none;
+  font: inherit;
+  font-size: .95rem;
+  color: var(--text);
+  cursor: pointer;
+}
+.sg2-cat:hover { border-bottom-color: var(--linia); }
+.sg2-cat.is-active { border-bottom-color: var(--accent); font-weight: 600; }
+.sg2-cat__icon {
+  display: inline-grid;
+  place-items: center;
+  width: 1.6rem;
+  height: 1.6rem;
+  border-radius: 50%;
+  background: var(--accent);
+  color: #fff;
+  flex: none;
+}
+.sg2-cat__icon svg { width: 60%; height: 60%; }
+.sg2-cat__icon--all { background: none; color: var(--verd); }
+.sg2-cat__icon--all svg { width: 80%; height: 80%; }
+
+/* ---------- Mapa ---------- */
+
+.sg2-block { margin-bottom: 3rem; }
+.sg2-map-wrap { position: relative; }
+.sg2-map {
+  height: clamp(320px, 50vh, 480px);
+  border: 1px solid var(--linia);
+  background: var(--pedra);
+}
+.sg2-map .leaflet-tile-pane { filter: saturate(.55) contrast(1.02); }
+.sg2-map-note { margin: .5rem 0 0; font-size: .9rem; color: var(--suau); }
+
+.sg2-pin {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  color: #fff;
+  font: 700 13px/1 system-ui, sans-serif;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, .35);
+  transition: transform .15s ease;
+}
+.sg2-marker--active .sg2-pin { transform: scale(1.3); }
+.sg2-cluster {
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--verd);
+  border: 3px solid #fff;
+  color: #fff;
+  font: 700 14px/1 system-ui, sans-serif;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, .35);
+}
+
+.sg2 .leaflet-popup-content-wrapper { border-radius: 2px; }
+.sg2 .leaflet-popup-content { margin: .85rem 1rem; font-family: inherit; font-size: .9rem; line-height: 1.4; }
+.sg2-pop__name { margin: 0 0 .15rem; font-family: var(--serif); font-size: 1.15rem; font-weight: 700; line-height: 1.2; }
+.sg2-pop__cat { margin: 0 0 .5rem; color: var(--suau); }
+.sg2-pop p { margin: 0 0 .3rem; }
+
+/* ---------- Busca ---------- */
+
+.sg2-search { margin: 0 0 2rem; }
+.sg2-search__label { display: block; margin-bottom: .35rem; font-weight: 600; }
+.sg2-search__row { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem 1.5rem; }
+.sg2-search__input {
+  flex: 0 1 26rem;
+  min-width: 0;
+  padding: .65rem .8rem;
+  border: 1px solid #9aa19c;
+  border-radius: 2px;
+  background: #fff;
+  font: inherit;
+  color: var(--text);
+}
+.sg2-search__input:focus { outline: 3px solid var(--verd); outline-offset: 0; border-color: var(--verd); }
+.sg2-search__summary { margin: 0; color: var(--suau); font-size: .95rem; }
+
+/* ---------- Llistat (la peça central) ---------- */
+
+.sg2-group { margin-bottom: 2rem; }
+.sg2-group__title {
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+  margin: 0;
+  padding-bottom: .5rem;
+  border-bottom: 2px solid var(--accent);
+  font-family: var(--serif);
+  font-weight: 700;
+  font-size: 1.25rem;
+  line-height: 1.2;
+}
+.sg2-group__title .sg2-cat__icon { width: 1.5rem; height: 1.5rem; }
+.sg2-rows { list-style: none; margin: 0; padding: 0; }
+
+.sg2-row {
+  display: grid;
+  grid-template-columns: 2.25rem minmax(0, 1fr) auto;
+  gap: .25rem 1rem;
+  align-items: baseline;
+  padding: .9rem 0;
+  border-bottom: 1px solid var(--linia);
+}
+.sg2-row--nonum { grid-template-columns: minmax(0, 1fr) auto; }
+.sg2-row.is-hl { background: linear-gradient(to right, var(--pedra), var(--pedra)) no-repeat; }
+
+.sg2-num {
+  display: inline-grid;
+  place-items: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: 50%;
+  background: var(--accent);
+  color: #fff;
+  font-size: .85rem;
+  font-weight: 700;
+  line-height: 1;
+  align-self: center;
+}
+.sg2-row__name {
+  margin: 0;
+  font-family: var(--serif);
+  font-weight: 700;
+  font-size: 1.2rem;
+  line-height: 1.25;
+}
+.sg2-row__addr { margin: .1rem 0 0; color: var(--suau); font-size: .95rem; }
+
+.sg2-row__contact { text-align: right; }
+.sg2-row__phone {
+  display: inline-block;
+  font-size: 1.1rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  text-decoration: none;
+}
+.sg2-row__phone:hover { text-decoration: underline; }
+.sg2-row__nophone { color: var(--suau); font-size: .9rem; }
+.sg2-row__links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: .15rem 1rem;
+  margin: .2rem 0 0;
+  padding: 0;
+  list-style: none;
+  font-size: .9rem;
+}
+.sg2-maplink {
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  color: var(--verd);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  cursor: pointer;
+}
+.sg2-maplink:hover { color: var(--text); }
+
+.sg2-empty { margin: 0 0 1rem; color: var(--suau); }
+.sg2-error { margin: 0 0 2rem; padding: .75rem 1rem; border-left: 4px solid #c20a01; background: #fbeeed; }
+
+/* ---------- Franja de pedra: sense local ---------- */
+
+.sg2-block--stone {
+  margin-left: -16px;
+  margin-right: -16px;
+  padding: 2.5rem 16px 1.5rem;
+  background: var(--pedra);
+}
+.sg2-block--stone .sg2-row { border-bottom-color: #c9cec8; }
+.sg2-stone__head {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 18rem);
+  gap: 2rem;
+  align-items: start;
+  margin-bottom: 1.5rem;
+}
+.sg2-stone__text { margin: 0; max-width: 34rem; color: var(--suau); }
+.sg2-photo--stone img { aspect-ratio: 4 / 3; }
+
+.sg2-closing {
+  margin: 0;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--linia);
+  color: var(--suau);
+}
+
+/* ---------- Mòbil ---------- */
+
+@media (max-width: 760px) {
+  .sg2-intro { grid-template-columns: 1fr; gap: 1.5rem; padding-top: 1.25rem; }
+  .sg2-photo--intro img { aspect-ratio: 3 / 2; }
+  .sg2-cats__list { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: thin; }
+  .sg2-cat { white-space: nowrap; padding-left: .5rem; padding-right: .5rem; }
+  .sg2-row { grid-template-columns: 2.25rem minmax(0, 1fr); }
+  .sg2-row--nonum { grid-template-columns: minmax(0, 1fr); }
+  .sg2-row__contact { grid-column: 2; text-align: left; }
+  .sg2-row--nonum .sg2-row__contact { grid-column: 1; }
+  .sg2-row__links { justify-content: flex-start; }
+  .sg2-stone__head { grid-template-columns: 1fr; gap: 1.25rem; }
+  .sg2-photo--stone { max-width: 22rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sg2-pin { transition: none; }
+}
