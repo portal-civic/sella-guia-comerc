@@ -600,7 +600,8 @@
       center: MAP_CENTER,
       zoom: MAP_ZOOM,
       layers: baseLayers.defaultLayer ? [baseLayers.defaultLayer] : [],
-      scrollWheelZoom: false
+      scrollWheelZoom: false,
+      maxZoom: 19 // necessari per a markercluster amb capes vectorials
     });
 
     if (Object.keys(baseLayers.layers).length > 1) {
