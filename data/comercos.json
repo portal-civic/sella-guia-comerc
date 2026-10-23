@@ -1,13 +1,10 @@
 {
   "meta": {
     "project": "Guia digital de comerços, empreses i serveis de Sella",
-    "source": "Llistat contrastat 2026 (guia 2024 + fitxes del web municipal, consulta 22/10/2026)",
-    "source_year": 2026,
-    "language": "ca",
+    "source": "Còpia de seguretat del full de Google (pestanya Dades)",
+    "generated": "2026-10-23",
     "notes": [
-      "Totes les dades estan pendents de validació definitiva per l'Ajuntament de Sella.",
-      "Els camps contrast_status_2026, notes i source_url són de treball intern i no es mostren a la web.",
-      "Els registres amb location_type 'no_fixed_public_location' no apareixen al mapa. Els registres amb local però sense coordenades apareixen al directori però encara no al mapa."
+      "La font principal és el full de Google publicat (vegeu js/data-source.js). Este fitxer només s'usa si el full no es pot llegir."
     ]
   },
   "categories": [
@@ -53,12 +50,7 @@
       "instagram": null,
       "latitude": 38.6085877,
       "longitude": -0.2713208,
-      "notice": null,
-      "validation_status": "pendent",
-      "contrast_status_2026": "Publicat al web municipal",
-      "notes": null,
-      "source_url": "https://www.sella.es/?comercio_local=forn-el-secanet",
-      "coordinates_status": "manually_validated"
+      "notice": null
     },
     {
       "id": "sella-002",
@@ -72,12 +64,7 @@
       "instagram": null,
       "latitude": 38.6082928,
       "longitude": -0.2730949,
-      "notice": null,
-      "validation_status": "pendent",
-      "contrast_status_2026": "Publicat al web municipal",
-      "notes": null,
-      "source_url": "https://www.sella.es/?comercio_local=panaderia-forn-santamaria",
-      "coordinates_status": "manually_validated"
+      "notice": null
     },
     {
       "id": "sella-003",
@@ -91,12 +78,7 @@
       "instagram": null,
       "latitude": 38.6085668,
       "longitude": -0.2719109,
-      "notice": null,
-      "validation_status": "pendent",
-      "contrast_status_2026": "Publicat al web municipal",
-      "notes": null,
-      "source_url": "https://www.sella.es/?comercio_local=supermercat-ivorra",
-      "coordinates_status": "manually_validated"
+      "notice": null
     },
     {
       "id": "sella-004",
@@ -110,12 +92,7 @@
       "instagram": null,
       "latitude": 38.6093523,
       "longitude": -0.2732938,
-      "notice": null,
-      "validation_status": "pendent",
-      "contrast_status_2026": "Publicat al web municipal",
-      "notes": null,
-      "source_url": "https://www.sella.es/?comercio_local=supermercat-pepi-i-ribera",
-      "coordinates_status": "manually_validated"
+      "notice": null
     },
     {
       "id": "sella-005",
@@ -129,12 +106,7 @@
       "instagram": null,
       "latitude": null,
       "longitude": null,
-      "notice": null,
-      "validation_status": "pendent",
-      "contrast_status_2026": "Publicat al web municipal",
-      "notes": null,
-      "source_url": "https://www.sella.es/?comercio_local=oli-doliva-verge-extra-la-rapella",
-      "coordinates_status": "not_applicable"
+      "notice": null
     },
     {
       "id": "sella-006",
@@ -148,12 +120,7 @@
       "instagram": null,
       "latitude": null,
       "longitude": null,
-      "notice": null,
-      "validation_status": "pendent",
-      "contrast_status_2026": "Publicat al web municipal",
-      "notes": null,
-      "source_url": "https://www.sella.es/serveis/comerc-local/",
-      "coordinates_status": "not_applicable"
+      "notice": null
     },
     {
       "id": "sella-026",
@@ -167,12 +134,7 @@
       "instagram": null,
       "latitude": null,
       "longitude": null,
-      "notice": null,
-      "validation_status": "pendent",
-      "contrast_status_2026": "Nova fitxa al web",
-      "notes": "Verds i subministraments ecològics. Sense adreça ni telèfon publicats en la fitxa.",
-      "source_url": "https://www.sella.es/?comercio_local=arca-marina-baixa",
-      "coordinates_status": "not_applicable"
+      "notice": null
     },
     {
       "id": "sella-027",
@@ -186,13 +148,7 @@
       "instagram": null,
       "latitude": 38.6348481,
       "longitude": -0.3208557,
-      "notice": null,
-      "validation_status": "pendent",
-      "contrast_status_2026": "Nova fitxa al web",
-      "notes": "Activitat de bodega; la finca també disposa d’una fitxa pròpia d’allotjament.",
-      "source_url": "https://www.sella.es/?comercio_local=bodega-finca-seguro",
-      "coordinates_status": "from_municipal_map_link",
-      "coordinates_source": "https://goo.gl/maps/Ez7rgEsa2Qv5EEu97"
+      "notice": null
     },
     {
       "id": "sella-028",
@@ -206,12 +162,7 @@
       "instagram": null,
       "latitude": null,
       "longitude": null,
-      "notice": null,
-      "validation_status": "pendent",
-      "contrast_status_2026": "Nova fitxa al web",
-      "notes": "ATENCIÓ: publicada en comerç local de Sella, però la fitxa indica domicili a Villajoyosa. Cal aclarir l’emplaçament de l’activitat abans de geolocalitzar-la.",
-      "source_url": "https://www.sella.es/?comercio_local=bodegas-mas-de-la-real-de-sella",
-      "coordinates_status": "not_applicable"
+      "notice": null
     },
     {
       "id": "sella-007",
@@ -225,12 +176,7 @@
       "instagram": null,
       "latitude": 38.6074379,
       "longitude": -0.2719755,
-      "notice": null,
-      "validation_status": "pendent",
-      "contrast_status_2026": "Vigència per confirmar",
-      "notes": "No figura amb esta denominació en els tres apartats consultats.",
-      "source_url": "https://www.sella.es/serveis/comerc-local/ | https://www.sella.es/turisme/gastronomia/ | https://www.sella.es/turisme/allotjament/",
-      "coordinates_status": "manually_validated"
+      "notice": null
     },
     {
       "id": "sella-008",
@@ -244,12 +190,7 @@
       "instagram": null,
       "latitude": null,
       "longitude": null,
-      "notice": null,
-      "validation_status": "pendent",
-      "contrast_status_2026": "Publicat al web municipal",
-      "notes": null,
-      "source_url": "https://www.sella.es/?comercio_local=cristaleria-joan-vicent-mas",
-      "coordinates_status": "not_applicable"
+      "notice": null
     },
     {
       "id": "sella-009",
@@ -263,31 +204,21 @@
       "instagram": null,
       "latitude": null,
       "longitude": null,
-      "notice": null,
-      "validation_status": "pendent",
-      "contrast_status_2026": "Vigència per confirmar",
-      "notes": "No figura amb esta denominació en els tres apartats consultats.",
-      "source_url": "https://www.sella.es/serveis/comerc-local/ | https://www.sella.es/turisme/gastronomia/ | https://www.sella.es/turisme/allotjament/",
-      "coordinates_status": "not_applicable"
+      "notice": null
     },
     {
       "id": "sella-010",
       "name": "Electricitat Javier Pérez Llinares",
       "category": "construccio",
-      "address": null,
-      "location_type": "no_fixed_public_location",
+      "address": "Quatre Cantons, 28, 03579 Sella",
+      "location_type": "fixed_public_location",
       "phone": "699 010 450",
-      "email": null,
+      "email": "electricitatjavi@hotmail.com",
       "website": null,
       "instagram": null,
       "latitude": null,
       "longitude": null,
-      "notice": null,
-      "validation_status": "pendent",
-      "contrast_status_2026": "Publicat al web municipal",
-      "notes": null,
-      "source_url": "https://www.sella.es/?comercio_local=javier-perez-llinares",
-      "coordinates_status": "not_applicable"
+      "notice": null
     },
     {
       "id": "sella-029",
@@ -301,12 +232,7 @@
       "instagram": null,
       "latitude": null,
       "longitude": null,
-      "notice": null,
-      "validation_status": "pendent",
-      "contrast_status_2026": "Nova fitxa al web",
-      "notes": "Servei d’enginyeria d’energies renovables; no consta adreça de local públic.",
-      "source_url": "https://www.sella.es/?comercio_local=i-e-r-tigre-ingenieria-de-energias-renovables",
-      "coordinates_status": "not_applicable"
+      "notice": null
     },
     {
       "id": "sella-011",
@@ -320,12 +246,7 @@
       "instagram": null,
       "latitude": 38.6089488,
       "longitude": -0.2732542,
-      "notice": null,
-      "validation_status": "pendent",
-      "contrast_status_2026": "Publicat al web municipal",
-      "notes": null,
-      "source_url": "https://www.sella.es/?comercio_local=divitrans-asesoria",
-      "coordinates_status": "manually_validated"
+      "notice": null
     },
     {
       "id": "sella-012",
@@ -339,12 +260,7 @@
       "instagram": null,
       "latitude": 38.6074667,
       "longitude": -0.2711545,
-      "notice": null,
-      "validation_status": "pendent",
-      "contrast_status_2026": "Vigència per confirmar",
-      "notes": "No figura amb esta denominació en els tres apartats consultats.",
-      "source_url": "https://www.sella.es/serveis/comerc-local/ | https://www.sella.es/turisme/gastronomia/ | https://www.sella.es/turisme/allotjament/",
-      "coordinates_status": "manually_validated"
+      "notice": null
     },
     {
       "id": "sella-013",
@@ -358,12 +274,7 @@
       "instagram": null,
       "latitude": null,
       "longitude": null,
-      "notice": null,
-      "validation_status": "pendent",
-      "contrast_status_2026": "Publicat al web municipal",
-      "notes": null,
-      "source_url": "https://www.sella.es/?comercio_local=sella-gas",
-      "coordinates_status": "not_applicable"
+      "notice": null
     },
     {
       "id": "sella-014",
@@ -377,12 +288,7 @@
       "instagram": "la_marimorena_apartments",
       "latitude": 38.6093576,
       "longitude": -0.2709688,
-      "notice": null,
-      "validation_status": "pendent",
-      "contrast_status_2026": "Vigència per confirmar",
-      "notes": "No figura amb este nom. La fitxa «Casa Marcelino» coincideix en adreça i telèfon; «La casita de la tía Pepa Rosa» comparteix telèfon. Possible relació, pendent de confirmar.",
-      "source_url": "https://www.sella.es/serveis/comerc-local/ | https://www.sella.es/turisme/gastronomia/ | https://www.sella.es/turisme/allotjament/",
-      "coordinates_status": "manually_validated"
+      "notice": null
     },
     {
       "id": "sella-015",
@@ -396,12 +302,7 @@
       "instagram": null,
       "latitude": 38.6092322,
       "longitude": -0.271862,
-      "notice": null,
-      "validation_status": "pendent",
-      "contrast_status_2026": "Publicat / coincidència",
-      "notes": "En la web figura sota «Las casas del Raval», que inclou «Casa Roc», a la mateixa adreça i amb el mateix telèfon; també esmenta La Casita de las Nubes i La Casita de los Pájaros.",
-      "source_url": "https://www.sella.es/alojamiento/las-casas-del-raval/",
-      "coordinates_status": "manually_validated"
+      "notice": null
     },
     {
       "id": "sella-016",
@@ -415,12 +316,7 @@
       "instagram": null,
       "latitude": 38.6094577,
       "longitude": -0.2710448,
-      "notice": null,
-      "validation_status": "pendent",
-      "contrast_status_2026": "Publicat / coincidència",
-      "notes": "La web ho identifica com «Ca Isa i Toni», al C/ Cirineo, 31; la fitxa anuncia restaurant i apartaments turístics.",
-      "source_url": "https://www.sella.es/alojamiento/ca-isa-i-toni/",
-      "coordinates_status": "manually_validated"
+      "notice": null
     },
     {
       "id": "sella-030",
@@ -434,13 +330,7 @@
       "instagram": null,
       "latitude": 38.609341,
       "longitude": -0.271649,
-      "notice": null,
-      "validation_status": "pendent",
-      "contrast_status_2026": "Nova fitxa al web",
-      "notes": "Bed & Breakfast, segons la fitxa municipal.",
-      "source_url": "https://www.sella.es/alojamiento/villa-pico/",
-      "coordinates_status": "from_municipal_map_link",
-      "coordinates_source": "https://goo.gl/maps/f3kYqxuqykteu7rq7"
+      "notice": null
     },
     {
       "id": "sella-031",
@@ -454,12 +344,7 @@
       "instagram": null,
       "latitude": null,
       "longitude": null,
-      "notice": null,
-      "validation_status": "pendent",
-      "contrast_status_2026": "Nova fitxa al web",
-      "notes": "Allotjament tipus loft. Comparteix telèfon amb el registre 2024 «La Marimorena»; relació pendent de confirmar.",
-      "source_url": "https://www.sella.es/alojamiento/la-casita-de-la-tia-pepa-rosa/",
-      "coordinates_status": "not_applicable"
+      "notice": null
     },
     {
       "id": "sella-032",
@@ -473,13 +358,7 @@
       "instagram": null,
       "latitude": 38.6078664,
       "longitude": -0.2725991,
-      "notice": null,
-      "validation_status": "pendent",
-      "contrast_status_2026": "Nova fitxa al web",
-      "notes": null,
-      "source_url": "https://www.sella.es/alojamiento/la-casa-verda/",
-      "coordinates_status": "from_municipal_map_link",
-      "coordinates_source": "https://goo.gl/maps/AyqAL8o83zuenudj9"
+      "notice": null
     },
     {
       "id": "sella-033",
@@ -493,12 +372,7 @@
       "instagram": null,
       "latitude": 38.6081077,
       "longitude": -0.2724904,
-      "notice": null,
-      "validation_status": "pendent",
-      "contrast_status_2026": "Nova fitxa al web",
-      "notes": "Adreça i coordenades facilitades per l'usuari (carrer Font, 1); la fitxa municipal indica «C/ La Fuente Nº 1».",
-      "source_url": "https://www.sella.es/alojamiento/la-casa-blava/",
-      "coordinates_status": "provided_by_user"
+      "notice": null
     },
     {
       "id": "sella-034",
@@ -512,13 +386,7 @@
       "instagram": null,
       "latitude": 38.6348481,
       "longitude": -0.3208557,
-      "notice": null,
-      "validation_status": "pendent",
-      "contrast_status_2026": "Nova fitxa al web",
-      "notes": "Fitxa diferenciada de l’allotjament; comparteix dades de contacte amb la bodega de la finca.",
-      "source_url": "https://www.sella.es/alojamiento/casa-rural-finca-seguro/",
-      "coordinates_status": "from_municipal_map_link",
-      "coordinates_source": "https://goo.gl/maps/WWSbrWNiRAAXzs2u6"
+      "notice": null
     },
     {
       "id": "sella-035",
@@ -532,13 +400,7 @@
       "instagram": null,
       "latitude": 38.6091004,
       "longitude": -0.2723135,
-      "notice": null,
-      "validation_status": "pendent",
-      "contrast_status_2026": "Nova fitxa al web",
-      "notes": null,
-      "source_url": "https://www.sella.es/alojamiento/casa-rural-el-mirador/",
-      "coordinates_status": "from_municipal_map_link",
-      "coordinates_source": "https://goo.gl/maps/2adEjmpiFEsjwX5A6"
+      "notice": null
     },
     {
       "id": "sella-036",
@@ -552,12 +414,7 @@
       "instagram": null,
       "latitude": 38.6093576,
       "longitude": -0.2709688,
-      "notice": null,
-      "validation_status": "pendent",
-      "contrast_status_2026": "Nova fitxa al web",
-      "notes": "Mateixa adreça i telèfon que «La Marimorena Apartments & Houses» (llistat 2024): possible correspondència, pendent de validar.",
-      "source_url": "https://www.sella.es/alojamiento/casa-marcelino/",
-      "coordinates_status": "same_address_as_sella-014"
+      "notice": null
     },
     {
       "id": "sella-037",
@@ -571,13 +428,7 @@
       "instagram": null,
       "latitude": 38.6126648,
       "longitude": -0.2794178,
-      "notice": "Tancat temporalment",
-      "validation_status": "pendent",
-      "contrast_status_2026": "Tancat temporalment",
-      "notes": "EQUIPAMENT MUNICIPAL. TANCAT TEMPORALMENT: l’avís municipal del 19/08/2024 prohibeix l’acampada fins a nou avís; la pàgina de Turisme Actiu també indica «CERRADA TEMPORALMENTE». No oferir com a allotjament disponible.",
-      "source_url": "https://www.sella.es/alojamiento/area-recreativa-font-major/ | https://www.sella.es/turismo_activo/area-recreativa-font-major/ | https://www.sella.es/cierre-area-recreativa-font-major/",
-      "coordinates_status": "from_municipal_map_link",
-      "coordinates_source": "https://goo.gl/maps/fvaRipdyCDx4xW7z5"
+      "notice": "Tancat temporalment"
     },
     {
       "id": "sella-017",
@@ -591,12 +442,7 @@
       "instagram": null,
       "latitude": null,
       "longitude": null,
-      "notice": null,
-      "validation_status": "pendent",
-      "contrast_status_2026": "Publicat al web municipal",
-      "notes": null,
-      "source_url": "https://www.sella.es/?comercio_local=aitana-aventures",
-      "coordinates_status": "not_applicable"
+      "notice": null
     },
     {
       "id": "sella-038",
@@ -610,13 +456,7 @@
       "instagram": null,
       "latitude": 38.6074555,
       "longitude": -0.2724074,
-      "notice": null,
-      "validation_status": "pendent",
-      "contrast_status_2026": "Nova fitxa al web",
-      "notes": "Lloguer de bicicletes elèctriques, rutes i articles per a ciclistes; no s’hi publica un telèfon accessible en text.",
-      "source_url": "https://www.sella.es/?comercio_local=re-fuel-bikers-guijarro",
-      "coordinates_status": "from_municipal_map_link",
-      "coordinates_source": "https://maps.app.goo.gl/uxu27SbRqCAMchUv5"
+      "notice": null
     },
     {
       "id": "sella-018",
@@ -630,12 +470,7 @@
       "instagram": null,
       "latitude": 38.6095546,
       "longitude": -0.2754086,
-      "notice": null,
-      "validation_status": "pendent",
-      "contrast_status_2026": "Publicat al web municipal",
-      "notes": null,
-      "source_url": "https://www.sella.es/donde_comer/pizzeria-les-voltes/",
-      "coordinates_status": "manually_validated"
+      "notice": null
     },
     {
       "id": "sella-019",
@@ -649,12 +484,7 @@
       "instagram": null,
       "latitude": 38.6094629,
       "longitude": -0.2710193,
-      "notice": null,
-      "validation_status": "pendent",
-      "contrast_status_2026": "Publicat / coincidència",
-      "notes": "La fitxa d’allotjament «Ca Isa i Toni» confirma restaurant i apartaments turístics a la mateixa adreça; no apareix a l’apartat municipal «On menjar».",
-      "source_url": "https://www.sella.es/alojamiento/ca-isa-i-toni/",
-      "coordinates_status": "manually_validated"
+      "notice": null
     },
     {
       "id": "sella-020",
@@ -668,12 +498,7 @@
       "instagram": null,
       "latitude": 38.6085703,
       "longitude": -0.2716464,
-      "notice": null,
-      "validation_status": "pendent",
-      "contrast_status_2026": "Vigència per confirmar",
-      "notes": "No figura amb esta denominació en els tres apartats consultats.",
-      "source_url": "https://www.sella.es/serveis/comerc-local/ | https://www.sella.es/turisme/gastronomia/ | https://www.sella.es/turisme/allotjament/",
-      "coordinates_status": "manually_validated"
+      "notice": null
     },
     {
       "id": "sella-021",
@@ -681,18 +506,13 @@
       "category": "restauracio",
       "address": "Avenida EVA, 12, 03579 Sella",
       "location_type": "fixed_public_location",
-      "phone": null,
+      "phone": "865 815 745",
       "email": null,
       "website": null,
       "instagram": null,
       "latitude": 38.6075622,
       "longitude": -0.2724024,
-      "notice": null,
-      "validation_status": "pendent",
-      "contrast_status_2026": "Publicat / coincidència",
-      "notes": "La fitxa municipal el denomina «Bar La Ferreria» i situa l’establiment a Avda. l’Eva, 5-12.",
-      "source_url": "https://www.sella.es/donde_comer/bar-la-ferreria/",
-      "coordinates_status": "manually_validated"
+      "notice": null
     },
     {
       "id": "sella-022",
@@ -706,12 +526,7 @@
       "instagram": null,
       "latitude": 38.6074521,
       "longitude": -0.2720866,
-      "notice": null,
-      "validation_status": "pendent",
-      "contrast_status_2026": "Publicat / coincidència",
-      "notes": "El web municipal publica «Ctra. de Alcoy, 19»; el llistat de 2024 indica «Avinguda Eva, 19». Adreça a confirmar.",
-      "source_url": "https://www.sella.es/donde_comer/bar-maria/",
-      "coordinates_status": "manually_validated"
+      "notice": null
     },
     {
       "id": "sella-023",
@@ -719,18 +534,13 @@
       "category": "restauracio",
       "address": "Partida Les Saleres, 03579 Sella",
       "location_type": "fixed_public_location",
-      "phone": "647 581 227",
+      "phone": "622 296 266",
       "email": null,
       "website": null,
       "instagram": null,
       "latitude": 38.6100585,
       "longitude": -0.2785994,
-      "notice": null,
-      "validation_status": "pendent",
-      "contrast_status_2026": "Publicat / coincidència",
-      "notes": "La fitxa municipal situa el bar junt amb la piscina municipal i no publica telèfon; el telèfon conservat prové de la guia de 2024.",
-      "source_url": "https://www.sella.es/donde_comer/bar-la-piscina/",
-      "coordinates_status": "manually_validated"
+      "notice": null
     },
     {
       "id": "sella-024",
@@ -744,12 +554,7 @@
       "instagram": null,
       "latitude": 38.6074138,
       "longitude": -0.2718042,
-      "notice": null,
-      "validation_status": "pendent",
-      "contrast_status_2026": "Vigència per confirmar",
-      "notes": "No figura amb este nom. «Fonda Casa Mercedes» comparteix telèfon (965 879 011), però l’adreça municipal (Avda. l’Eva, 5-15) no coincideix amb la del llistat 2024 (Avda. EVA, 13). Possible equivalència pendent de confirmar.",
-      "source_url": "https://www.sella.es/donde_comer/fonda-casa-mercedes/",
-      "coordinates_status": "manually_validated"
+      "notice": null
     },
     {
       "id": "sella-039",
@@ -763,13 +568,7 @@
       "instagram": null,
       "latitude": 38.6074418,
       "longitude": -0.2718019,
-      "notice": null,
-      "validation_status": "pendent",
-      "contrast_status_2026": "Nova fitxa al web",
-      "notes": "Possible correspondència amb «La Fonda» de 2024 (telèfon coincident; adreça diferent). No fusionar les dues fitxes sense comprovació.",
-      "source_url": "https://www.sella.es/donde_comer/fonda-casa-mercedes/",
-      "coordinates_status": "from_municipal_map_link",
-      "coordinates_source": "https://goo.gl/maps/ihh1ivxTMFDPu6qi9"
+      "notice": null
     },
     {
       "id": "sella-025",
@@ -783,12 +582,105 @@
       "instagram": null,
       "latitude": 38.6085356,
       "longitude": -0.271739,
-      "notice": null,
-      "validation_status": "pendent",
-      "contrast_status_2026": "Vigència per confirmar",
-      "notes": "No figura amb esta denominació en els tres apartats consultats.",
-      "source_url": "https://www.sella.es/serveis/comerc-local/ | https://www.sella.es/turisme/gastronomia/ | https://www.sella.es/turisme/allotjament/",
-      "coordinates_status": "manually_validated"
+      "notice": null
+    },
+    {
+      "id": "sella-040",
+      "name": "Àngel Mas",
+      "category": "construccio",
+      "address": "C/ de l'Àngel, 10, 03579 Sella",
+      "location_type": "fixed_public_location",
+      "phone": "626 421 477",
+      "email": null,
+      "website": null,
+      "instagram": null,
+      "latitude": null,
+      "longitude": null,
+      "notice": null
+    },
+    {
+      "id": "sella-041",
+      "name": "Ruinas con Futuro",
+      "category": "construccio",
+      "address": null,
+      "location_type": "no_fixed_public_location",
+      "phone": "697 565 887",
+      "email": null,
+      "website": null,
+      "instagram": null,
+      "latitude": null,
+      "longitude": null,
+      "notice": null
+    },
+    {
+      "id": "sella-042",
+      "name": "Tecnoseñoria",
+      "category": "serveis",
+      "address": "Ctra. d'Alcoi, 3, 03579 Sella",
+      "location_type": "fixed_public_location",
+      "phone": "965 879 052",
+      "email": null,
+      "website": null,
+      "instagram": null,
+      "latitude": null,
+      "longitude": null,
+      "notice": null
+    },
+    {
+      "id": "sella-043",
+      "name": "El Traure",
+      "category": "restauracio",
+      "address": "Plaça Major, 18, 03579 Sella",
+      "location_type": "fixed_public_location",
+      "phone": null,
+      "email": null,
+      "website": null,
+      "instagram": null,
+      "latitude": 38.6085703,
+      "longitude": -0.2716464,
+      "notice": null
+    },
+    {
+      "id": "sella-044",
+      "name": "Ca Xaro",
+      "category": "restauracio",
+      "address": "Plaça Major, 10, 03579 Sella",
+      "location_type": "fixed_public_location",
+      "phone": "623 511 592",
+      "email": null,
+      "website": null,
+      "instagram": null,
+      "latitude": null,
+      "longitude": null,
+      "notice": null
+    },
+    {
+      "id": "sella-045",
+      "name": "El Tresor",
+      "category": "restauracio",
+      "address": "Plaça Major, 11, 03579 Sella",
+      "location_type": "fixed_public_location",
+      "phone": "965 778 476 / 650 250 851",
+      "email": null,
+      "website": null,
+      "instagram": null,
+      "latitude": null,
+      "longitude": null,
+      "notice": null
+    },
+    {
+      "id": "sella-046",
+      "name": "Farmàcia Ldo. José Vicente Herrero",
+      "category": "altres",
+      "address": "Plaça Major, 19, 03579 Sella",
+      "location_type": "fixed_public_location",
+      "phone": "965 879 116",
+      "email": null,
+      "website": null,
+      "instagram": null,
+      "latitude": null,
+      "longitude": null,
+      "notice": null
     }
   ]
 }

@@ -145,6 +145,9 @@
   }
 
   function loadData() {
+    // Font principal: full de Google (js/data-source.js); DATA_URL és la
+    // còpia de seguretat si el full no es pot llegir.
+    if (window.SG_loadData) return window.SG_loadData(DATA_URL);
     return fetch(DATA_URL).then(function (res) {
       if (!res.ok) {
         throw new Error('No s’han pogut carregar les dades (' + res.status + ')');
