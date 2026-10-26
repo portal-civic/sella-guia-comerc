@@ -470,6 +470,59 @@
   .sg3-mapcol { height: calc(100svh - 6.5rem); min-height: 360px; padding: .75rem 0 0; }
 }
 
+/* Mòbil i tauleta: la panoràmica passa a ser el fons de l'obertura, amb el
+   títol i el text damunt, perquè les categories es vegen a la primera pantalla. */
+@media (max-width: 1023px) {
+  .sg3-open {
+    position: relative;
+    display: block;
+    max-width: none;
+    padding: 0;
+    overflow: hidden;
+    background: var(--verd-fosc);
+  }
+  .sg3-hero {
+    position: absolute;
+    inset: 0;
+    border-radius: 0;
+  }
+  .sg3-hero img {
+    width: 100%;
+    height: 100%;
+    aspect-ratio: auto;
+    object-position: 50% 45%;
+  }
+  .sg3-hero::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(11, 61, 52, .92) 0%, rgba(11, 61, 52, .6) 42%, rgba(11, 61, 52, 0) 80%);
+  }
+  .sg3-open__text {
+    position: relative;
+    z-index: 1;
+    padding: 6.5rem var(--gutter) 1.4rem;
+  }
+  .sg3-open__title {
+    margin-bottom: .6rem;
+    font-size: clamp(1.75rem, 1.2rem + 3vw, 2.6rem);
+    line-height: 1.05;
+    color: #fff;
+    text-shadow: 0 1px 12px rgba(0, 0, 0, .25);
+  }
+  .sg3-open__lead {
+    font-size: .98rem;
+    line-height: 1.45;
+    color: rgba(255, 255, 255, .92);
+  }
+  .sg3-bar { border-top: 0; }
+}
+
+@media (max-width: 600px) {
+  .sg3-open__text { padding-top: 6rem; }
+  .sg3-bar__inner { padding-top: .75rem; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .sg-catnav__item, .sg-card, .sg-marker-icon__pin { transition: none; }
   .sg-card:hover, .sg-card:focus-within { transform: none; }
