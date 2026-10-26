@@ -527,3 +527,28 @@
   .sg-catnav__item, .sg-card, .sg-marker-icon__pin { transition: none; }
   .sg-card:hover, .sg-card:focus-within { transform: none; }
 }
+
+/* Contacte de l'Ajuntament dins del bloc final (fons verd fosc) */
+.sg3 .sg-contact {
+  list-style: none;
+  margin: 1.25rem 0 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: .6rem;
+}
+.sg3 .sg-contact a {
+  display: inline-flex;
+  align-items: center;
+  gap: .55rem;
+  min-height: 44px;
+  padding: 0 1.1rem;
+  border-radius: 999px;
+  background: #fff;
+  color: #106758;
+  font-weight: 700;
+  text-decoration: none;
+}
+.sg3 .sg-contact a:hover { background: #e3edeb; }
+.sg3 .sg-contact a:focus-visible { outline: 3px solid #fff; outline-offset: 2px; }
+.sg3 .sg-contact svg { width: 18px; height: 18px; flex: none; }
