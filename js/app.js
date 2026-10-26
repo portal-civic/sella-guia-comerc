@@ -132,6 +132,7 @@
   function init() {
     renderFilters();
     bindControls();
+    initLayoutV3();
 
     loadData()
       .then(function (data) {
@@ -336,15 +337,29 @@
     }).join('') + '</ul>';
   }
 
+  // v3: icona davant de cada acció (traç fi, currentColor).
+  var ACTION_ICONS = {
+    'Telefonar': '<path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/>',
+    'Correu': '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/>',
+    'Web': '<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/>',
+    'Instagram': '<rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r=".6" fill="currentColor"/>',
+    'Com arribar': '<path d="M3 11 21 3l-8 18-2-8-8-2Z"/>',
+    'Veure al mapa': '<path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21Z"/><circle cx="12" cy="9.5" r="2.5"/>'
+  };
+  function actionIcon(label) {
+    var p = ACTION_ICONS[label];
+    return p ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">' + p + '</svg>' : '';
+  }
+
   function renderActionsHtml(actions) {
     return actions.map(function (a) {
       var variantClass = ' sg-action--' + (a.variant === 'map' ? 'map' : 'secondary');
       if (a.type === 'button') {
         return '<button type="button" class="sg-action' + variantClass + '" data-map-target="' +
-          escapeHtml(a.mapTarget) + '">' + escapeHtml(a.label) + '</button>';
+          escapeHtml(a.mapTarget) + '">' + actionIcon(a.label) + escapeHtml(a.label) + '</button>';
       }
       var target = a.external ? ' target="_blank" rel="noopener noreferrer"' : '';
-      return '<a class="sg-action' + variantClass + '" href="' + escapeHtml(a.href) + '"' + target + '>' + escapeHtml(a.label) + '</a>';
+      return '<a class="sg-action' + variantClass + '" href="' + escapeHtml(a.href) + '"' + target + '>' + actionIcon(a.label) + escapeHtml(a.label) + '</a>';
     }).join('');
   }
 
@@ -449,7 +464,16 @@
     var actions = getBusinessActions(b, { showOnMapButton: true });
     var contactLines = getContactLines(b);
 
+    // Foto de l'activitat (columna «Foto» del full). Sense foto: franja amb
+    // la icona de la categoria, perquè totes les targetes tinguen la mateixa forma.
+    var photoHtml = b.photo
+      ? '<div class="sg-card__photo"><img src="' + escapeHtml(b.photo) + '" alt="" loading="lazy" decoding="async" ' +
+        'onerror="this.parentNode.classList.add(\'sg-card__photo--empty\');this.remove();"></div>'
+      : '<div class="sg-card__photo sg-card__photo--empty" aria-hidden="true"></div>';
+    article.classList.add('sg-card--with-photo');
+
     article.innerHTML =
+      photoHtml +
       '<div class="sg-card__top">' +
       '<span class="sg-card__icon">' + getCategoryIconSvg(b.category) + '</span>' +
       '<div class="sg-card__heading">' +
@@ -641,10 +665,12 @@
     validList.forEach(function (b) {
       var marker = L.marker([b.latitude, b.longitude], { icon: buildMarkerIcon(b.category) })
         .bindPopup(buildPopupHtml(b), { maxWidth: 280 });
+      marker.on('click', function () { highlightCard(b.id); });
       state.markerClusterGroup.addLayer(marker);
       state.markers[b.id] = marker;
     });
 
+    state.lastVisible = validList;
     fitMapToVisibleMarkers(validList);
 
     var noteEl = document.getElementById('sg-map-note');
@@ -671,8 +697,8 @@
     // En triar una categoria o buscar, el mapa s'ajusta per a mostrar tots
     // els resultats, encara que estiguen fora del poble.
     if (state.activeCategory === 'all' && !state.searchTerm.trim()) {
-      // S'encaixen els punts a menys de ~2 km del nucli (queda fora Finca
-      // Seguró), perquè cap marcador quede tallat a la vora del mapa.
+      // v3: s'encaixen els punts a menys de ~2 km del nucli (queda fora
+      // Finca Seguró), perquè cap marcador quede tallat a la vora del mapa.
       var near = list.filter(function (b) {
         return Math.abs(b.latitude - VILLAGE_CENTER[0]) < 0.018 && Math.abs(b.longitude - VILLAGE_CENTER[1]) < 0.022;
       });
@@ -730,17 +756,72 @@
 
   function showOnMap(id) {
     var marker = state.markers[id];
-    var mapWrap = document.querySelector('.sg-guia__map-wrap');
-    if (!marker || !state.map || !mapWrap) return;
+    if (!marker || !state.map) return;
 
-    mapWrap.scrollIntoView({ behavior: state.reduceMotion ? 'auto' : 'smooth', block: 'start' });
+    // Mòbil/tauleta: primer es passa a la vista de mapa.
+    state.pendingFocus = true;
+    if (isNarrow()) setView('map');
 
     window.requestAnimationFrame(function () {
-      // zoomToShowLayer s'encarrega d'ampliar (i "spiderfejar" si cal)
-      // fins que el marcador siga visible encara que estiga agrupat.
+      state.map.invalidateSize();
       state.markerClusterGroup.zoomToShowLayer(marker, function () {
         marker.openPopup();
+        state.pendingFocus = false;
       });
     });
+    highlightCard(id, true);
+  }
+
+  /* ---------- Maquetació v3 ---------- */
+
+  function isNarrow() { return window.matchMedia('(max-width: 1023px)').matches; }
+
+  function setView(view) {
+    var split = document.querySelector('.sg3-split');
+    if (!split || split.getAttribute('data-view') === view) return;
+    split.setAttribute('data-view', view);
+    if (view === 'map' && state.map) {
+      window.requestAnimationFrame(function () {
+        state.map.invalidateSize();
+        if (!state.pendingFocus) fitMapToVisibleMarkers(state.lastVisible || []);
+      });
+    }
+  }
+
+  function highlightCard(id, noScroll) {
+    document.querySelectorAll('.sg-card.is-current').forEach(function (c) { c.classList.remove('is-current'); });
+    var card = document.getElementById('sg-card-' + id);
+    if (!card) return;
+    card.classList.add('is-current');
+    if (!noScroll && !isNarrow()) {
+      card.scrollIntoView({ behavior: state.reduceMotion ? 'auto' : 'smooth', block: 'nearest' });
+    }
+  }
+
+  function initLayoutV3() {
+    var root = document.querySelector('.sg3');
+    var bar = document.querySelector('.sg3-bar');
+    var toggle = document.getElementById('sg3-toggle');
+
+    // L'alçada real de la barra fixa determina on s'enganxa el mapa.
+    function syncBar() {
+      if (root && bar) root.style.setProperty('--bar-h', bar.offsetHeight + 'px');
+      if (state.map) state.map.invalidateSize();
+    }
+    syncBar();
+    if (window.ResizeObserver && bar) new ResizeObserver(syncBar).observe(bar);
+    window.addEventListener('resize', syncBar);
+
+    if (toggle) {
+      toggle.addEventListener('click', function () {
+        var split = document.querySelector('.sg3-split');
+        var next = split.getAttribute('data-view') === 'map' ? 'list' : 'map';
+        setView(next);
+        var barFixed = bar && getComputedStyle(bar).position === 'sticky';
+        var top = split.getBoundingClientRect().top + window.pageYOffset - (barFixed ? bar.offsetHeight : 0);
+        // En obrir el mapa, es porta a dalt de la pantalla perquè es veja sencer.
+        if (next === 'map' || window.pageYOffset > top) window.scrollTo({ top: top, behavior: 'auto' });
+      });
+    }
   }
 })();

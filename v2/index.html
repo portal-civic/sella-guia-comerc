@@ -14,11 +14,9 @@
 <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css">
 <script defer src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
 
-<link rel="stylesheet" href="../css/styles.css">
-<!-- v2: capa de renovació visual, carregada després de l'estil original -->
-<link rel="stylesheet" href="css/refresh.css">
+<link rel="stylesheet" href="css/styles.css">
 <script defer src="../js/basemaps.js"></script>
-<!-- v2: mapes vectorials d'OpenFreeMap (gratuïts, sense clau) via MapLibre -->
+<!-- Mapes vectorials d'OpenFreeMap (gratuïts, sense clau) via MapLibre -->
 <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css">
 <script defer src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
 <script defer src="https://unpkg.com/@maplibre/maplibre-gl-leaflet@0.1.3/leaflet-maplibre-gl.js"></script>
@@ -74,7 +72,7 @@
 
   <!-- ===== FRANGE 1 — blanc: títol + intro ===== -->
   <div class="sg-band sg-band--white sg-band--title">
-   <div class="sg-band__inner sg-v2-intro">
+   <div class="sg-band__inner">
 
     <!--
       NOMÉS PREVISUALITZACIÓ: en producció, el títol H1 i el breadcrumb ja
@@ -89,13 +87,7 @@
     <!-- FI DEL BLOC NOMÉS-PREVISUALITZACIÓ -->
 
     <p class="sg-guia__lead">Troba comerços, empreses, professionals i serveis del municipi i consulta les seues dades de contacte i ubicació.</p>
-   <!-- v2: foto d'introducció. Per a canviar-la, substituïu img/carrer-valencia.jpg -->
-   <figure class="sg-v2-photo sg-v2-photo--intro">
-     <img src="img/carrer-valencia.jpg" width="960" height="960" alt="Carrer València de Sella, amb la serra al fons">
-     <figcaption>Foto: Jaume Soriano</figcaption>
-   </figure>
    </div>
-
   </div>
 
   <!-- ===== FRANGE 2 — gris: navegació de categories ===== -->
@@ -166,7 +158,7 @@
 
   <!-- ===== FRANGE 5 — verd fosc: crida final a l'acció ===== -->
   <div class="sg-band sg-band--dark-green">
-   <div class="sg-band__inner sg-v2-cta">
+   <div class="sg-band__inner">
     <aside class="sg-guia__cta">
       <h2 class="sg-guia__cta-title">Vols actualitzar les dades de la teua activitat?</h2>
       <p class="sg-guia__cta-text">Si detectes alguna informació incorrecta o incompleta, contacta amb l'Ajuntament de Sella.</p>
@@ -175,10 +167,6 @@
         <li><a href="mailto:sella@sella.es"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg><span>sella@sella.es</span></a></li>
       </ul>
     </aside>
-    <!-- v2: foto del tancament. Per a canviar-la, substituïu img/font-major.jpg -->
-    <figure class="sg-v2-photo sg-v2-photo--cta">
-      <img src="img/font-major.jpg" width="1200" height="900" alt="Font Major de Sella">
-    </figure>
    </div>
   </div>
 

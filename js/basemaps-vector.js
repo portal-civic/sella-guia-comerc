@@ -1,7 +1,7 @@
 /*
- * Bases vectorials d'OpenFreeMap (https://openfreemap.org).
+ * v2: bases vectorials d'OpenFreeMap (https://openfreemap.org).
  * Dades d'OpenStreetMap, ús gratuït i sense clau ni registre.
- * Selector: «Mapa clar» (Liberty, per defecte), «Mapa viu»
+ * Selector de la v2: «Mapa clar» (Liberty, per defecte), «Mapa viu»
  * (Bright) i «Vista aèria» (ortofoto PNOA de l'IGN).
  */
 (function () {
@@ -21,7 +21,7 @@
   var satellite = (window.SG_BASEMAPS.keyless || []).filter(function (d) { return d.id === 'pnoa'; });
   satellite.forEach(function (d) { d.label = 'Vista aèria (PNOA)'; });
 
-  // El selector mostra només estes tres capes.
+  // A la v2 el selector mostra només estes tres capes.
   window.SG_BASEMAPS.keyless = vector.concat(satellite);
   window.SG_BASEMAPS.optional = [];
 })();

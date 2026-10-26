@@ -1,957 +1,535 @@
 /*
-  Guia de comerços, empreses i serveis de Sella
-  Component pensat per a incrustar-se dins del contingut de sella.es
-  (WordPress + tema GeneratePress). Totes les regles viuen sota #sg-guia /
-  .sg-guia perquè no interferisquen amb el tema municipal — no es toca
-  `html`, `body`, ni selectors globals (h1, h2, a, button, input...).
+  Guia de comerç de Sella — proposta v3 (editorial)
+  Full d'estil propi i complet (no depén de ../css/styles.css). Tot viu
+  sota .sg3: no es toquen html, body ni selectors globals.
 
-  TIPOGRAFIA: `font-family: inherit` a .sg-guia, perquè hereta la família
-  real de sella.es un cop incrustat. La simulació d'eixa base per a la
-  previsualització standalone viu NOMÉS en un <style> inline dins
-  d'index.html, mai ací.
+  Referències: cerca amb llistat + mapa (Airbnb, Booking), sobrietat
+  institucional (GOV.UK, Amsterdam) i obertura de revista (guies de
+  ciutat de Monocle/Cereal).
 
-  ESTRUCTURA EN FRANGES (.sg-band): blocs de fons PLANS i rectangulars
-  (gris / blanc / verd pàl·lid / verd fosc), SENSE cap separador
-  decoratiu (ni corbes, ni ones, ni diagonals, ni clip-path). El canvi de
-  secció es marca únicament amb el canvi de color de fons i l'espaiat.
-
-  COLOR: paleta EXACTA i fixa — cap color es genera amb color-mix(),
-  rgba() ni opacitat. Colors de base:
-    blanc #FFFFFF · gris clar #F3F3F3 · verd pàl·lid #E3EDEB ·
-    verd fosc #106758 · gris fosc #606060 · blau #2566D6 · text #222222.
-  Colors de categoria (únics per categoria, vore js/app.js):
-    verd #106758 (Alimentació) · roig #C20A01 (Restauració) ·
-    blau #2566D6 (Allotjaments) · groc/ocre #B38201 (Construcció) ·
-    gris fosc #606060 (Serveis) · porpra #713F98 (Oci) ·
-    blau grisenc fosc #3F5968 (Altres).
-  El verd fosc és el color per defecte dels titulars de secció; el blau
-  queda reservat a enllaços/accions ("Veure al mapa").
-
-  ICONES DE CATEGORIA: sistema unificat de "cercle sòlid + glif blanc",
-  compartit entre la navegació de categories, les targetes i els
-  marcadors del mapa — mai un cercle pàl·lid ni un contorn de color.
+  Paleta: blanc, verd Sella, grisos freds de pedra i els colors de
+  categoria (definits a js/app.js).
 */
 
-.sg-guia {
-  /* Paleta exacta — cap variant derivada */
-  --sg-white: #ffffff;
-  --sg-grey: #f3f3f3;
-  --sg-pale-green: #e3edeb;
-  --sg-dark-green: #106758;
-  --sg-dark-grey: #606060;
-  --sg-blue: #2566d6;
-  --sg-yellow: #b38201;
-  --sg-red: #c20a01;
-  --sg-text: #222222;
+.sg3 {
+  --ink: #17201d;
+  --muted: #5b6661;
+  --verd: #106758;
+  --verd-fosc: #0b4d42;
+  --pedra: #eef1ef;
+  --linia: #dce2df;
+  --fons-band: #f2f5f3;
+  --ombra: 0 8px 28px rgba(16, 60, 50, .08);
+  --ombra-2: 0 14px 40px rgba(16, 60, 50, .15);
+  --radi-card: 18px;
+  --blanc: #ffffff;
+  --display: "Schibsted Grotesk", system-ui, sans-serif;
+  --gutter: clamp(16px, 4vw, 40px);
+  --max: 1360px;
+  --bar-h: 0px;            /* l'actualitza el JS amb l'alçada real de la barra */
+  --sticky-top: 0px;       /* si el tema de sella.es té capçalera fixa, posar-ne l'alçada */
 
-  /* Alies semàntics (mateixos valors exactes, sense generar-ne de nous) */
-  --sg-muted: var(--sg-dark-grey);
-  --sg-border: var(--sg-grey); /* igual que la vora real d'inputs de sella.es */
-  --sg-focus: var(--sg-dark-green);
-
-  /* Radis — plans, gairebé nuls, coherents amb un lloc municipal */
-  --sg-radius-sm: 4px;
-
-  /* Ombra quasi imperceptible — únic ús acceptat de rgba(), per necessitat
-     tècnica (no forma part de la paleta de disseny). */
-  --sg-shadow-sm: 0 1px 2px rgba(20, 20, 20, .12);
-
-  /* Escala d'espaiat (base 8px) */
-  --sg-space-2xs: 0.25rem;  /* 4px */
-  --sg-space-xs: 0.5rem;    /* 8px */
-  --sg-space-sm: 0.75rem;   /* 12px */
-  --sg-space-md: 1rem;      /* 16px */
-  --sg-space-lg: 1.5rem;    /* 24px */
-  --sg-space-xl: 2rem;      /* 32px */
-
-  /* Padding vertical de cada franja de color (sense separadors decoratius) */
-  --sg-band-pad-y: 3.5rem;      /* 56px desktop */
-  --sg-band-pad-y-sm: 2rem;     /* 32px mòbil */
-  --sg-band-cta-pad-y: 4rem;    /* 64px desktop — el tancament necessita més pes */
-  --sg-band-cta-pad-y-sm: 2.75rem; /* 44px mòbil */
-  /* La franja de categories és més compacta: ara poden cabre en una sola
-     fila a partir de cert ample, així que no necessita l'alçada d'una
-     franja de contingut normal. */
-  --sg-band-catnav-pad-y: 2.5rem;    /* 40px desktop (38-42 objectiu) */
-  --sg-band-catnav-pad-y-sm: 1.75rem; /* 28px mòbil (24-32 objectiu) */
-  /* La franja "sense localització fixa" sol tindre poques targetes (7):
-     un pel menys de padding evita que es vega desproporcionadament alta. */
-  --sg-band-unlocated-pad-y: 2.75rem;    /* 44px desktop (-12px) */
-  --sg-band-unlocated-pad-y-sm: 1.5rem;  /* 24px mòbil (-8px) */
-
-  /* Amplada i coixí horitzontal del contenidor intern de cada franja */
-  --sg-band-inner-max-width: 1400px;
-  --sg-band-inner-pad-x: 1.25rem;   /* 20px mòbil */
-  --sg-band-inner-pad-x-lg: 1.75rem; /* 28px desktop */
-
-  /* Ritme vertical intern */
-  --sg-space-title-intro: 1.375rem;  /* 22px (+6px per a més aire sota el títol) */
-  --sg-space-intro-search: 2.25rem;  /* 36px */
-  --sg-space-map-directory: 2.5rem;  /* 40px — mapa -> cerca (-16px, transició més connectada) */
-
-  /* Escala tipogràfica — base 17px/1.5 (real, sella.es). Pesos
-     principalment 400/500/600; mai 700/800 llevat de necessitat real. */
-  --sg-fs-lead: 1.0625rem;      /* 17px */
-  --sg-fs-body: 1rem;
-  --sg-fs-h2: 1.625rem;         /* 26px */
-  --sg-fs-name: 1rem;           /* 16px */
-  --sg-fs-card-body: 0.9375rem; /* 15px */
-  --sg-fs-section-text: 0.9375rem; /* 15px */
-  --sg-fs-eyebrow: 0.8125rem;   /* 13px */
-  --sg-fs-control: 0.875rem;    /* 14px — accions, cercador */
-  --sg-fs-catnav-label: 1.0625rem; /* 17px */
-
+  color: var(--ink);
   font-family: inherit;
-  color: var(--sg-text);
-  background: var(--sg-white);
   line-height: 1.5;
-  font-size: var(--sg-fs-body);
-
-  /* El component en si no imposa cap amplada: cada franja (.sg-band)
-     trenca fora d'aquest contenidor i gestiona la seua pròpia amplada
-     completa + contenidor intern (vore més avall). */
-  width: 100%;
-  max-width: none;
+}
+.sg3 *, .sg3 *::before, .sg3 *::after { box-sizing: border-box; }
+.sg3 img { max-width: 100%; display: block; }
+.sg3 h1, .sg3 h2, .sg3 h3, .sg3 button, .sg3 input { font-family: inherit; }
+.sg3 :focus-visible { outline: 3px solid var(--verd); outline-offset: 2px; }
+.sg3-vh {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
 }
 
-.sg-guia,
-.sg-guia *,
-.sg-guia *::before,
-.sg-guia *::after {
-  box-sizing: border-box;
+/* ================= Obertura editorial ================= */
+
+.sg3-open {
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: clamp(1.5rem, 4vw, 3.5rem) var(--gutter) clamp(2rem, 4vw, 3.5rem);
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  gap: clamp(1.5rem, 4vw, 4rem);
+  align-items: end;
 }
-
-.sg-guia img {
-  max-width: 100%;
+.sg3-open__title {
+  margin: 0 0 1.25rem;
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: clamp(2.2rem, 1.4rem + 3vw, 4rem);
+  line-height: 1.02;
+  letter-spacing: -0.025em;
+  color: var(--verd);
+  text-wrap: balance;
 }
-
-/* Aplicació explícita de la tipografia heretada també als controls de
-   formulari, que per defecte no hereten font-family del document. */
-.sg-guia h1,
-.sg-guia h2,
-.sg-guia h3,
-.sg-guia input,
-.sg-guia button,
-.sg-guia select,
-.sg-guia textarea {
-  font-family: inherit;
-}
-
-/* Utilitats */
-
-.sg-visually-hidden {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border: 0;
-}
-
-.sg-guia :focus-visible {
-  outline: 2px solid var(--sg-focus);
-  outline-offset: 2px;
-}
-
-/* ========================================================================
-   FRANGES DE SECCIÓ (.sg-band) — blocs plans rectangulars A AMPLADA
-   COMPLETA DE PÀGINA, sense cap separador decoratiu. El ritme visual
-   prové només del color de fons i de l'espaiat vertical.
-
-   Tècnica "full-bleed": .sg-band trenca fora del contenidor de
-   WordPress perquè el seu color òmpliga tota l'amplada disponible
-   (width:100vw + margin-left:50% + translateX(-50%) el centra sota
-   qualsevol amplada de pare). .sg-band__inner torna a limitar i centrar
-   el CONTINGUT (text, mapa, targetes) a una amplada de lectura còmoda,
-   amb el mateix coixí horitzontal a totes les franges.
-   ======================================================================== */
-
-.sg-band {
-  position: relative;
-  left: 50%;
-  width: 100vw;
-  margin-left: -50vw;
-  padding: var(--sg-band-pad-y-sm) 0;
-}
-
-@media (min-width: 600px) {
-  .sg-band {
-    padding: var(--sg-band-pad-y) 0;
-  }
-}
-
-.sg-band__inner {
-  max-width: var(--sg-band-inner-max-width);
-  margin-inline: auto;
-  padding-inline: var(--sg-band-inner-pad-x);
-}
-
-@media (min-width: 900px) {
-  .sg-band__inner {
-    padding-inline: var(--sg-band-inner-pad-x-lg);
-  }
-}
-
-.sg-band--grey {
-  background: var(--sg-grey);
-}
-
-/* La franja de categories és més compacta que la resta (vore variables
-   més amunt): el títol ja no hi viu, així que no cal tant d'aire. */
-.sg-band--catnav {
-  padding: var(--sg-band-catnav-pad-y-sm) 0;
-}
-
-@media (min-width: 600px) {
-  .sg-band--catnav {
-    padding: var(--sg-band-catnav-pad-y) 0;
-  }
-}
-
-.sg-band--white {
-  background: var(--sg-white);
-}
-
-.sg-band--pale-green {
-  background: var(--sg-pale-green);
-  padding: var(--sg-band-unlocated-pad-y-sm) 0;
-}
-
-@media (min-width: 600px) {
-  .sg-band--pale-green {
-    padding: var(--sg-band-unlocated-pad-y) 0;
-  }
-}
-
-.sg-band--dark-green {
-  background: var(--sg-dark-green);
-  color: var(--sg-white);
-  padding: var(--sg-band-cta-pad-y-sm) 0;
-}
-
-@media (min-width: 600px) {
-  .sg-band--dark-green {
-    padding: var(--sg-band-cta-pad-y) 0;
-  }
-}
-
-/* Capçalera NOMÉS DE PREVISUALITZACIÓ. En producció, WordPress ja
-   proporciona el títol de pàgina i el breadcrumb; aquest <header> no
-   s'ha d'incrustar (vore comentaris a index.html). */
-.sg-guia__preview-header {
-  margin-bottom: var(--sg-space-title-intro);
-}
-
-.sg-guia__title {
-  font-size: 2rem; /* 32px mòbil (30-34 objectiu) */
-  line-height: 1.1;
-  max-width: 800px;
+.sg3-open__lead {
   margin: 0;
-  font-weight: 700;
-  color: var(--sg-dark-green);
-}
-
-@media (min-width: 600px) {
-  .sg-guia__title {
-    font-size: 2.375rem; /* 38px tablet (36-42 objectiu) */
-  }
-}
-
-@media (min-width: 900px) {
-  .sg-guia__title {
-    font-size: 3rem; /* 48px desktop (46-50 objectiu) */
-  }
-}
-
-.sg-guia__lead {
-  margin: 0 0 var(--sg-space-intro-search);
-  color: var(--sg-text);
-  max-width: 700px;
-  font-size: var(--sg-fs-lead);
+  max-width: 30rem;
+  font-size: clamp(1.1rem, 1rem + .4vw, 1.3rem);
   line-height: 1.5;
-  font-weight: 400;
+  color: var(--muted);
 }
 
-/* Mini-secció de cerca, entre el mapa i el directori amb localització.
-   Sense targeta al voltant: només un titolet, el camp de cerca i el
-   resum de resultats, en columna. */
+.sg3-hero { margin: 0; overflow: hidden; border-radius: 6px; background: var(--pedra); }
+.sg3-hero img { width: 100%; height: auto; aspect-ratio: 16 / 10; object-fit: cover; object-position: 50% 60%; }
 
-.sg-guia__search-tools {
-  margin-bottom: 2rem; /* 32px — clar però no excessiu abans del directori */
+/* ================= Barra fixa ================= */
+
+.sg3-bar {
+  position: sticky;
+  top: var(--sticky-top);
+  z-index: 800;
+  background: rgba(255, 255, 255, .96);
+  backdrop-filter: saturate(1.4) blur(8px);
+  border-top: 1px solid var(--linia);
+  border-bottom: 1px solid var(--linia);
 }
-
-.sg-guia__search-heading {
-  margin: 0 0 var(--sg-space-md);
-  font-size: 1.375rem; /* 22px */
-  font-weight: 600;
-  line-height: 1.25;
-  color: var(--sg-dark-green);
-}
-
-.sg-guia__search {
-  width: 100%;
-  margin-bottom: var(--sg-space-md);
-}
-
-.sg-guia__search-field {
-  position: relative;
+.sg3-bar__inner {
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: .75rem var(--gutter);
   display: flex;
   align-items: center;
+  gap: 1rem 1.5rem;
 }
-
-.sg-guia__search-icon {
-  position: absolute;
-  left: 14px;
-  width: 18px;
-  height: 18px;
-  color: var(--sg-dark-green);
-  pointer-events: none;
-}
-
-.sg-guia__search-input {
-  width: 100%;
-  min-height: 47px;
-  padding: 0.5rem 1rem 0.5rem 2.625rem;
-  font: inherit;
-  font-size: 0.9375rem; /* 15px */
-  color: var(--sg-text);
-  background: var(--sg-white);
-  border: 1px solid var(--sg-border);
-  border-radius: var(--sg-radius-sm);
-  transition: border-color .15s ease;
-}
-
-.sg-guia__search-input::placeholder {
-  color: var(--sg-dark-grey);
-}
-
-.sg-guia__search-input:focus {
-  outline: 2px solid var(--sg-dark-green);
-  outline-offset: 1px;
-  border-color: var(--sg-dark-green);
-}
-
-/* ========================================================================
-   NAVEGACIÓ DE CATEGORIES (.sg-catnav) — a l'estil de les dreceres
-   municipals de sella.es: icona (cercle sòlid + glif blanc) + nom, SENSE
-   píndola ni fons darrere de l'element. El nom es manté en el color
-   exacte de categoria; l'estat actiu es marca amb una barra inferior
-   sòlida de 3px, d'amplada FIXA i centrada — mai depenent de l'amplada
-   del text ni de la columna.
-
-   A partir de tauleta (>=600px) i sobretot en ample gran (>=1200px), els
-   8 elements viuen en una graella d'amplades IGUALS
-   (grid-template-columns: repeat(n, minmax(0, 1fr))): cada categoria
-   ocupa exactament la mateixa fracció d'amplada, independentment de si
-   el seu nom és curt ("Serveis") o llarg ("Construcció i
-   instal·lacions") — un nom llarg simplement fa salt de línia dins de
-   la seua columna en compte d'eixamplar-la.
-   ======================================================================== */
 
 .sg-catnav {
   display: flex;
-  gap: 0.5rem;
+  gap: .4rem;
+  flex: 1 1 auto;
+  min-width: 0;
   overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-  padding-bottom: var(--sg-space-2xs);
+  scrollbar-width: none;
+  padding: 2px;
 }
+.sg-catnav::-webkit-scrollbar { display: none; }
 
 .sg-catnav__item {
-  --sg-catnav-accent: var(--sg-dark-green);
-  position: relative;
+  --sg-catnav-accent: var(--verd);
   flex: 0 0 auto;
-  min-width: 92px;
-  display: flex;
-  flex-direction: column;
+  display: inline-flex;
   align-items: center;
-  justify-content: flex-start;
-  gap: 0.5625rem;
-  padding: 0.625rem 0.5rem 0.8125rem;
-  font: inherit;
-  color: var(--sg-catnav-accent);
-  background: none;
-  border: none;
+  gap: .55rem;
+  padding: .3rem .9rem .3rem .3rem;
+  border: 1px solid var(--linia);
+  border-radius: 999px;
+  background: var(--blanc);
+  color: var(--ink);
+  font-size: .92rem;
+  font-weight: 600;
   cursor: pointer;
-  text-align: center;
+  transition: border-color .15s ease, background-color .15s ease;
 }
-
-/* Cercle sòlid de categoria + glif blanc a dins — el mateix sistema que
-   les targetes i els marcadors del mapa. Cap vora blanca, cap to pàl·lid. */
+.sg-catnav__item:hover { border-color: var(--sg-catnav-accent); }
+.sg-catnav__item.is-active {
+  background: var(--sg-catnav-accent);
+  border-color: var(--sg-catnav-accent);
+  color: #fff;
+}
 .sg-catnav__icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex: 0 0 auto;
-  width: 48px;
-  height: 48px;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  flex: none;
   border-radius: 50%;
   background: var(--sg-catnav-accent);
-  color: var(--sg-white);
+  color: #fff;
 }
+.sg-catnav__icon svg { width: 22px; height: 22px; }
+.sg-catnav__icon--ring { background: #fff; color: var(--sg-catnav-accent); box-shadow: inset 0 0 0 2px var(--sg-catnav-accent); }
+.sg-catnav__item.is-active .sg-catnav__icon { background: rgba(255, 255, 255, .18); box-shadow: none; color: #fff; }
+.sg-catnav__label { white-space: nowrap; }
 
-.sg-catnav__icon svg {
-  width: 26px;
-  height: 26px;
-}
-
-/* "Totes" no és una categoria real: en compte del cercle sòlid, un anell
-   (fons blanc + vora verda de 3px) amb el glif en verd — mateix diàmetre
-   exterior de 48px que la resta perquè l'alineació no es note. */
-.sg-catnav__icon--ring {
-  background: var(--sg-white);
-  border: 3px solid var(--sg-catnav-accent);
-  color: var(--sg-catnav-accent);
-}
-
-/* Alçada mínima reservada per a DUES línies de text: així la fila
-   d'icones es manté perfectament alineada encara que alguna etiqueta
-   ("Construcció i instal·lacions") faça salt de línia i altres no. */
-.sg-catnav__label {
-  min-height: 2.75rem;
+.sg3-bar__search {
+  flex: 0 1 22rem;
   display: flex;
-  align-items: flex-start;
-  justify-content: center;
-  font-size: var(--sg-fs-catnav-label);
-  font-weight: 600;
-  line-height: 1.25;
-  color: inherit;
+  flex-direction: column;
+  gap: .2rem;
 }
-
-/* Indicador d'actiu: barra fixa i centrada, independent del text */
-.sg-catnav__item::after {
-  content: '';
-  position: absolute;
-  left: 50%;
-  bottom: 0;
-  transform: translateX(-50%);
-  width: 32px;
-  height: 3px;
-  background: transparent;
+.sg3-search { position: relative; }
+.sg3-search svg {
+  position: absolute; left: 14px; top: 50%; translate: 0 -50%;
+  width: 18px; height: 18px; color: var(--muted); pointer-events: none;
 }
-
-.sg-catnav__item:hover::after,
-.sg-catnav__item.is-active::after {
-  background: var(--sg-catnav-accent);
-}
-
-/* De tauleta fins a ample mitjà: graella de 4 columnes (2 files de 4),
-   totes d'amplada igual. */
-@media (min-width: 600px) {
-  .sg-catnav {
-    display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    overflow-x: visible;
-    gap: 1.125rem 0.75rem;
-  }
-
-  .sg-catnav__item {
-    min-width: 0;
-  }
-}
-
-/* A partir d'ample gran: les 8 categories caben en una sola fila, totes
-   equidistants (graella real, no flex d'amplada segons contingut). */
-@media (min-width: 1200px) {
-  .sg-catnav {
-    grid-template-columns: repeat(8, minmax(0, 1fr));
-    gap: 0.5rem;
-  }
-}
-
-/* Resum de resultats */
-
-.sg-guia__summary {
-  margin: 0;
-  font-size: 0.875rem;
-  color: var(--sg-dark-grey);
-}
-
-.sg-guia__error {
-  margin: var(--sg-space-lg) 0 0;
-  padding: var(--sg-space-sm) var(--sg-space-md);
-  border: 1px solid var(--sg-border);
-  border-radius: var(--sg-radius-sm);
-  background: var(--sg-white);
-  color: var(--sg-text);
-}
-
-.sg-guia__no-results,
-.sg-guia__empty-note {
-  padding: var(--sg-space-sm) var(--sg-space-md);
-  border: 1px solid var(--sg-border);
-  border-radius: var(--sg-radius-sm);
-  background: var(--sg-white);
-  color: var(--sg-dark-grey);
-  font-size: 0.9375rem;
-  margin: 0;
-}
-
-/* Seccions de contingut dins d'una franja */
-
-.sg-guia__section--map {
-  margin-bottom: var(--sg-space-map-directory);
-}
-
-.sg-guia__section-head {
-  margin-bottom: 1.5rem; /* 24px — més aire abans del mapa/targetes */
-  max-width: 62ch;
-}
-
-/* Tots els titulars principals de secció usen el mateix verd institucional
-   per defecte — el blau queda reservat a enllaços i accions. */
-.sg-guia__section-title {
-  font-size: var(--sg-fs-h2);
-  line-height: 1.2;
-  margin: 0 0 0.625rem;
-  font-weight: 600;
-  color: var(--sg-dark-green);
-}
-
-.sg-guia__section-text {
-  margin: 0;
-  color: var(--sg-dark-grey);
-  font-size: var(--sg-fs-section-text);
-  line-height: 1.5;
-}
-
-/* Mapa — el mapa mateix és el bloc visual, sense contenidor de color */
-
-.sg-guia__map-wrap {
-  position: relative;
-  min-width: 0;
-}
-
-.sg-guia__map {
-  position: relative;
+.sg3-search input {
   width: 100%;
-  height: 480px;
-  border: 1px solid var(--sg-border);
-  border-radius: var(--sg-radius-sm);
-  background: var(--sg-grey);
-  overflow: hidden;
+  height: 46px;
+  padding: 0 1rem 0 2.6rem;
+  border: 1px solid var(--linia);
+  border-radius: 999px;
+  background: var(--pedra);
+  font: inherit;
+  font-size: .95rem;
+  color: var(--ink);
+}
+.sg3-search input:focus { outline: none; border-color: var(--verd); background: #fff; box-shadow: 0 0 0 3px rgba(16, 103, 88, .18); }
+.sg3-summary { margin: 0 0 0 1rem; font-size: .78rem; color: var(--muted); }
+
+.sg3-error {
+  max-width: var(--max);
+  margin: 1.5rem auto 0;
+  padding: .9rem var(--gutter);
+  border-left: 4px solid #c20a01;
+  background: #fbefee;
 }
 
-.sg-guia__map-note {
-  margin: var(--sg-space-md) 0 0;
-  padding: var(--sg-space-sm) var(--sg-space-md);
-  font-size: 0.8125rem;
-  line-height: 1.5;
-  color: var(--sg-dark-grey);
-  background: var(--sg-grey);
-  border: 1px solid var(--sg-border);
-  border-radius: var(--sg-radius-sm);
+/* ================= Llistat + mapa ================= */
+
+.sg3-band { background: var(--fons-band); border-bottom: 1px solid var(--linia); }
+
+.sg3-split {
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: 0 var(--gutter);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 0.82fr);
+  gap: clamp(1.5rem, 3vw, 2.5rem);
+  align-items: start;
+}
+.sg3-list { padding: 2rem 0 3rem; min-width: 0; }
+
+.sg3-head { margin: 0 0 1.25rem; max-width: 40rem; }
+.sg3-h2 {
+  margin: 0 0 .35rem;
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: clamp(1.45rem, 1.2rem + .9vw, 1.9rem);
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+  color: var(--ink);
+}
+.sg3-head__text { margin: 0; color: var(--muted); font-size: .98rem; }
+.sg3-empty { margin: 0 0 1rem; padding: 1rem; border-radius: 8px; background: var(--pedra); color: var(--muted); }
+
+.sg3-unlocated {
+  margin-top: 3rem;
+  padding-top: 2.5rem;
+  border-top: 1px solid #dde3e0;
 }
 
-/* Leaflet reinicia la tipografia del contenidor del mapa (font pròpia a
-   12px): ací es restaura l'herència de la guia i s'ajusten mides. */
-.sg-guia .leaflet-container {
-  font-family: inherit;
-  color: var(--sg-text);
-}
-
-/* Marcadors de Leaflet — cercle sòlid en el color EXACTE de categoria,
-   amb el glif SVG de categoria en blanc (currentColor: #fff) a dins. Cap
-   marcador pàl·lid ni translúcid. */
-.sg-marker-icon {
-  background: none;
-  border: none;
-}
-
-.sg-marker-icon__pin {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-  color: var(--sg-white);
-  box-shadow: var(--sg-shadow-sm);
-}
-
-.sg-marker-icon__pin svg {
-  width: 18px;
-  height: 18px;
-}
-
-.sg-marker-icon--active .sg-marker-icon__pin {
-  transform: scale(1.15);
-}
-
-/* Clústers de Leaflet.markercluster — gris fosc institucional neutre,
-   MAI un color de categoria: un clúster és "múltiples negocis", no una
-   categoria. */
-.sg-cluster-icon {
-  background: none;
-  border: none;
-}
-
-.sg-cluster-icon__badge {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-  background: var(--sg-dark-grey);
-  color: var(--sg-white);
-  font-family: inherit;
-  font-size: 0.8125rem;
-  font-weight: 600;
-  box-shadow: var(--sg-shadow-sm);
-}
-
-/* Popups de Leaflet — mateix llenguatge visual que les targetes, compacte.
-   La franja de categoria (color exacte + text blanc) ocupa tota l'amplada
-   de la capçalera; per això el marge intern es trasllada del contenidor
-   de Leaflet al cos del popup (.sg-popup__body). */
-.sg-guia .leaflet-popup-content-wrapper {
-  padding: 0;
-  border-radius: var(--sg-radius-sm);
-  box-shadow: var(--sg-shadow-sm);
-  overflow: hidden;
-}
-
-.sg-guia .leaflet-popup-content {
-  margin: 0;
-  font-family: inherit;
-  font-size: var(--sg-fs-card-body);
-  line-height: 1.45;
-  color: var(--sg-text);
-}
-
-.sg-guia .leaflet-popup-close-button {
-  color: var(--sg-white);
-  z-index: 1;
-}
-
-.sg-guia .leaflet-popup-close-button:hover {
-  color: var(--sg-white);
-  opacity: 0.8;
-}
-
-.sg-popup {
-  --sg-card-accent: var(--sg-blue);
+.sg3-mapcol {
+  position: sticky;
+  top: calc(var(--sticky-top) + var(--bar-h));
+  padding: 1.25rem 0;
+  height: calc(100vh - var(--sticky-top) - var(--bar-h));
+  min-height: 420px;
   display: flex;
   flex-direction: column;
 }
-
-.sg-popup__category-bar {
-  margin: 0;
-  padding: 0.6875rem 0.875rem; /* ~11px vertical, 14px horitzontal */
-  background: var(--sg-card-accent);
-  color: var(--sg-white);
-  font-size: 0.8125rem; /* 13px */
-  font-weight: 700;
-  line-height: 1.2;
-}
-
-.sg-popup__body {
-  padding: 0.875rem;
-}
-
-/* Control de capes de Leaflet — discret i coherent amb la guia */
-.sg-guia .leaflet-control-layers {
-  border-radius: var(--sg-radius-sm);
-  box-shadow: var(--sg-shadow-sm);
-  border: 1px solid var(--sg-border);
-  font-family: inherit;
-}
-
-.sg-guia .leaflet-control-layers label {
-  font-size: 0.8125rem;
-  color: var(--sg-text);
-}
-
-.sg-guia .leaflet-control-layers-selector:checked + span,
-.sg-guia .leaflet-control-layers label:hover {
-  color: var(--sg-dark-green);
-}
-
-.sg-guia .leaflet-bar {
-  border-radius: var(--sg-radius-sm);
+.sg3-mapcol__head { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+.sg3-mapwrap { position: relative; flex: 1 1 auto; min-height: 0; }
+.sg3-map {
+  width: 100%;
+  height: 100%;
+  border-radius: var(--radi-card);
   overflow: hidden;
+  background: var(--pedra);
+  box-shadow: var(--ombra);
 }
+.sg3-mapnote { margin: .75rem 0 0; font-size: .85rem; color: var(--muted); }
 
-.sg-guia .leaflet-bar a {
-  font-family: inherit;
-  color: var(--sg-dark-grey);
-}
+.sg3-toggle { display: none; }
 
-.sg-guia .leaflet-bar a:hover {
-  background: var(--sg-grey);
-  color: var(--sg-dark-green);
-}
-
-.sg-guia .leaflet-control-attribution {
-  font-family: inherit;
-  background: var(--sg-white);
-}
-
-.sg-guia .leaflet-control-attribution a {
-  color: var(--sg-blue);
-}
-
-/* "Sense localització fixa" — text pla, sense insígnia ni fons (indica un
-   estat d'ubicació, no una categoria). */
-
-.sg-badge {
-  color: var(--sg-dark-grey);
-  font-size: 0.8125rem;
-  font-weight: 600;
-}
-
-/* Avís d'estat (p. ex. «Tancat temporalment»): roig institucional. */
-.sg-badge--notice {
-  color: var(--sg-red);
-}
-
-/* Graella de targetes (directori i activitats sense localització fixa).
-   Blocs plans de contingut municipal — no targetes SaaS flotants: sense
-   vora de color, sense ombra visible, radi mínim. El color depén de la
-   franja on viu la targeta: grisa sobre franja blanca (directori),
-   blanca sobre franja verda pàl·lida (sense localització). */
+/* ================= Targetes ================= */
 
 .sg-cards {
   display: grid;
-  grid-template-columns: 1fr;
-  gap: 1.5rem; /* 24px entre targetes, en columna i en fila */
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 17.5rem), 1fr));
+  gap: 1.25rem;
 }
 
 .sg-card {
-  --sg-card-accent: var(--sg-blue);
-  padding: 1.5rem;
-  border: none;
-  border-radius: var(--sg-radius-sm);
-  background: var(--sg-grey);
-  box-shadow: none;
+  --sg-card-accent: var(--verd);
+  position: relative;
   display: flex;
   flex-direction: column;
+  padding: 1.35rem 1.3rem 1.15rem;
+  background: var(--blanc);
+  border: 0;
+  border-radius: var(--radi-card);
+  box-shadow: var(--ombra);
+  transition: transform .15s ease, box-shadow .15s ease;
 }
-
 .sg-card:hover,
 .sg-card:focus-within {
-  outline: 2px solid var(--sg-card-accent); /* color de la categoria */
-  outline-offset: 2px;
+  transform: translateY(-3px);
+  box-shadow: var(--ombra-2);
+}
+.sg-card.is-current {
+  box-shadow: 0 0 0 2px var(--sg-card-accent), var(--ombra-2);
 }
 
-/* Sense localització fixa (franja verda pàl·lida) -> targetes grises
-   igualment, perquè es distingisquen de la franja de fons verda. */
-.sg-guia__section--unlocated .sg-card {
-  background: var(--sg-grey);
-}
-
-.sg-card__top {
-  display: flex;
-  align-items: flex-start;
-  gap: var(--sg-space-sm);
-}
-
-/* Cercle sòlid de categoria + glif blanc — mateix sistema que la
-   navegació de categories i els marcadors del mapa. */
+.sg-card__top { display: flex; align-items: center; gap: .8rem; }
 .sg-card__icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex: 0 0 auto;
-  width: 34px;
-  height: 34px;
+  display: grid; place-items: center;
+  width: 46px; height: 46px; flex: none;
   border-radius: 50%;
   background: var(--sg-card-accent);
-  color: var(--sg-white);
+  color: #fff;
 }
-
-.sg-card__icon svg {
-  width: 19px;
-  height: 19px;
-}
-
-.sg-card__heading {
-  min-width: 0;
-}
-
-.sg-card__eyebrow {
-  margin: 0 0 0.15rem;
-  font-size: var(--sg-fs-eyebrow);
-  font-weight: 600;
-  color: var(--sg-card-accent);
-}
-
-.sg-card__name,
-.sg-popup__name {
+.sg-card__icon svg { width: 25px; height: 25px; }
+.sg-card__heading { min-width: 0; }
+.sg-card__eyebrow { margin: 0 0 .1rem; font-size: .8rem; font-weight: 600; color: var(--sg-card-accent); }
+.sg-card__name {
   margin: 0;
-  font-size: var(--sg-fs-name);
-  line-height: 1.3;
-  font-weight: 600;
-  color: var(--sg-text);
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 1.12rem;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  color: var(--ink);
 }
 
-.sg-card__address,
-.sg-popup__address {
-  margin: 0.875rem 0 0;
-  color: var(--sg-text);
-  font-size: var(--sg-fs-card-body);
-  line-height: 1.45;
-}
+.sg-card__address { margin: .9rem 0 0; font-size: .93rem; color: var(--ink); }
+.sg-card__meta { list-style: none; margin: .35rem 0 0; padding: 0; font-size: .93rem; }
+.sg-card__meta li { min-width: 0; }
+.sg-card__meta a { color: var(--muted); text-decoration: none; word-break: break-word; }
+.sg-card__meta a:hover { color: var(--ink); text-decoration: underline; }
 
-/* Telèfon, correu i web en text visible i seleccionable — a més dels
-   botons d'acció corresponents (duplicació intencionada, no purament
-   decorativa: permet copiar/enllaçar sense passar pel botó). Instagram
-   mai apareix ací: només com a botó. */
-.sg-card__meta,
-.sg-popup__meta {
-  list-style: none;
-  margin: 0.875rem 0 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-}
+.sg-badge { display: inline-block; padding: .1rem .55rem; border-radius: 999px; background: var(--pedra); font-size: .78rem; font-weight: 600; color: var(--muted); }
+.sg-badge--notice { background: #fbe9e8; color: #a50900; }
 
-.sg-card__address + .sg-card__meta,
-.sg-popup__address + .sg-popup__meta {
-  margin-top: 0.5rem;
-}
-
-.sg-card__meta li,
-.sg-popup__meta li {
-  min-width: 0;
-}
-
-.sg-card__meta a,
-.sg-popup__meta a {
-  display: inline-block;
-  max-width: 100%;
-  color: var(--sg-dark-grey);
-  font-size: var(--sg-fs-card-body);
-  line-height: 1.45;
-  text-decoration: none;
-  word-break: break-word;
-}
-
-.sg-card__meta a:hover,
-.sg-card__meta a:focus-visible,
-.sg-popup__meta a:hover,
-.sg-popup__meta a:focus-visible {
-  color: var(--sg-text);
-  text-decoration: underline;
-}
-
-/* Accions (telefonar, correu, web, instagram, mapa) — llenguatge neutre;
-   "Veure al mapa" és l'única acció amb accent institucional (blau), com
-   a acció pròpia i més rellevant de la guia. */
-
-.sg-card__actions,
-.sg-popup__actions {
+.sg-card__actions {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.625rem;
-  margin-top: 1.125rem;
-  padding-top: 1.125rem;
-  border-top: 1px solid var(--sg-border);
+  gap: .4rem;
+  margin-top: auto;
+  padding-top: 1rem;
 }
+.sg-card__address:last-child, .sg-card__meta:last-child { margin-bottom: 0; }
 
-.sg-action,
-.sg-action--secondary {
+.sg-action {
   display: inline-flex;
   align-items: center;
-  min-height: 40px;
-  padding: 0 0.875rem;
+  gap: .4rem;
+  min-height: 36px;
+  padding: 0 .8rem;
+  border: 1px solid var(--linia);
+  border-radius: 999px;
+  background: var(--blanc);
+  color: var(--ink);
   font: inherit;
-  font-size: var(--sg-fs-control);
-  font-weight: 500;
-  color: var(--sg-dark-grey);
+  font-size: .85rem;
+  font-weight: 600;
   text-decoration: none;
-  background: var(--sg-white);
-  border: 1px solid var(--sg-border);
-  border-radius: var(--sg-radius-sm);
   cursor: pointer;
-  transition: background .15s ease, border-color .15s ease, color .15s ease;
+}
+.sg-action svg { width: 15px; height: 15px; flex: none; }
+.sg-action:hover { background: var(--pedra); border-color: #cbd3cf; }
+.sg-action--map { background: var(--ink); border-color: var(--ink); color: #fff; }
+.sg-action--map:hover { background: var(--verd); border-color: var(--verd); }
+
+/* ================= Mapa: marcadors i finestres ================= */
+
+.sg3 .leaflet-container { font-family: inherit; }
+.sg-marker-icon, .sg-cluster-icon { background: none; border: 0; }
+.sg-marker-icon__pin {
+  display: grid; place-items: center;
+  width: 100%; height: 100%;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  color: #fff;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, .35);
+  transition: transform .15s ease;
+}
+.sg-marker-icon__pin svg { width: 17px; height: 17px; }
+.sg-marker-icon--active { z-index: 1000 !important; }
+.sg-marker-icon--active .sg-marker-icon__pin { transform: scale(1.3); }
+.sg-cluster-icon__badge {
+  display: grid; place-items: center;
+  border-radius: 50%;
+  background: var(--ink);
+  border: 3px solid #fff;
+  color: #fff;
+  font: 700 14px/1 system-ui, sans-serif;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, .35);
 }
 
-.sg-action:hover,
-.sg-action--secondary:hover {
-  background: var(--sg-grey);
-  border-color: var(--sg-dark-grey);
-  color: var(--sg-text);
+.sg3 .leaflet-popup-content-wrapper { border-radius: 10px; padding: 0; overflow: hidden; }
+.sg3 .leaflet-popup-content { margin: 0; width: 260px !important; }
+.sg-popup__category-bar { margin: 0; padding: .45rem .9rem; background: var(--sg-card-accent); color: #fff; font-size: .78rem; font-weight: 600; }
+.sg-popup__body { padding: .8rem .9rem .9rem; }
+.sg-popup__name { margin: 0; font-family: var(--display); font-size: 1.05rem; font-weight: 700; line-height: 1.2; }
+.sg-popup__address { margin: .45rem 0 0; font-size: .88rem; }
+.sg-popup__meta { list-style: none; margin: .3rem 0 0; padding: 0; font-size: .88rem; }
+.sg-popup__meta a { color: var(--muted); }
+.sg-popup__actions { display: flex; flex-wrap: wrap; gap: .35rem; margin-top: .75rem; }
+.sg-popup__actions .sg-action { min-height: 32px; font-size: .8rem; }
+
+/* ================= Tancament ================= */
+
+.sg3-close {
+  max-width: var(--max);
+  margin: 0 auto clamp(2rem, 4vw, 3.5rem);
+  padding: 0 var(--gutter);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  align-items: stretch;
+}
+.sg3-close__text {
+  padding: clamp(1.75rem, 4vw, 3.5rem);
+  background: var(--verd);
+  color: #fff;
+  border-radius: 10px 0 0 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.sg3-close__title {
+  margin: 0 0 .75rem;
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: clamp(1.5rem, 1.2rem + 1.2vw, 2.2rem);
+  line-height: 1.12;
+  letter-spacing: -0.015em;
+  color: #fff;
+}
+.sg3-close__text p { margin: 0; max-width: 30rem; color: rgba(255, 255, 255, .88); }
+.sg3-close__photo { margin: 0; border-radius: 0 10px 10px 0; overflow: hidden; min-height: 240px; }
+.sg3-close__photo img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 45%; }
+
+/* ================= Tauleta i mòbil ================= */
+
+@media (min-width: 1024px) {
+  .sg-catnav { flex-wrap: wrap; overflow: visible; }
+  .sg3-bar__inner { align-items: flex-start; }
 }
 
-.sg-action--map {
-  color: var(--sg-blue);
-  border-color: var(--sg-blue);
-  font-weight: 600;
-}
+@media (max-width: 1023px) {
+  .sg3-open { grid-template-columns: 1fr; align-items: start; }
+  .sg3-bar__inner { flex-direction: column; align-items: stretch; gap: .6rem; padding-top: .6rem; padding-bottom: .6rem; }
+  .sg3-bar__search { flex: none; }
+  .sg3-summary { display: none; }
+  /* Tauleta: totes les categories visibles, en diverses files */
+  .sg-catnav { flex-wrap: wrap; overflow: visible; }
 
-.sg-action--map::after {
-  content: '\2192';
-  margin-left: 0.375rem;
-}
-
-.sg-action--map:hover {
-  background: var(--sg-blue);
-  border-color: var(--sg-blue);
-  color: var(--sg-white);
-}
-
-/* Bloc de contacte final — franja verda fosca plana, text blanc sòlid */
-
-.sg-guia__cta {
-  max-width: 62ch;
-}
-
-.sg-guia__cta-title {
-  margin: 0 0 0.625rem;
-  font-size: 1.625rem; /* 26px — clarament més gran que el cos */
-  line-height: 1.25;
-  font-weight: 600;
-  color: var(--sg-white);
-}
-
-.sg-guia__cta-text {
-  margin: 0;
-  font-size: 1rem;
-  line-height: 1.5;
-  color: var(--sg-white);
-}
-
-/* Responsive */
-
-@media (max-width: 599px) {
-  .sg-guia__map {
-    height: 360px;
+  .sg3-split { display: block; }
+  .sg3-mapcol {
+    position: static;
+    height: calc(100vh - var(--sticky-top) - var(--bar-h) - 1rem);
+    min-height: 380px;
+    padding: 1rem 0;
   }
+  .sg3-split[data-view="list"] .sg3-mapcol { display: none; }
+  .sg3-split[data-view="map"] .sg3-list { display: none; }
+
+  .sg3-toggle {
+    display: inline-flex;
+    position: sticky;
+    bottom: 1.25rem;
+    left: 50%;
+    translate: -50% 0;
+    z-index: 1200; /* per damunt dels controls i crèdits del mapa */
+    margin: 0 0 1.5rem;
+    padding: .75rem 1.4rem;
+    border: 0;
+    border-radius: 999px;
+    background: var(--ink);
+    color: #fff;
+    font-size: .95rem;
+    font-weight: 700;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, .25);
+    cursor: pointer;
+  }
+  .sg3-split[data-view="list"] .sg3-toggle__list,
+  .sg3-split[data-view="map"] .sg3-toggle__map { display: none; }
+
+  .sg3-close { grid-template-columns: 1fr; }
+  .sg3-close__text { border-radius: 10px 10px 0 0; }
+  .sg3-close__photo { border-radius: 0 0 10px 10px; aspect-ratio: 16 / 9; min-height: 0; }
 }
 
-@media (min-width: 600px) {
-  .sg-cards {
-    grid-template-columns: repeat(2, 1fr);
-  }
+@media (max-width: 600px) {
+  .sg3-hero img { aspect-ratio: 4 / 3; }
 
-  .sg-guia__search {
-    width: min(560px, 100%);
+  /* Mòbil: categories en quadrícula de 4 (icona damunt, nom davall), totes
+     visibles. La barra deixa de ser fixa perquè no ocupe mitja pantalla. */
+  .sg3-bar { position: static; backdrop-filter: none; background: #fff; }
+  .sg-catnav {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: .45rem;
+    padding: 0;
   }
+  .sg-catnav__item {
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: .35rem;
+    padding: .55rem .2rem .5rem;
+    border-radius: 14px;
+    text-align: center;
+    min-width: 0;
+  }
+  .sg-catnav__icon { width: 38px; height: 38px; }
+  .sg-catnav__icon svg { width: 21px; height: 21px; }
+  .sg-catnav__label { white-space: normal; font-size: .72rem; line-height: 1.15; hyphens: auto; }
+
+  /* El mapa deixa lloc davall per al botó «Llista» */
+  .sg3-mapcol { height: calc(100svh - 6.5rem); min-height: 360px; padding: .75rem 0 0; }
 }
 
-@media (min-width: 900px) {
-  .sg-cards {
-    grid-template-columns: repeat(3, 1fr);
+/* Mòbil i tauleta: la panoràmica passa a ser el fons de l'obertura, amb el
+   títol i el text damunt, perquè les categories es vegen a la primera pantalla. */
+@media (max-width: 1023px) {
+  .sg3-open {
+    position: relative;
+    display: block;
+    max-width: none;
+    padding: 0;
+    overflow: hidden;
+    background: var(--verd-fosc);
   }
+  .sg3-hero {
+    position: absolute;
+    inset: 0;
+    border-radius: 0;
+  }
+  .sg3-hero img {
+    width: 100%;
+    height: 100%;
+    aspect-ratio: auto;
+    object-position: 50% 45%;
+  }
+  .sg3-hero::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(11, 61, 52, .92) 0%, rgba(11, 61, 52, .6) 42%, rgba(11, 61, 52, 0) 80%);
+  }
+  .sg3-open__text {
+    position: relative;
+    z-index: 1;
+    padding: 6.5rem var(--gutter) 1.4rem;
+  }
+  .sg3-open__title {
+    margin-bottom: .6rem;
+    font-size: clamp(1.75rem, 1.2rem + 3vw, 2.6rem);
+    line-height: 1.05;
+    color: #fff;
+    text-shadow: 0 1px 12px rgba(0, 0, 0, .25);
+  }
+  .sg3-open__lead {
+    font-size: .98rem;
+    line-height: 1.45;
+    color: rgba(255, 255, 255, .92);
+  }
+  .sg3-bar { border-top: 0; }
 }
 
-/* Moviment reduït */
+@media (max-width: 600px) {
+  .sg3-open__text { padding-top: 6rem; }
+  .sg3-bar__inner { padding-top: .75rem; }
+}
 
 @media (prefers-reduced-motion: reduce) {
-  .sg-guia * {
-    scroll-behavior: auto !important;
-    transition: none !important;
-    animation: none !important;
-  }
+  .sg-catnav__item, .sg-card, .sg-marker-icon__pin { transition: none; }
+  .sg-card:hover, .sg-card:focus-within { transform: none; }
 }
 
 /* Contacte de l'Ajuntament dins del bloc final (fons verd fosc) */
-.sg-guia .sg-contact {
+.sg3 .sg-contact {
   list-style: none;
   margin: 1.25rem 0 0;
   padding: 0;
@@ -959,7 +537,7 @@
   flex-wrap: wrap;
   gap: .6rem;
 }
-.sg-guia .sg-contact a {
+.sg3 .sg-contact a {
   display: inline-flex;
   align-items: center;
   gap: .55rem;
@@ -971,31 +549,27 @@
   font-weight: 700;
   text-decoration: none;
 }
-.sg-guia .sg-contact a:hover { background: #e3edeb; }
-.sg-guia .sg-contact a:focus-visible { outline: 3px solid #fff; outline-offset: 2px; }
-.sg-guia .sg-contact svg { width: 18px; height: 18px; flex: none; }
+.sg3 .sg-contact a:hover { background: #e3edeb; }
+.sg3 .sg-contact a:focus-visible { outline: 3px solid #fff; outline-offset: 2px; }
+.sg3 .sg-contact svg { width: 18px; height: 18px; flex: none; }
 
-/* Mòbil: totes les categories visibles en una quadrícula de 4 columnes
-   (sense haver de lliscar), com a la v3. */
-@media (max-width: 599px) {
-  .sg-catnav {
-    display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: .75rem .35rem;
-    overflow-x: visible;
-    padding-bottom: 0;
-  }
-  .sg-catnav__item {
-    min-width: 0;
-    gap: .4rem;
-    padding: .4rem .15rem .6rem;
-  }
-  .sg-catnav__icon { width: 42px; height: 42px; }
-  .sg-catnav__icon svg { width: 23px; height: 23px; }
-  .sg-catnav__label {
-    min-height: 2.2rem;
-    font-size: .74rem;
-    line-height: 1.15;
-    hyphens: auto;
-  }
+/* ================= Fotos a les targetes (prova) ================= */
+.sg-card--with-photo { overflow: hidden; padding-top: 0; }
+.sg-card__photo {
+  margin: 0 -1.3rem 1rem;
+  aspect-ratio: 16 / 9;
+  background: var(--pedra);
+  overflow: hidden;
+}
+.sg-card__photo img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .3s ease; }
+.sg-card:hover .sg-card__photo img { transform: scale(1.03); }
+/* Sense foto: franja suau del color de la categoria */
+.sg-card__photo--empty {
+  aspect-ratio: auto;
+  height: 6px;
+  margin-bottom: 1.2rem;
+  background: var(--sg-card-accent);
+}
+@media (prefers-reduced-motion: reduce) {
+  .sg-card:hover .sg-card__photo img { transform: none; }
 }
