@@ -806,9 +806,12 @@
     if (toggle) {
       toggle.addEventListener('click', function () {
         var split = document.querySelector('.sg3-split');
-        setView(split.getAttribute('data-view') === 'map' ? 'list' : 'map');
-        var top = split.getBoundingClientRect().top + window.pageYOffset - (bar ? bar.offsetHeight : 0);
-        if (window.pageYOffset > top) window.scrollTo({ top: top, behavior: 'auto' });
+        var next = split.getAttribute('data-view') === 'map' ? 'list' : 'map';
+        setView(next);
+        var barFixed = bar && getComputedStyle(bar).position === 'sticky';
+        var top = split.getBoundingClientRect().top + window.pageYOffset - (barFixed ? bar.offsetHeight : 0);
+        // En obrir el mapa, es porta a dalt de la pantalla perquè es veja sencer.
+        if (next === 'map' || window.pageYOffset > top) window.scrollTo({ top: top, behavior: 'auto' });
       });
     }
   }

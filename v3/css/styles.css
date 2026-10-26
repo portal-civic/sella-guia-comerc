@@ -402,6 +402,8 @@
   .sg3-bar__inner { flex-direction: column; align-items: stretch; gap: .6rem; padding-top: .6rem; padding-bottom: .6rem; }
   .sg3-bar__search { flex: none; }
   .sg3-summary { display: none; }
+  /* Tauleta: totes les categories visibles, en diverses files */
+  .sg-catnav { flex-wrap: wrap; overflow: visible; }
 
   .sg3-split { display: block; }
   .sg3-mapcol {
@@ -419,7 +421,7 @@
     bottom: 1.25rem;
     left: 50%;
     translate: -50% 0;
-    z-index: 900;
+    z-index: 1200; /* per damunt dels controls i crèdits del mapa */
     margin: 0 0 1.5rem;
     padding: .75rem 1.4rem;
     border: 0;
@@ -441,8 +443,31 @@
 
 @media (max-width: 600px) {
   .sg3-hero img { aspect-ratio: 4 / 3; }
-  .sg-catnav__icon { width: 34px; height: 34px; }
-  .sg-catnav__icon svg { width: 19px; height: 19px; }
+
+  /* Mòbil: categories en quadrícula de 4 (icona damunt, nom davall), totes
+     visibles. La barra deixa de ser fixa perquè no ocupe mitja pantalla. */
+  .sg3-bar { position: static; backdrop-filter: none; background: #fff; }
+  .sg-catnav {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: .45rem;
+    padding: 0;
+  }
+  .sg-catnav__item {
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: .35rem;
+    padding: .55rem .2rem .5rem;
+    border-radius: 14px;
+    text-align: center;
+    min-width: 0;
+  }
+  .sg-catnav__icon { width: 38px; height: 38px; }
+  .sg-catnav__icon svg { width: 21px; height: 21px; }
+  .sg-catnav__label { white-space: normal; font-size: .72rem; line-height: 1.15; hyphens: auto; }
+
+  /* El mapa deixa lloc davall per al botó «Llista» */
+  .sg3-mapcol { height: calc(100svh - 6.5rem); min-height: 360px; padding: .75rem 0 0; }
 }
 
 @media (prefers-reduced-motion: reduce) {
