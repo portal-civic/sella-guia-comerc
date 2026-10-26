@@ -18,6 +18,10 @@
   --verd-fosc: #0b4d42;
   --pedra: #eef1ef;
   --linia: #dce2df;
+  --fons-band: #f2f5f3;
+  --ombra: 0 8px 28px rgba(16, 60, 50, .08);
+  --ombra-2: 0 14px 40px rgba(16, 60, 50, .15);
+  --radi-card: 18px;
   --blanc: #ffffff;
   --display: "Schibsted Grotesk", system-ui, sans-serif;
   --gutter: clamp(16px, 4vw, 40px);
@@ -56,7 +60,7 @@
   font-size: clamp(2.2rem, 1.4rem + 3vw, 4rem);
   line-height: 1.02;
   letter-spacing: -0.025em;
-  color: var(--ink);
+  color: var(--verd);
   text-wrap: balance;
 }
 .sg3-open__lead {
@@ -173,6 +177,8 @@
 
 /* ================= Llistat + mapa ================= */
 
+.sg3-band { background: var(--fons-band); border-bottom: 1px solid var(--linia); }
+
 .sg3-split {
   max-width: var(--max);
   margin: 0 auto;
@@ -200,7 +206,7 @@
 .sg3-unlocated {
   margin-top: 3rem;
   padding-top: 2.5rem;
-  border-top: 1px solid var(--linia);
+  border-top: 1px solid #dde3e0;
 }
 
 .sg3-mapcol {
@@ -217,9 +223,10 @@
 .sg3-map {
   width: 100%;
   height: 100%;
-  border-radius: 10px;
+  border-radius: var(--radi-card);
   overflow: hidden;
   background: var(--pedra);
+  box-shadow: var(--ombra);
 }
 .sg3-mapnote { margin: .75rem 0 0; font-size: .85rem; color: var(--muted); }
 
@@ -230,7 +237,7 @@
 .sg-cards {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(min(100%, 17.5rem), 1fr));
-  gap: 1rem;
+  gap: 1.25rem;
 }
 
 .sg-card {
@@ -238,17 +245,20 @@
   position: relative;
   display: flex;
   flex-direction: column;
-  padding: 1.15rem 1.15rem 1rem;
+  padding: 1.35rem 1.3rem 1.15rem;
   background: var(--blanc);
-  border: 1px solid var(--linia);
-  border-radius: 10px;
-  transition: border-color .15s ease, box-shadow .15s ease;
+  border: 0;
+  border-radius: var(--radi-card);
+  box-shadow: var(--ombra);
+  transition: transform .15s ease, box-shadow .15s ease;
 }
 .sg-card:hover,
-.sg-card:focus-within,
+.sg-card:focus-within {
+  transform: translateY(-3px);
+  box-shadow: var(--ombra-2);
+}
 .sg-card.is-current {
-  border-color: var(--sg-card-accent);
-  box-shadow: 0 0 0 1px var(--sg-card-accent), 0 8px 24px rgba(23, 32, 29, .08);
+  box-shadow: 0 0 0 2px var(--sg-card-accent), var(--ombra-2);
 }
 
 .sg-card__top { display: flex; align-items: center; gap: .8rem; }
@@ -307,7 +317,7 @@
   cursor: pointer;
 }
 .sg-action svg { width: 15px; height: 15px; flex: none; }
-.sg-action:hover { background: var(--pedra); }
+.sg-action:hover { background: var(--pedra); border-color: #cbd3cf; }
 .sg-action--map { background: var(--ink); border-color: var(--ink); color: #fff; }
 .sg-action--map:hover { background: var(--verd); border-color: var(--verd); }
 
@@ -437,4 +447,5 @@
 
 @media (prefers-reduced-motion: reduce) {
   .sg-catnav__item, .sg-card, .sg-marker-icon__pin { transition: none; }
+  .sg-card:hover, .sg-card:focus-within { transform: none; }
 }
