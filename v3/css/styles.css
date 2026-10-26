@@ -552,3 +552,24 @@
 .sg3 .sg-contact a:hover { background: #e3edeb; }
 .sg3 .sg-contact a:focus-visible { outline: 3px solid #fff; outline-offset: 2px; }
 .sg3 .sg-contact svg { width: 18px; height: 18px; flex: none; }
+
+/* ================= Fotos a les targetes (prova) ================= */
+.sg-card--with-photo { overflow: hidden; padding-top: 0; }
+.sg-card__photo {
+  margin: 0 -1.3rem 1rem;
+  aspect-ratio: 16 / 9;
+  background: var(--pedra);
+  overflow: hidden;
+}
+.sg-card__photo img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .3s ease; }
+.sg-card:hover .sg-card__photo img { transform: scale(1.03); }
+/* Sense foto: franja suau del color de la categoria */
+.sg-card__photo--empty {
+  aspect-ratio: auto;
+  height: 6px;
+  margin-bottom: 1.2rem;
+  background: var(--sg-card-accent);
+}
+@media (prefers-reduced-motion: reduce) {
+  .sg-card:hover .sg-card__photo img { transform: none; }
+}

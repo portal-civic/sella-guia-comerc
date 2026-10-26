@@ -464,7 +464,16 @@
     var actions = getBusinessActions(b, { showOnMapButton: true });
     var contactLines = getContactLines(b);
 
+    // Foto de l'activitat (columna «Foto» del full). Sense foto: franja amb
+    // la icona de la categoria, perquè totes les targetes tinguen la mateixa forma.
+    var photoHtml = b.photo
+      ? '<div class="sg-card__photo"><img src="' + escapeHtml(b.photo) + '" alt="" loading="lazy" decoding="async" ' +
+        'onerror="this.parentNode.classList.add(\'sg-card__photo--empty\');this.remove();"></div>'
+      : '<div class="sg-card__photo sg-card__photo--empty" aria-hidden="true"></div>';
+    article.classList.add('sg-card--with-photo');
+
     article.innerHTML =
+      photoHtml +
       '<div class="sg-card__top">' +
       '<span class="sg-card__icon">' + getCategoryIconSvg(b.category) + '</span>' +
       '<div class="sg-card__heading">' +

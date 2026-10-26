@@ -78,7 +78,7 @@
     var C = {
       id: col('ID'), show: col('Mostrar a la web'), name: col('Nom'), cat: col('Categoria'),
       local: col('Té local obert al públic'), address: col('Adreça'), phone: col('Telèfon'),
-      email: col('Correu'), web: col('Web'), insta: col('Instagram'), coords: col('Coordenades'), notice: col('Avís')
+      email: col('Correu'), web: col('Web'), insta: col('Instagram'), coords: col('Coordenades'), notice: col('Avís'), photo: col('Foto')
     };
     if (C.name < 0 || C.cat < 0) throw new Error('Falten les columnes «Nom» o «Categoria» al full');
 
@@ -106,7 +106,8 @@
         instagram: get('insta') ? get('insta').replace(/^@/, '') : null,
         latitude: ll ? ll[0] : null,
         longitude: ll ? ll[1] : null,
-        notice: get('notice') || null
+        notice: get('notice') || null,
+        photo: /^https?:\/\//i.test(get('photo')) ? get('photo') : null
       });
     });
     if (!businesses.length) throw new Error('El full no té cap activitat visible');
