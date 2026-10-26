@@ -733,7 +733,7 @@
 
 .sg-card:hover,
 .sg-card:focus-within {
-  outline: 2px solid var(--sg-dark-grey);
+  outline: 2px solid var(--sg-card-accent); /* color de la categoria */
   outline-offset: 2px;
 }
 
