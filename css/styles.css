@@ -974,3 +974,28 @@
 .sg-guia .sg-contact a:hover { background: #e3edeb; }
 .sg-guia .sg-contact a:focus-visible { outline: 3px solid #fff; outline-offset: 2px; }
 .sg-guia .sg-contact svg { width: 18px; height: 18px; flex: none; }
+
+/* Mòbil: totes les categories visibles en una quadrícula de 4 columnes
+   (sense haver de lliscar), com a la v3. */
+@media (max-width: 599px) {
+  .sg-catnav {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: .75rem .35rem;
+    overflow-x: visible;
+    padding-bottom: 0;
+  }
+  .sg-catnav__item {
+    min-width: 0;
+    gap: .4rem;
+    padding: .4rem .15rem .6rem;
+  }
+  .sg-catnav__icon { width: 42px; height: 42px; }
+  .sg-catnav__icon svg { width: 23px; height: 23px; }
+  .sg-catnav__label {
+    min-height: 2.2rem;
+    font-size: .74rem;
+    line-height: 1.15;
+    hyphens: auto;
+  }
+}
