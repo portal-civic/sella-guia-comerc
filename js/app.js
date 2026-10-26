@@ -564,7 +564,14 @@
     var defaultLayer = null;
 
     (config.keyless || []).forEach(function (def) {
-      var layer = L.tileLayer(def.url, def.options);
+      var layer;
+      if (def.type === 'maplibre') {
+        // Capa vectorial (OpenFreeMap). Si MapLibre no s'ha carregat, s'omet.
+        if (!L.maplibreGL) return;
+        layer = L.maplibreGL({ style: def.style, attribution: def.attribution });
+      } else {
+        layer = L.tileLayer(def.url, def.options);
+      }
       layers[def.label] = layer;
       if (!defaultLayer) defaultLayer = layer;
     });
@@ -596,7 +603,8 @@
       center: MAP_CENTER,
       zoom: MAP_ZOOM,
       layers: baseLayers.defaultLayer ? [baseLayers.defaultLayer] : [],
-      scrollWheelZoom: false
+      scrollWheelZoom: false,
+      maxZoom: 19 // necessari per a markercluster amb capes vectorials
     });
 
     if (Object.keys(baseLayers.layers).length > 1) {
@@ -663,11 +671,16 @@
     // En triar una categoria o buscar, el mapa s'ajusta per a mostrar tots
     // els resultats, encara que estiguen fora del poble.
     if (state.activeCategory === 'all' && !state.searchTerm.trim()) {
-      var villageZoom = window.innerWidth < 700 ? 15 : 16;
-      if (state.reduceMotion || !state.villageViewShown) {
-        state.map.setView(VILLAGE_CENTER, villageZoom);
+      // S'encaixen els punts a menys de ~2 km del nucli (queda fora Finca
+      // Seguró), perquè cap marcador quede tallat a la vora del mapa.
+      var near = list.filter(function (b) {
+        return Math.abs(b.latitude - VILLAGE_CENTER[0]) < 0.018 && Math.abs(b.longitude - VILLAGE_CENTER[1]) < 0.022;
+      });
+      if (near.length > 1) {
+        state.map.fitBounds(L.latLngBounds(near.map(function (b) { return [b.latitude, b.longitude]; })),
+          { padding: [36, 36], maxZoom: 16, animate: !state.reduceMotion && !!state.villageViewShown });
       } else {
-        state.map.flyTo(VILLAGE_CENTER, villageZoom);
+        state.map.setView(VILLAGE_CENTER, 16);
       }
       state.villageViewShown = true;
       return;
